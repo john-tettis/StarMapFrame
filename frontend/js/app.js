@@ -27,6 +27,12 @@ function CerateSVG() {
         info: info,
         name: uuidv4()
     }
+    for (const [key, value] of Object.entries(data)) {
+        if (value === null || value === "") {
+            alert("فیلد ها همگی الزامی هستند...")
+            throw new Error("All fields needs to be filled...")
+        }
+    }
 
     const svg = document.querySelector("body");
     const image = document.createElement("img");
@@ -43,4 +49,12 @@ function uuidv4() {
             v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
+}
+
+function isLatitude(lat) {
+    return isFinite(lat) && Math.abs(lat) <= 90;
+}
+
+function isLongitude(lng) {
+    return isFinite(lng) && Math.abs(lng) <= 180;
 }

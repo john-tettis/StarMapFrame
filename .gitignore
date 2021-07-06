@@ -1,7 +1,10 @@
 .DS_Store
-__pycache__/
+
 env/
+__pycache__/
+backend/images/
+
+
 node_modules/
 .cache/
-
-backend/images/
+dist/
