@@ -2,7 +2,7 @@
 
 env/
 __pycache__/
-backend/images/
+backend/images/*
 
 
 node_modules/

@@ -1,6 +1,7 @@
 # Starmap
 
 This will generate starmap as image for you.
+![Example Output](./example/test.svg)
 
 ## Backend
 
@@ -18,4 +19,12 @@ flask run
 
 ## Frontend
 
-It's just html you can run it anywhere you want.
+It uses parcel for dev server. Please install nodejs and npm in your OS and then run below commands to start dev server:
+
+```bash
+cd frontend
+npm i
+npm run dev
+```
+
+After running `npm run dev` the dev server will run on port `1234`
