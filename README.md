@@ -1,6 +1,7 @@
 # Starmap
 
-This will generate starmap as image for you.
+This will generate starmap as `svg` image for you. You can customize date, time or coordinate of the stars as your wish...
+
 ![Example Output](./example/test.svg)
 
 ## Backend
