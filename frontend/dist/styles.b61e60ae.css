@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'Yekan';
+    src: url('/Yekan.a9825def.eot');
+    src: url('/Yekan.a9825def.eot?#iefix') format('embedded-opentype'),
+        url('/Yekan.307deb31.woff2') format('woff2'),
+        url('/Yekan.2a5fcd23.woff') format('woff'),
+        url('/Yekan.5bf1ab3e.otf') format('opentype'),
+        url('/Yekan.a28f50e4.ttf') format('truetype'),
+        url('/Yekan.36582f6f.svg#Yekan') format('svg');
+    /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+    font-family: "Yekan" !important;
+}
+
+/*# sourceMappingURL=/styles.b61e60ae.css.map */
