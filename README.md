@@ -1,6 +1,6 @@
 # Starmap
 
-This will generate starmap as `svg` image for you. You can customize date, time or coordinate of the stars as your wish...
+This will generate starmap as `svg` image for you. You can customize date, time or coordinate of the stars as your wish... It uses [starmap-svg](https://github.com/skeletor-git/starmap-svg) to generate below image! In fact this repo is a web interface for working with `starmap-svg`!
 
 ![Example Output](./example/test.svg)
 
