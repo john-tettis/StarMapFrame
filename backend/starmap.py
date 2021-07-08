@@ -3,25 +3,23 @@ import svgwrite
 import random
 import math
 import argparse
-import uuid
 
 ############ DEFAULT VALUES AND CONSTS ####################################
 
-font_style = "font-size:10px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:4;"
-font_style2 = "font-size:2px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:2;"
+font_style = "font-size:12px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:4;"
+font_style2 = "font-size:6px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:2;"
 
-background_color = "rgb(0,0,0)"
+background_color = "rgb(45,59,98)"
 line_color = "rgb(255,255,255)"
 star_color = "rgb(255,255,255)"
 constellation_color = "rgb(255,255,255)"
 
-filename = str(uuid.uuid4())
-output_file = f'images/{filename}.svg'
+output_file = 'starmap.svg'
 
 #Date & Time
 date = '01.01.2000'
 time = '12.00.00'
-utc = 3
+utc = 2
 summertime = False
 
 # Coordinates
@@ -32,7 +30,7 @@ guides = False
 constellation = False
 
 # placetext for leftdown corner
-info = 'Tehran'
+info = 'HELSINKI'
 
 # Size of poster in mm
 width = 200
@@ -130,7 +128,7 @@ parser.add_argument('-guides', '--guides', nargs='?',
 parser.add_argument('-constellation', '--constellation', nargs='?',
                     help='show constellation True/False', type=bool, default=constellation)
 parser.add_argument(
-    '-o', '--output', help='output filename.svg', default=output_file)
+    '-o', '--output', help='output filename.svg', default='starmap.svg')
 parser.add_argument('-width', '--width', nargs='?',
                     help='width in mm', type=int, default=width)
 parser.add_argument('-height', '--height', nargs='?',
@@ -154,6 +152,10 @@ summertime = args.summertime
 
 height = args.height
 width = args.width
+
+# print("coordinates:", coord)
+# print("date:", date)
+# print("time", time)
 
 #latitude and longitude
 northern, eastern = map(float, coord.split(','))
@@ -344,11 +346,13 @@ def generate_starmap(northern_N, eastern_E, date, time):
 
                 if(constellation is True):
                     if(line[4].isspace() is False and magn < 3):
-                        image.add(image.text(line[4], insert=(
+                        # constellation names will draw here
+                        image.add(image.text(line[3], insert=(
                             half_x-x+3, half_y-y+3), fill=line_color, style=font_style2))
+                        # print(line)
             counter += 1
             if counter % 1000 == 0:
-                pass
+                print(counter)
 
 
 def generate_constellations(northern_N, eastern_E, date, time):
@@ -404,4 +408,6 @@ if __name__ == '__main__':
               insert=("20mm", str(height-17)+'mm'), fill=line_color, style=font_style))
     image.add(image.text(date + " " + time + " UTC " + str(utc),
               insert=("20mm", str(height-13)+'mm'), fill=line_color, style=font_style))
+
     image.save()
+    # print(output_file, " generated")
