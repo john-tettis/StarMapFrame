@@ -3,13 +3,14 @@ import svgwrite
 import random
 import math
 import argparse
+import itertools
 
 ############ DEFAULT VALUES AND CONSTS ####################################
 
 font_style = "font-size:12px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:4;"
-font_style2 = "font-size:6px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:2;"
+font_style2 = "font-size:9px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:1;"
 
-background_color = "rgb(45,59,98)"
+background_color = "rgb(0,0,0)"
 line_color = "rgb(255,255,255)"
 star_color = "rgb(255,255,255)"
 constellation_color = "rgb(255,255,255)"
@@ -55,9 +56,11 @@ aperture = 0.4
 file1 = "datafiles/ybsc5.txt"
 file2 = "datafiles/extradata.txt"  # extra star data for magnitude 6,5 and higher
 file3 = "datafiles/constellation_lines.txt"
+file4 = "datafiles/constellation.txt"
 
 data = []
 constellation_lines = []
+constellation_names = []
 
 
 def hours_to_decimal(ra):  # use this for ybsc5
@@ -106,6 +109,13 @@ def read_constellation_file():
             tmp[3] = float(tmp[3])*360/24
             tmp[4] = float(tmp[4])
             constellation_lines.append(tmp)
+
+
+def read_constellation_names_file():
+    with open(file4, 'rt') as f:
+        for line in f:
+            tmp = ([n for n in line.strip().split(' ')])
+            constellation_names.append(tmp)
 
 
 ############ ARGPARSER ###################################################
@@ -289,6 +299,7 @@ def generate_starmap(northern_N, eastern_E, date, time):
     E = math.radians(eastern_E)
 
     raddatetime = date_and_time_to_rad(date, time)
+    read_constellation_names_file()
 
     if(guides is True):
         draw_guides = []
@@ -345,14 +356,18 @@ def generate_starmap(northern_N, eastern_E, date, time):
                               brightness*aperture, star_color)
 
                 if(constellation is True):
+                    print(line[3].strip().lower())
                     if(line[4].isspace() is False and magn < 3):
-                        # constellation names will draw here
-                        image.add(image.text(line[3], insert=(
-                            half_x-x+3, half_y-y+3), fill=line_color, style=font_style2))
-                        # print(line)
+                        for item in constellation_names:
+                            for name in item:
+                                if(name.strip().lower() == line[3].strip().lower()):
+                                    # constellation names will draw here
+                                    image.add(image.text(item[1], insert=(
+                                        half_x-x+3, half_y-y+3), fill=line_color, style=font_style2))
             counter += 1
             if counter % 1000 == 0:
-                print(counter)
+                # print(counter)
+                pass
 
 
 def generate_constellations(northern_N, eastern_E, date, time):
