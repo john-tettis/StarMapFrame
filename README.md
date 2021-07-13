@@ -14,8 +14,8 @@ source env/bin/acitavte
 pip install -r requirements.txt
 
 cd backend
-export FLASK_APP=app
-flask run
+sudo chmod +x run.sh
+./run.sh
 ```
 
 ## Frontend

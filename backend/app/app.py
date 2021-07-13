@@ -8,11 +8,13 @@ app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
+HOST = "http://localhost:5000"
+
 
 def config_creator(data):
     conf = "python starmap/starmap.py"
     # Geo Location data
-    if data['geo']:
+    if 'geo' in data:
         if data['geo']['location']:
             lat = data['geo']['location']['lat']
             lng = data['geo']['location']['lng']
@@ -27,16 +29,17 @@ def config_creator(data):
             conf += f" -time {data['geo']['time']}"
 
     # Customize Options
-    if data['customize']:
+    if 'customize' in data:
         if data['customize']['frame']:
             # Hex to RGB colors
-            frameColor = ImageColor.getrgb(data['customize']['frame'])
+            frameColor = "".join(
+                str(ImageColor.getrgb(data['customize']['frame'])))
             frameColor = frameColor.strip().replace(
                 "(", "").replace(")", "").replace(" ", "")
         if data['customize']['background']:
             # Hex to RGB colors
-            backgroundColor = ImageColor.getrgb(
-                data['customize']['background'])
+            backgroundColor = "".join(str(ImageColor.getrgb(
+                data['customize']['background'])))
             backgroundColor = backgroundColor.strip().replace(
                 "(", "").replace(")", "").replace(" ", "")
             conf += f" -background {backgroundColor}"
@@ -49,8 +52,8 @@ def config_creator(data):
         if data['customize']['star']:
             conf += f" -showStar {data['customize']['star']}"
     # Filename
-    if data['filename']:
-        conf += f" -o images/{ data['filename'] }"
+    if 'filename' in data:
+        conf += f" -o app/images/{ data['filename'] }"
 
     return conf
 
@@ -59,12 +62,12 @@ def config_creator(data):
 def starmap():
     content = request.json
 
-    if content["paint"]:
+    if 'paint' in content:
         try:
             os.system(config_creator(content))
-            return jsonify(result=True, message="file created!", path=f"http://localhost:5000/download/{content['filename']}")
-        except:
-            return jsonify(result=False, message="something wrong happend here...")
+            return jsonify(result=True, message="file created!", path=f"{HOST}/download/{content['filename']}")
+        except Exception as e:
+            return jsonify(result=False, message="something wrong happend here...", error=str(e))
     else:
         return jsonify(result=True, message="i did not paint anything")
 
@@ -82,5 +85,6 @@ def index():
     return "Index"
 
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+@app.route("/test", methods=['POST', 'GET'])
+def test():
+    return jsonify(data=request.json)
