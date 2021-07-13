@@ -54,15 +54,15 @@ def config_creator(data):
 @app.route("/starmap", methods=['POST'])
 def starmap():
     content = request.json
-    return jsonify(data=config_creator(content))
-    # if content["paint"]:
-    #     try:
-    #         os.system(config_creator(content))
-    #         return jsonify(result=True, message="file created!", path=f"http://localhost:5000/download/{content['filename']}")
-    #     except:
-    #         return jsonify(result=False, message="something wrong happend here...")
-    # else:
-    #     return jsonify(result=True, message="i did not paint anything")
+
+    if content["paint"]:
+        try:
+            os.system(config_creator(content))
+            return jsonify(result=True, message="file created!", path=f"http://localhost:5000/download/{content['filename']}")
+        except:
+            return jsonify(result=False, message="something wrong happend here...")
+    else:
+        return jsonify(result=True, message="i did not paint anything")
 
 
 @app.route('/download/<path>')
