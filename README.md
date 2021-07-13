@@ -14,7 +14,7 @@ source env/bin/acitavte
 pip install -r requirements.txt
 
 cd backend
-export FLASK_APP=gen
+export FLASK_APP=app
 flask run
 ```
 
