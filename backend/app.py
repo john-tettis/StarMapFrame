@@ -31,10 +31,14 @@ def config_creator(data):
         if data['customize']['frame']:
             # Hex to RGB colors
             frameColor = ImageColor.getrgb(data['customize']['frame'])
+            frameColor = frameColor.strip().replace(
+                "(", "").replace(")", "").replace(" ", "")
         if data['customize']['background']:
             # Hex to RGB colors
             backgroundColor = ImageColor.getrgb(
                 data['customize']['background'])
+            backgroundColor = backgroundColor.strip().replace(
+                "(", "").replace(")", "").replace(" ", "")
             conf += f" -background {backgroundColor}"
         if data['customize']['constellation']:
             conf += f" -constellation {data['customize']['constellation']}"
