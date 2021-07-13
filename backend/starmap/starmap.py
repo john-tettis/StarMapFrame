@@ -1,10 +1,10 @@
-
+import os
 import svgwrite
 import random
 import math
 import argparse
-import itertools
 
+PATH = os.path.dirname(os.path.abspath(__file__))
 ############ DEFAULT VALUES AND CONSTS ####################################
 
 font_style = "font-size:12px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:4;"
@@ -53,10 +53,10 @@ aperture = 0.4
 ############ STARDATAFILE ################################################
 
 # Stars declination and hour data file "Yale Bright Star Catalog 5"
-file1 = "datafiles/ybsc5.txt"
-file2 = "datafiles/extradata.txt"  # extra star data for magnitude 6,5 and higher
-file3 = "datafiles/constellation_lines.txt"
-file4 = "datafiles/constellation.txt"
+file1 = os.path.join(PATH, "datafiles/ybsc5.txt")
+file2 = os.path.join(PATH,"datafiles/extradata.txt")  # extra star data for magnitude 6,5 and higher
+file3 = os.path.join(PATH,"datafiles/constellation_lines.txt")
+file4 = os.path.join(PATH,"datafiles/constellation.txt")
 
 data = []
 constellation_lines = []

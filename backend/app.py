@@ -10,7 +10,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 def config_creator(data):
-    conf = "python starmap.py"
+    conf = "python starmap/starmap.py"
     # Geo Location data
     if data['geo']:
         if data['geo']['location']:
@@ -82,5 +82,5 @@ def index():
     return "Index"
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
