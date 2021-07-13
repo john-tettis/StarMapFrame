@@ -20,12 +20,8 @@ sudo chmod +x run.sh
 
 ## Frontend
 
-It uses parcel for dev server. Please install nodejs and npm in your OS and then run below commands to start dev server:
-
 ```bash
 cd frontend
 npm i
-npm run dev
+npm run start
 ```
-
-After running `npm run dev` the dev server will run on port `1234`
