@@ -34,11 +34,17 @@ function CerateSVG() {
         }
     }
 
-    const svg = document.querySelector("body");
+    const svg = document.getElementById("star-frame")
     const image = document.createElement("img");
-
+    image.setAttribute("id", "starmap")
+    console.log(svg)
     axios.post(SERVER + '/starmap', data).then(response => {
-        image.src = response.data.path;
+        const starmap = document.getElementById("starmap")
+        if (starmap) {
+            starmap.remove()
+        }
+        image.src = response.data.path
+        image.style = "width: 400px;position: absolute;top: 99px;left:155px;z-index: -1;height: 500px;"
         svg.appendChild(image);
     })
 }
