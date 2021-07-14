@@ -20,18 +20,21 @@ output_file = 'starmap.svg'
 #Date & Time
 date = '01.01.2000'
 time = '12.00.00'
-utc = 2
+utc = 3
 summertime = False
 
 # Coordinates
-coord = "60.186,24.959"
+coord = "35.6892,51.3890"
 
 fullview = False
 guides = False
 constellation = False
+constellationText = False
+showDot = False
+showStar = False
 
 # placetext for leftdown corner
-info = 'HELSINKI'
+info = 'Tehran'
 
 # Size of poster in mm
 width = 200
@@ -146,7 +149,10 @@ parser.add_argument('-height', '--height', nargs='?',
                     help='height in mm', type=int, default=height)
 parser.add_argument('-info', '--info',
                     help='Info text example eame of the place', default=info)
-
+parser.add_argument("-background", "--background", type=str, default=background_color)
+parser.add_argument("-constellationText", "--constellationText", type=bool, default=constellationText)
+parser.add_argument("-showDot", "--showDot", type=bool, default=showDot)
+parser.add_argument("-showStar", "--showStar", type=bool, default=showStar)
 
 args = parser.parse_args()
 
@@ -160,6 +166,13 @@ guides = args.guides
 magnitude_limit = args.magn
 constellation = args.constellation
 summertime = args.summertime
+
+background_color = args.background
+background_color = f"rgb({background_color})"
+
+constellationText = args.constellationText
+showDot = args.showDot
+showStar = args.showStar
 
 height = args.height
 width = args.width
@@ -350,10 +363,12 @@ def generate_starmap(northern_N, eastern_E, date, time):
             # draw only stars that are inside half sphere
             if ((angle_from_viewpoint <= math.radians(90)) or fullview):
                 if (brightness < 2):
-                    draw_dot(half_x-x, half_y-y,
+                    if showDot:
+                        draw_dot(half_x-x, half_y-y,
                              brightness*aperture, star_color)
                 else:
-                    draw_star(half_x-x, half_y-y,
+                    if showStar:
+                        draw_star(half_x-x, half_y-y,
                               brightness*aperture, star_color)
 
                 if(constellation is True):
@@ -363,9 +378,10 @@ def generate_starmap(northern_N, eastern_E, date, time):
                                 if(name.strip().lower() == line[3].strip().lower() and not line[3].strip().lower() in constellation_drawing):
                                     constellation_drawing.append(
                                         name.strip().lower())
-                                    # constellation names will draw here
-                                    image.add(image.text(item[1], insert=(
-                                        half_x-x+3, half_y-y+3), fill=line_color, style=font_style2))
+                                    if constellationText:
+                                        # constellation names will draw here
+                                        image.add(image.text(item[1], insert=(
+                                            half_x-x+3, half_y-y+3), fill=line_color, style=font_style2))
             counter += 1
             if counter % 1000 == 0:
                 # print(counter)
