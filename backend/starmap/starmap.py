@@ -9,7 +9,7 @@ PATH = os.path.dirname(os.path.abspath(__file__))
 
 font_style = "font-size:12px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:4;"
 font_style2 = "font-size:8px; letter-spacing:autopx; font-family:sans-serif; stroke-width:1;"
-font_style3 = "font-size:36px; letter-spacing:0; font-family:sans-serif; stroke-width:4;text-align:center;"
+font_style3 = "font-size:36px; letter-spacing:0; font-family:sans-serif; stroke-width:4;text-align:center;display-align:center;text-anchor:middle"
 
 
 background_color = "rgb(0,0,0)"
@@ -452,9 +452,9 @@ if __name__ == '__main__':
         generate_constellations(northern, eastern, date, time)
 
     # Custom User Text
-    image.add(image.text(line1, insert=("60mm", str(height-60)+"mm"), fill=line_color, style=font_style3))
-    image.add(image.text(line2, insert=("60mm", str(height-45)+"mm"), fill=line_color, style=font_style3))
-    image.add(image.text(line3, insert=("60mm", str(height-30)+"mm"), fill=line_color, style=font_style3))
+    image.add(image.text(line1, insert=("100mm", str(height-60)+"mm"), fill=line_color, style=font_style3))
+    image.add(image.text(line2, insert=("100mm", str(height-45)+"mm"), fill=line_color, style=font_style3))
+    image.add(image.text(line3, insert=("100mm", str(height-30)+"mm"), fill=line_color, style=font_style3))
 
     # Text in bottom corner
     image.add(image.text(info, insert=("20mm", str(height-18)+'mm'),
