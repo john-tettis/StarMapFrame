@@ -9,6 +9,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 HOST = "http://localhost:5000"
+PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 def config_creator(data):
@@ -65,10 +66,10 @@ def starmap():
     if 'paint' in content:
         try:
             os.system(config_creator(content))
-            if os.path.exists("images/"+content['filename']):
+            if os.path.exists(os.path.join(PATH, "images/"+content['filename'])):
                 return jsonify(result=True, message="file created!", path=f"{HOST}/download/{content['filename']}")
             else:
-                return jsonify(result=False, message="file creation error...", path='')
+                return jsonify(result=False, message="file creation error...", path=os.getcwd())
         except Exception as e:
             return jsonify(result=False, message="something wrong happend here...", error=str(e))
     else:
@@ -77,7 +78,7 @@ def starmap():
 
 @app.route('/download/<path>')
 def downloadFile(path):
-    if os.path.exists("images/"+path):
+    if os.path.exists(os.path.join(PATH,"images/"+path)):
         return send_file("images/" + path, as_attachment=True)
     else:
         return jsonify(result=False, message="file not found")
