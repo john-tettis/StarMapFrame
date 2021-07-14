@@ -51,7 +51,7 @@ export default function StarGenerator(props) {
         "customize": {
             "size": "A3",
             "frame": "#212121",
-            "background": "#212121",
+            "background": "#000000",
             "dot": true,
             "star": true,
             "constellation": true,
@@ -65,7 +65,7 @@ export default function StarGenerator(props) {
                             geo={geo} setGeo={setGeo}/>
     }
     if (step === 1) {
-        return <Message data={data} setData={setData} filename={props.filename} updateStep={setStep} step={step} message={message}
+        return <Message data={data} setData={setData} filename={props.filename} setFileUpdate={props.setFileUpdate} updateStep={setStep} step={step} message={message}
                         setMessage={setMessage}/>
     }
     if (step === 2) {

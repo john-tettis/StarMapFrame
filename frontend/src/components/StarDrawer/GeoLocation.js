@@ -43,6 +43,10 @@ export default function GeoLocation(props) {
             })
             axios.post("http://127.0.0.1:5000/starmap", props.data).then(response => {
                 if (response.status === 200 && response.data.result) {
+                    props.setFileUpdate(state=>{
+                        state = {name: state.name, isReady: true, hash: Date.now()}
+                        return state
+                    });
                     props.updateStep(props.step + 1)
                 }
             }).catch(error => console.log(error))
@@ -77,10 +81,6 @@ export default function GeoLocation(props) {
                     event.preventDefault();
                     props.setGeo({location: geo.location.value, date: dateValue, time: geo.time});
                     googleGeoCoder();
-                    props.setFileUpdate(state=>{
-                        state = {name: state.name, isReady: true, hash: Date.now()}
-                        return state
-                    });
                 }
             }>
                 <div className="form-group mb-3">

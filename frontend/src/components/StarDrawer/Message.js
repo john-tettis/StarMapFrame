@@ -18,7 +18,10 @@ export default function Message(props) {
         })
         axios.post("http://localhost:5000/starmap", props.data).then(response=>{
             if(response.status === 200 && response.data.result){
-                console.log("file updated")
+                props.setFileUpdate(state=>{
+                    state = {name: state.name, isReady: true, hash: Date.now()}
+                    return state
+                });
             }
         })
     }
