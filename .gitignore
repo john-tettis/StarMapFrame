@@ -5,8 +5,8 @@
 
 env/
 __pycache__/
-backend/images/*.svg
-backend/music/*.mp3
+backend/*/*/*.svg
+backend/*/*/*.mp3
 
 
 node_modules/
