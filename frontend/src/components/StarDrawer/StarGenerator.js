@@ -26,7 +26,7 @@ export default function StarGenerator(props) {
     })
     const [customize, setCustomize] = useState({
         size: 'A3',
-        background: '#212121',
+        background: '#000000',
         frame: '#212121',
         dot: true,
         star: true,
@@ -69,10 +69,10 @@ export default function StarGenerator(props) {
                         setMessage={setMessage}/>
     }
     if (step === 2) {
-        return <Music data={data} setData={setData} filename={props.filename} updateStep={setStep} step={step} music={music} setMusic={setMusic}/>
+        return <Music data={data} setData={setData} setFileUpdate={props.setFileUpdate} filename={props.filename} updateStep={setStep} step={step} music={music} setMusic={setMusic}/>
     }
     if (step === 3) {
-        return <Customizer data={data} setData={setData} filename={props.filename} updateStep={setStep} step={step} customize={customize}
+        return <Customizer data={data} setData={setData} setFileUpdate={props.setFileUpdate} filename={props.filename} updateStep={setStep} step={step} customize={customize}
                            setCustomize={setCustomize}/>
     }
     if (step === 4) {

@@ -9,6 +9,8 @@ PATH = os.path.dirname(os.path.abspath(__file__))
 
 font_style = "font-size:12px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:4;"
 font_style2 = "font-size:8px; letter-spacing:autopx; font-family:sans-serif; stroke-width:1;"
+font_style3 = "font-size:36px; letter-spacing:0; font-family:sans-serif; stroke-width:4;text-align:center;"
+
 
 background_color = "rgb(0,0,0)"
 line_color = "rgb(255,255,255)"
@@ -33,15 +35,19 @@ constellationText = False
 showDot = False
 showStar = False
 
+line1 = ""
+line2 = ""
+line3 = ""
+
 # placetext for leftdown corner
 info = 'Tehran'
 
 # Size of poster in mm
 width = 200
-height = 200
+height = 275
 
 # empty space in left and right of the starmap
-borders = 50
+borders = 30
 
 
 def mm_to_px(mm):
@@ -149,10 +155,17 @@ parser.add_argument('-height', '--height', nargs='?',
                     help='height in mm', type=int, default=height)
 parser.add_argument('-info', '--info',
                     help='Info text example eame of the place', default=info)
+
 parser.add_argument("-background", "--background", type=str, default=background_color)
+
 parser.add_argument("-constellationText", "--constellationText", type=bool, default=constellationText)
 parser.add_argument("-showDot", "--showDot", type=bool, default=showDot)
 parser.add_argument("-showStar", "--showStar", type=bool, default=showStar)
+
+parser.add_argument("-line1", "--line1", type=str, default=line1)
+parser.add_argument("-line2", "--line2", type=str, default=line2)
+parser.add_argument("-line3", "--line3", type=str, default=line3)
+
 
 args = parser.parse_args()
 
@@ -173,6 +186,10 @@ background_color = f"rgb({background_color})"
 constellationText = args.constellationText
 showDot = args.showDot
 showStar = args.showStar
+
+line1 = args.line1
+line2 = args.line2
+line3 = args.line3
 
 height = args.height
 width = args.width
@@ -419,7 +436,7 @@ if __name__ == '__main__':
     read_constellation_file()
 
     half_x = mm_to_px(width/2)
-    half_y = mm_to_px(height/2)
+    half_y = mm_to_px(height-height+110)
 
     # Svgfile
     image = svgwrite.Drawing(output_file, size=(
@@ -434,13 +451,18 @@ if __name__ == '__main__':
     if constellation:
         generate_constellations(northern, eastern, date, time)
 
+    # Custom User Text
+    image.add(image.text(line1, insert=("60mm", str(height-60)+"mm"), fill=line_color, style=font_style3))
+    image.add(image.text(line2, insert=("60mm", str(height-45)+"mm"), fill=line_color, style=font_style3))
+    image.add(image.text(line3, insert=("60mm", str(height-30)+"mm"), fill=line_color, style=font_style3))
+
     # Text in bottom corner
-    image.add(image.text(info, insert=("20mm", str(height-21)+'mm'),
+    image.add(image.text(info, insert=("20mm", str(height-18)+'mm'),
               fill=line_color, style=font_style))
     image.add(image.text(str(northern)+" N "+str(eastern)+" E ",
-              insert=("20mm", str(height-17)+'mm'), fill=line_color, style=font_style))
+              insert=("20mm", str(height-14)+'mm'), fill=line_color, style=font_style))
     image.add(image.text(date + " " + time + " UTC " + str(utc),
-              insert=("20mm", str(height-13)+'mm'), fill=line_color, style=font_style))
+              insert=("20mm", str(height-10)+'mm'), fill=line_color, style=font_style))
 
     image.save()
     # print(output_file, " generated")

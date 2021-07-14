@@ -16,18 +16,26 @@ def config_creator(data):
     conf = "python starmap/starmap.py"
     # Geo Location data
     if 'geo' in data:
-        if data['geo']['location']:
+        if 'location' in data['geo']:
             lat = data['geo']['location']['lat']
             lng = data['geo']['location']['lng']
             conf += f" -coord {lat},{lng}"
 
-        if data['geo']['date']:
+        if 'date' in data['geo']:
             date = datetime.utcfromtimestamp(
                 int(data['geo']['date'])).strftime('%d.%m.%Y')
             conf += f" -date {date}"
 
-        if data['geo']['time']:
+        if 'time' in data['geo']:
             conf += f" -time {data['geo']['time']}"
+    
+    if 'text' in data:
+        if 'line1' in data['text'] and isinstance(data['text']['line1'], str):
+            conf += f" -line1 \"{data['text']['line1']}\""
+        if 'line2' in data['text'] and isinstance(data['text']['line2'], str):
+            conf += f" -line2 \"{data['text']['line2']}\""
+        if 'line3' in data['text'] and isinstance(data['text']['line3'], str):
+            conf += f" -line3 \"{data['text']['line3']}\""
 
     # Customize Options
     if 'customize' in data:

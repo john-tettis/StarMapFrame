@@ -47,7 +47,6 @@
 #star-placeholder>:nth-child(2){
     position: absolute;
     width: 366px;
-    height: 503px;
     left: 172px;
     top: 190px;
     z-index: -5;

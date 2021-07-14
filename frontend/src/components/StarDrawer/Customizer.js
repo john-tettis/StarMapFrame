@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import axios from "axios";
 
 export default function Customizer(props) {
@@ -87,14 +87,27 @@ export default function Customizer(props) {
             if (name==="dot") state.customize.dot = event.target.checked;
             if(name==="constellation") state.customize.constellation = event.target.checked;
             if (name==="constellationText") state.customize.constellationText = event.target.checked;
+            if(name==="background") state.customize.background = event.target.value;
+            if(name==="frame") state.customize.frame = event.target.value;
             return state;
         })
+    }
+
+    const sendData = ()=>{
         axios.post("http://localhost:5000/starmap", props.data).then(response=>{
             if (response.status===200 && response.data.result){
-                console.log("updated")
+                props.setFileUpdate((state) => {
+                    state = { name: state.name, isReady: true, hash: Date.now() };
+                    return state;
+                  });
             }
         }).catch(error=>console.log(error))
     }
+
+    useEffect(() => {
+        const timeOutId = setTimeout(() => sendData(), 500);
+        return () => clearTimeout(timeOutId);
+      }, [props.customize]);
     return (
         <div>
             <h2>حالا قاب خودتو شخصی سازی کن</h2>
@@ -133,14 +146,14 @@ export default function Customizer(props) {
                 <div className="form-group">
                     <label htmlFor="color" className="form-label">انتخاب رنگ قاب</label>
                     <input type="color" className="form-control form-control-color mb-3" id="color"
-                           value="#000000" title="رنگ مورد نظر خود را انتخاب کنید"
+                           value={props.customize.frame} title="رنگ مورد نظر خود را انتخاب کنید"
                            onChange={event => handleChange(event, "frame")}/>
 
                 </div>
                 <div className="form-group">
                     <label htmlFor="background" className="form-label">انتخاب رنگ بکگراند</label>
                     <input type="color" className="form-control form-control-color" id="background"
-                           value="#212121" title="رنگ مورد نظر خود را انتخاب کنید"
+                           value={props.customize.background} title="رنگ مورد نظر خود را انتخاب کنید"
                            onChange={event => handleChange(event, "background")}/>
 
                 </div>
@@ -161,7 +174,7 @@ export default function Customizer(props) {
                     <label className="form-check-label" htmlFor="line">نمایش صور فلکی</label>
                 </div>
                 <div className="form-check form-switch">
-                    <input className="form-check-input" type="checkbox" id="name" defaultChecked={"checked"}
+                    <input className="form-check-input" type="checkbox" id="name" checked={!props.customize.constellation ? false: props.customize.constellationText}  defaultChecked={"checked"}
                            onChange={event => handleChange(event, "constellationText")}/>
                     <label className="form-check-label" htmlFor="name">نمایش نام صور فلکی</label>
                 </div>
