@@ -65,7 +65,10 @@ def starmap():
     if 'paint' in content:
         try:
             os.system(config_creator(content))
-            return jsonify(result=True, message="file created!", path=f"{HOST}/download/{content['filename']}")
+            if os.path.exists("images/"+content['filename']):
+                return jsonify(result=True, message="file created!", path=f"{HOST}/download/{content['filename']}")
+            else:
+                return jsonify(result=False, message="file creation error...", path='')
         except Exception as e:
             return jsonify(result=False, message="something wrong happend here...", error=str(e))
     else:
