@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./components/Landing/Home";
+import Auth from './components/User/Auth/Auth';
 import StarDrawer from "./components/StarDrawer/StarDrawer";
 import "./assets/css/styles.css";
 
@@ -16,6 +17,9 @@ export default function App() {
               <li className="nav-item">
                 <Link className="nav-link" to="/star/">ستاره‌ساز</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/login/">ورود</Link>
+              </li>
             </ul>
           </nav>
           <Switch>
@@ -24,6 +28,9 @@ export default function App() {
             </Route>
             <Route exact path="/star/">
               <StarDrawer/>
+            </Route>
+            <Route exact path="/login/">
+              <Auth/>
             </Route>
           </Switch>
         </div>

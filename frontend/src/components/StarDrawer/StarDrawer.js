@@ -6,7 +6,7 @@ import {v4 as uuidv4} from "uuid";
 
 
 export default function StarDrawer() {
-    const [filename, setFileUpdate] = useState({name: uuidv4().toString()+".svg", isReady: false})
+    const [filename, setFileUpdate] = useState({name: uuidv4().toString()+".svg", isReady: false, hash: Date.now()})
     return (
         <div className="container">
             <div className="row my-3">
@@ -16,7 +16,7 @@ export default function StarDrawer() {
             </div>
             <div className="row align-items-center">
                 <div className="col-lg-6 col-md-6 col-sm-12">
-                    <StarGenerator fileUpdated={setFileUpdate} filename={filename}/>
+                    <StarGenerator setFileUpdate={setFileUpdate} filename={filename}/>
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12">
                     <Placeholder filename={filename}/>

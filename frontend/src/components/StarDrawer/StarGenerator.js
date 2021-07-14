@@ -61,7 +61,7 @@ export default function StarGenerator(props) {
     });
 
     if (step === 0) {
-        return <GeoLocation data={data} setData={setData} fileUpdated={props.fileUpdated} filename={props.filename} updateStep={setStep} step={step}
+        return <GeoLocation data={data} setData={setData} setFileUpdate={props.setFileUpdate} filename={props.filename} updateStep={setStep} step={step}
                             geo={geo} setGeo={setGeo}/>
     }
     if (step === 1) {
