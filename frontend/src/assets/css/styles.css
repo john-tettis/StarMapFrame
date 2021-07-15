@@ -47,12 +47,18 @@
   direction: ltr;
 }
 
+#star-placeholder {
+  display: flex;
+  justify-content: center;
+}
+
 #star-placeholder > :nth-child(2) {
   position: absolute;
   z-index: -5;
-  left: -20px;
   width: 200mm;
   height: 270mm;
   scale: 0.5;
-  top: -65px;
+  top: -4.5em;
+  display: flex;
+  flex-flow: column;
 }
