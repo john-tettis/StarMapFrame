@@ -7,12 +7,20 @@ import argparse
 PATH = os.path.dirname(os.path.abspath(__file__))
 ############ DEFAULT VALUES AND CONSTS ####################################
 
-fontFamily = "Fuggles"
-fontSize = "42px"
+fontFamily1 = "Anton"
+fontFamily2 = "Anton"
+fontFamily3 = "Anton"
+
+fontSize1 = 42
+fontSize2 = 42
+fontSize3 = 42
 
 font_style = "font-size:12px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:4;"
 font_style2 = "font-size:8px; letter-spacing:autopx; font-family:sans-serif; stroke-width:1;"
-font_style3 = f"font-size:{fontSize}; letter-spacing:0; font-family:\"{fontFamily}\"; stroke-width:4;text-align:center;text-anchor:middle"
+
+line1Style = f"font-size:{fontSize1}px; letter-spacing:0; font-family:\"{fontFamily1}\"; stroke-width:4;text-align:center;text-anchor:middle"
+line2Style = f"font-size:{fontSize2}px; letter-spacing:0; font-family:\"{fontFamily2}\"; stroke-width:4;text-align:center;text-anchor:middle"
+line3Style = f"font-size:{fontSize3}px; letter-spacing:0; font-family:\"{fontFamily3}\"; stroke-width:4;text-align:center;text-anchor:middle"
 
 
 background_color = "rgb(0,0,0)"
@@ -169,8 +177,14 @@ parser.add_argument("-line1", "--line1", type=str, default=line1)
 parser.add_argument("-line2", "--line2", type=str, default=line2)
 parser.add_argument("-line3", "--line3", type=str, default=line3)
 
-parser.add_argument("-fontFamily", "--fontFamily", type=str, default=fontFamily)
-parser.add_argument("-fontSize", "--fontSize", type=str, default=fontSize)
+parser.add_argument("-fontFamily1", "--fontFamily1", type=str, default=fontFamily1)
+parser.add_argument("-fontFamily2", "--fontFamily2", type=str, default=fontFamily2)
+parser.add_argument("-fontFamily3", "--fontFamily3", type=str, default=fontFamily3)
+
+parser.add_argument("-fontSize1", "--fontSize1", type=int, default=fontSize1)
+parser.add_argument("-fontSize2", "--fontSize2", type=int, default=fontSize2)
+parser.add_argument("-fontSize3", "--fontSize3", type=int, default=fontSize3)
+
 
 
 args = parser.parse_args()
@@ -197,9 +211,17 @@ line1 = args.line1
 line2 = args.line2
 line3 = args.line3
 
-fontFamily = args.fontFamily
-fontSize = args.fontSize
-font_style3 = f"font-size:{fontSize}; letter-spacing:0; font-family:\"{fontFamily}\"; stroke-width:4;text-align:center;text-anchor:middle"
+fontFamily1 = args.fontFamily1
+fontSize1 = args.fontSize1
+line1Style = f"font-size:{fontSize1}px; letter-spacing:0; font-family:\"{fontFamily1}\"; stroke-width:4;text-align:center;text-anchor:middle"
+
+fontFamily2 = args.fontFamily2
+fontSize2 = args.fontSize2
+line2Style = f"font-size:{fontSize2}px; letter-spacing:0; font-family:\"{fontFamily2}\"; stroke-width:4;text-align:center;text-anchor:middle"
+
+fontFamily3 = args.fontFamily3
+fontSize3 = args.fontSize3
+line3Style = f"font-size:{fontSize3}px; letter-spacing:0; font-family:\"{fontFamily3}\"; stroke-width:4;text-align:center;text-anchor:middle"
 
 height = args.height
 width = args.width
@@ -465,9 +487,9 @@ if __name__ == '__main__':
         generate_constellations(northern, eastern, date, time)
 
     # Custom User Text
-    image.add(image.text(line1, insert=("100mm", str(height-60)+"mm"), fill=line_color, style=font_style3))
-    image.add(image.text(line2, insert=("100mm", str(height-45)+"mm"), fill=line_color, style=font_style3))
-    image.add(image.text(line3, insert=("100mm", str(height-30)+"mm"), fill=line_color, style=font_style3))
+    image.add(image.text(line1, insert=("100mm", str(height-60)+"mm"), fill=line_color, style=line1Style))
+    image.add(image.text(line2, insert=("100mm", str(height-45)+"mm"), fill=line_color, style=line2Style))
+    image.add(image.text(line3, insert=("100mm", str(height-30)+"mm"), fill=line_color, style=line3Style))
 
     # Text in bottom corner
     image.add(image.text(info, insert=("20mm", str(height-18)+'mm'),

@@ -46,14 +46,17 @@ export default function StarGenerator(props) {
             "line1": {
                 value: "",
                 font: "",
+                size: "42"
             },
             "line2": {
                 value: "",
                 font: "",
+                size: "42"
             },
             "line3": {
                 value: "",
                 font: "",
+                size: "42",
             },
         },
         "music": {},

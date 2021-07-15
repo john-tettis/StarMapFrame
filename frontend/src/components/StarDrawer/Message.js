@@ -5,7 +5,11 @@ export default function Message(props) {
   const handleChange = (event, name) => {
     if (name === "line1") {
       props.setMessage({
-        line1: event.target.value,
+        line1: {
+          value: event.target.value,
+          size: props.message.line1.size,
+          font: props.message.line1.font
+        },
         line2: props.message.line2,
         line3: props.message.line3,
       });
@@ -13,7 +17,11 @@ export default function Message(props) {
     if (name === "line2") {
       props.setMessage({
         line1: props.message.line1,
-        line2: event.target.value,
+        line2: {
+          value: event.target.value,
+          size: props.message.line2.size,
+          font: props.message.line2.font
+        },
         line3: props.message.line3,
       });
     }
@@ -21,18 +29,26 @@ export default function Message(props) {
       props.setMessage({
         line1: props.message.line1,
         line2: props.message.line2,
-        line3: event.target.value,
+        line3: {
+          value: event.target.value,
+          size: props.message.line3.size,
+          font: props.message.line3.font
+        },
       });
     }
     props.setData((state) => {
       if (name === "line1") state.text.line1.value = event.target.value;
       if (name === "line1-font") state.text.line1.font = event.target.value;
+      if (name === "line1-size") state.text.line1.size = event.target.value;
 
       if (name === "line2") state.text.line2.value = event.target.value;
       if (name === "line2-font") state.text.line2.font = event.target.value;
+      if (name === "line2-size") state.text.line2.size = event.target.value;
+      
 
       if (name === "line3") state.text.line3.value = event.target.value;
       if (name === "line3-font") state.text.line3.font = event.target.value;
+      if (name === "line3-size") state.text.line3.size = event.target.value;
 
       return state;
     });
@@ -59,11 +75,6 @@ export default function Message(props) {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          props.setMessage({
-            line1: props.message.line1,
-            line2: props.message.line2,
-            line3: props.message.line3,
-          });
           props.updateStep(props.step + 1);
         }}
       >
@@ -74,7 +85,7 @@ export default function Message(props) {
             type="text"
             name="line1"
             id="line1"
-            value={props.message.line1}
+            value={props.message.line1.value}
             onChange={(event) => handleChange(event, "line1")}
             autoFocus
             placeholder="متن دلخواه خود را تایپ کنید.."
@@ -97,7 +108,17 @@ export default function Message(props) {
             <option value="Roboto">Roboto</option>
             <option value="Roboto Slab">Roboto Slab</option>
           </select>
+          <label htmlFor="line1-size">سایز فونت</label>
+          <input
+            className="form-control"
+            type="number"
+            id="line1-size"
+            name="line1-size"
+            value={props.message.line1.size}
+            onChange={(event) => handleChange(event, "line1-size")}
+          />
         </div>
+
         <div className="form-group mb-5">
           <label htmlFor="message">خط دوم</label>
           <input
@@ -105,9 +126,10 @@ export default function Message(props) {
             type="text"
             name="line2"
             id="line2"
-            value={props.message.line2}
+            value={props.message.line2.value}
             onChange={(event) => handleChange(event, "line2")}
           />
+
           <label htmlFor="line1-font">فونت</label>
           <select
             onChange={(event) => handleChange(event, "line2-font")}
@@ -126,7 +148,18 @@ export default function Message(props) {
             <option value="Roboto">Roboto</option>
             <option value="Roboto Slab">Roboto Slab</option>
           </select>
+
+          <label htmlFor="line2-size">سایز فونت</label>
+          <input
+            className="form-control"
+            type="number"
+            id="line2-size"
+            name="line2-size"
+            value={props.message.line2.size}
+            onChange={(event) => handleChange(event, "line2-size")}
+          />
         </div>
+
         <div className="form-group mb-5">
           <label htmlFor="message">خط سوم</label>
           <input
@@ -134,7 +167,7 @@ export default function Message(props) {
             type="text"
             name="line3"
             id="line3"
-            value={props.message.line3}
+            value={props.message.line3.value}
             onChange={(event) => handleChange(event, "line3")}
           />
           <label htmlFor="line1-font">فونت</label>
@@ -155,6 +188,15 @@ export default function Message(props) {
             <option value="Roboto">Roboto</option>
             <option value="Roboto Slab">Roboto Slab</option>
           </select>
+          <label htmlFor="line3-size">سایز فونت</label>
+          <input
+            className="form-control"
+            type="number"
+            id="line3-size"
+            name="line3-size"
+            value={props.message.line3.size}
+            onChange={(event) => handleChange(event, "line3-size")}
+          />
         </div>
         <div className="row mt-5">
           <div className="col-6">
