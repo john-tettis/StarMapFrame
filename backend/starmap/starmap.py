@@ -476,6 +476,9 @@ if __name__ == '__main__':
 
     # Fonts File
     image.embed_stylesheet("@import url('https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script&family=Fuggles&family=Karla&family=Qahiri&family=Roboto&family=Roboto+Slab');")
+    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Kamran');")
+    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Mikhak');")
+    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Yekan');")
 
     # Background
     image.add(image.rect(insert=(0, 0), size=('100%', '100%'),

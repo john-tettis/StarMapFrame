@@ -107,6 +107,11 @@ export default function Message(props) {
             <option value="Qahiri">Qahiri</option>
             <option value="Roboto">Roboto</option>
             <option value="Roboto Slab">Roboto Slab</option>
+
+            <option value="Kamran">کامران</option>
+            <option value="Mikhak">میهک</option>
+            <option value="Yekan">یکان</option>
+
           </select>
           <label htmlFor="line1-size">سایز فونت</label>
           <input
@@ -147,6 +152,10 @@ export default function Message(props) {
             <option value="Qahiri">Qahiri</option>
             <option value="Roboto">Roboto</option>
             <option value="Roboto Slab">Roboto Slab</option>
+
+            <option value="Kamran">کامران</option>
+            <option value="Mikhak">میهک</option>
+            <option value="Yekan">یکان</option>
           </select>
 
           <label htmlFor="line2-size">سایز فونت</label>
@@ -187,6 +196,10 @@ export default function Message(props) {
             <option value="Qahiri">Qahiri</option>
             <option value="Roboto">Roboto</option>
             <option value="Roboto Slab">Roboto Slab</option>
+
+            <option value="Kamran">کامران</option>
+            <option value="Mikhak">میهک</option>
+            <option value="Yekan">یکان</option>
           </select>
           <label htmlFor="line3-size">سایز فونت</label>
           <input
