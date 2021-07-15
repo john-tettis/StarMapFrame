@@ -7,9 +7,12 @@ import argparse
 PATH = os.path.dirname(os.path.abspath(__file__))
 ############ DEFAULT VALUES AND CONSTS ####################################
 
+fontFamily = "Fuggles"
+fontSize = "42px"
+
 font_style = "font-size:12px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:4;"
 font_style2 = "font-size:8px; letter-spacing:autopx; font-family:sans-serif; stroke-width:1;"
-font_style3 = "font-size:36px; letter-spacing:0; font-family:sans-serif; stroke-width:4;text-align:center;display-align:center;text-anchor:middle"
+font_style3 = f"font-size:{fontSize}; letter-spacing:0; font-family:\"{fontFamily}\"; stroke-width:4;text-align:center;text-anchor:middle"
 
 
 background_color = "rgb(0,0,0)"
@@ -166,6 +169,9 @@ parser.add_argument("-line1", "--line1", type=str, default=line1)
 parser.add_argument("-line2", "--line2", type=str, default=line2)
 parser.add_argument("-line3", "--line3", type=str, default=line3)
 
+parser.add_argument("-fontFamily", "--fontFamily", type=str, default=fontFamily)
+parser.add_argument("-fontSize", "--fontSize", type=str, default=fontSize)
+
 
 args = parser.parse_args()
 
@@ -190,6 +196,10 @@ showStar = args.showStar
 line1 = args.line1
 line2 = args.line2
 line3 = args.line3
+
+fontFamily = args.fontFamily
+fontSize = args.fontSize
+font_style3 = f"font-size:{fontSize}; letter-spacing:0; font-family:\"{fontFamily}\"; stroke-width:4;text-align:center;text-anchor:middle"
 
 height = args.height
 width = args.width
@@ -441,6 +451,9 @@ if __name__ == '__main__':
     # Svgfile
     image = svgwrite.Drawing(output_file, size=(
         str(width)+'mm', str(height)+'mm'))
+
+    # Fonts File
+    image.embed_stylesheet("@import url('https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script&family=Fuggles&family=Karla&family=Qahiri&family=Roboto&family=Roboto+Slab');")
 
     # Background
     image.add(image.rect(insert=(0, 0), size=('100%', '100%'),
