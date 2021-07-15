@@ -43,9 +43,18 @@ export default function StarGenerator(props) {
             "filename": '',
         },
         "text": {
-            "line1": {},
-            "line2": {},
-            "line3": {},
+            "line1": {
+                value: "",
+                font: "",
+            },
+            "line2": {
+                value: "",
+                font: "",
+            },
+            "line3": {
+                value: "",
+                font: "",
+            },
         },
         "music": {},
         "customize": {

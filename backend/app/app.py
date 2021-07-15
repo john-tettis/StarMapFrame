@@ -30,12 +30,13 @@ def config_creator(data):
             conf += f" -time {data['geo']['time']}"
     
     if 'text' in data:
-        if 'line1' in data['text'] and isinstance(data['text']['line1'], str):
-            conf += f" -line1 \"{data['text']['line1']}\""
-        if 'line2' in data['text'] and isinstance(data['text']['line2'], str):
-            conf += f" -line2 \"{data['text']['line2']}\""
-        if 'line3' in data['text'] and isinstance(data['text']['line3'], str):
-            conf += f" -line3 \"{data['text']['line3']}\""
+        if 'line1' in data['text'] and isinstance(data['text']['line1']['value'], str):
+            conf += f" -line1 \"{data['text']['line1']['value']}\""
+            conf+=f" -fontFamily \"{data['text']['line1']['font']}\""
+        if 'line2' in data['text'] and isinstance(data['text']['line2']['value'], str):
+            conf += f" -line2 \"{data['text']['line2']['value']}\""
+        if 'line3' in data['text'] and isinstance(data['text']['line3']['value'], str):
+            conf += f" -line3 \"{data['text']['line3']['value']}\""
 
     # Customize Options
     if 'customize' in data:
@@ -99,4 +100,4 @@ def index():
 
 @app.route("/test", methods=['POST', 'GET'])
 def test():
-    return jsonify(data=request.json)
+    return jsonify(data=config_creator(request.json))

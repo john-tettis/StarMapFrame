@@ -14,7 +14,7 @@ export default function StarDrawer() {
                     <h1 className="text-center">تابلوی ستاره‌ای خود را بسازید!</h1>
                 </div>
             </div>
-            <div className="row align-items-center">
+            <div className="row">
                 <div className="col-lg-6 col-md-6 col-sm-12">
                     <StarGenerator setFileUpdate={setFileUpdate} filename={filename}/>
                 </div>

@@ -25,17 +25,21 @@ export default function Message(props) {
       });
     }
     props.setData((state) => {
-      if (name === "line1") state.text.line1 = event.target.value;
-      if (name === "line2") state.text.line2 = event.target.value;
-      if (name === "line3") state.text.line3 = event.target.value;
+      if (name === "line1") state.text.line1.value = event.target.value;
+      if (name === "line1-font") state.text.line1.font = event.target.value;
+
+      if (name === "line2") state.text.line2.value = event.target.value;
+      if (name === "line2-font") state.text.line2.font = event.target.value;
+
+      if (name === "line3") state.text.line3.value = event.target.value;
+      if (name === "line3-font") state.text.line3.font = event.target.value;
+
       return state;
     });
   };
-  
-  const sendData = ()=>{
-    axios
-    .post("http://localhost:5000/starmap", props.data)
-    .then((response) => {
+
+  const sendData = () => {
+    axios.post("http://localhost:5000/starmap", props.data).then((response) => {
       if (response.status === 200 && response.data.result) {
         props.setFileUpdate((state) => {
           state = { name: state.name, isReady: true, hash: Date.now() };
@@ -43,7 +47,7 @@ export default function Message(props) {
         });
       }
     });
-  }
+  };
   useEffect(() => {
     const timeOutId = setTimeout(() => sendData(), 500);
     return () => clearTimeout(timeOutId);
@@ -63,7 +67,7 @@ export default function Message(props) {
           props.updateStep(props.step + 1);
         }}
       >
-        <div className="form-group">
+        <div className="form-group mb-5">
           <label htmlFor="message">خط اول</label>
           <input
             className="form-control mb-3"
@@ -73,9 +77,28 @@ export default function Message(props) {
             value={props.message.line1}
             onChange={(event) => handleChange(event, "line1")}
             autoFocus
+            placeholder="متن دلخواه خود را تایپ کنید.."
           />
+          <label htmlFor="line1-font">فونت</label>
+          <select
+            onChange={(event) => handleChange(event, "line1-font")}
+            dir="ltr"
+            className="form-select"
+            name="line1-font"
+            id="line1-font"
+          >
+            <option value="Anton" selected>
+              Anton
+            </option>
+            <option value="Dancing Script">Dancing Script</option>
+            <option value="Fuggles">Fuggles</option>
+            <option value="Karla">Karla</option>
+            <option value="Qahiri">Qahiri</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Roboto Slab">Roboto Slab</option>
+          </select>
         </div>
-        <div className="form-group">
+        <div className="form-group mb-5">
           <label htmlFor="message">خط دوم</label>
           <input
             className="form-control mb-3"
@@ -85,8 +108,26 @@ export default function Message(props) {
             value={props.message.line2}
             onChange={(event) => handleChange(event, "line2")}
           />
+          <label htmlFor="line1-font">فونت</label>
+          <select
+            onChange={(event) => handleChange(event, "line2-font")}
+            dir="ltr"
+            className="form-select"
+            name="line2-font"
+            id="line2-font"
+          >
+            <option value="Anton" selected>
+              Anton
+            </option>
+            <option value="Dancing Script">Dancing Script</option>
+            <option value="Fuggles">Fuggles</option>
+            <option value="Karla">Karla</option>
+            <option value="Qahiri">Qahiri</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Roboto Slab">Roboto Slab</option>
+          </select>
         </div>
-        <div className="form-group">
+        <div className="form-group mb-5">
           <label htmlFor="message">خط سوم</label>
           <input
             className="form-control"
@@ -96,6 +137,24 @@ export default function Message(props) {
             value={props.message.line3}
             onChange={(event) => handleChange(event, "line3")}
           />
+          <label htmlFor="line1-font">فونت</label>
+          <select
+            onChange={(event) => handleChange(event, "line3-font")}
+            dir="ltr"
+            className="form-select"
+            name="line3-font"
+            id="line3-font"
+          >
+            <option value="Anton" selected>
+              Anton
+            </option>
+            <option value="Dancing Script">Dancing Script</option>
+            <option value="Fuggles">Fuggles</option>
+            <option value="Karla">Karla</option>
+            <option value="Qahiri">Qahiri</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Roboto Slab">Roboto Slab</option>
+          </select>
         </div>
         <div className="row mt-5">
           <div className="col-6">
