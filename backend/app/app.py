@@ -28,6 +28,14 @@ def config_creator(data):
 
         if 'time' in data['geo']:
             conf += f" -time {data['geo']['time']}"
+    
+    if 'background' in data:
+        if 'bg' in data['background']:
+            conf += f" -bg {data['background']['bg']}"
+        if 'x' in data['background']:
+            conf += f" -bgPosX {data['background']['x']}"
+        if 'y' in data['background']:
+            conf += f" -bgPosY {data['background']['y']}"
 
     if 'text' in data:
         if 'line1' in data['text'] and isinstance(data['text']['line1']['value'], str):
