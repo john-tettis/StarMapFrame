@@ -50,6 +50,10 @@ line1 = ""
 line2 = ""
 line3 = ""
 
+bg = ''
+bg_x = 0,
+bg_y = 0
+
 # placetext for leftdown corner
 info = 'Tehran'
 
@@ -185,6 +189,10 @@ parser.add_argument("-fontSize1", "--fontSize1", type=int, default=fontSize1)
 parser.add_argument("-fontSize2", "--fontSize2", type=int, default=fontSize2)
 parser.add_argument("-fontSize3", "--fontSize3", type=int, default=fontSize3)
 
+parser.add_argument('-bg', '--bg', type=str, default=bg)
+parser.add_argument('-bgPosX', '--bgPosX', type=str, default=bg_x)
+parser.add_argument('-bgPosY', '--bgPosY', type=str, default=bg_y)
+
 
 
 args = parser.parse_args()
@@ -222,6 +230,10 @@ line2Style = f"font-size:{fontSize2}px; letter-spacing:0; font-family:\"{fontFam
 fontFamily3 = args.fontFamily3
 fontSize3 = args.fontSize3
 line3Style = f"font-size:{fontSize3}px; letter-spacing:0; font-family:\"{fontFamily3}\"; stroke-width:4;text-align:center;text-anchor:middle"
+
+bg = args.bg
+bg_x = args.bgPosX
+bg_y = args.bgPosY
 
 height = args.height
 width = args.width
@@ -473,7 +485,7 @@ if __name__ == '__main__':
     # Svgfile
     image = svgwrite.Drawing(output_file, size=(
         str(width)+'mm', str(height)+'mm'))
-
+    
     # Fonts File
     image.embed_stylesheet("@import url('https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script&family=Fuggles&family=Karla&family=Qahiri&family=Roboto&family=Roboto+Slab');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Kamran');")
@@ -488,6 +500,12 @@ if __name__ == '__main__':
     generate_starmap(northern, eastern, date, time)
     if constellation:
         generate_constellations(northern, eastern, date, time)
+
+    # Custom image
+    if bg.strip():
+        mask = image.defs.add(image.mask(id="bg_wrapper"))
+        mask.add(image.circle(center=(half_x, half_y), r=340, fill=line_color, opacity=".4"))
+        image.add(image.image(href=bg, size=("100%", "100%"), mask="url(#bg_wrapper)", insert=(bg_x, bg_y)))
 
     # Custom User Text
     image.add(image.text(line1, insert=("100mm", str(height-60)+"mm"), fill=line_color, style=line1Style))
