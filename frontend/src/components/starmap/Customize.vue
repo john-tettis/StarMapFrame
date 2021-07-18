@@ -1,0 +1,158 @@
+<template>
+  <div>
+    <h2>شخصی سازی کنید:</h2>
+    <v-form ref="form" v-model="valid">
+      <p>اندازه‌ی قاب:</p>
+      <v-radio-group row @change="updateStar" v-model="radioGroup">
+        <v-radio key="A1" label="A1" value="A1" />
+        <v-radio key="A2" label="A2" value="A2" />
+        <v-radio key="A3" label="A3" value="A3" />
+        <v-radio key="A4" label="A4" value="A4" />
+      </v-radio-group>
+
+      <v-divider class="my-5"></v-divider>
+
+      <p>رنگ بکگراند</p>
+      <v-menu
+        v-model="bgMenu"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+        max-width="290px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            label="رنگ"
+            prepend-inner-icon="mdi-palette"
+            readonly
+            hide-details
+            :value="bgValue"
+            @change="updateStar"
+            v-on="on"
+            outlined
+            dense
+            class="mb-7"
+          ></v-text-field>
+        </template>
+
+        <v-color-picker v-model="bgValue" no-title></v-color-picker>
+      </v-menu>
+
+      <p>رنگ قاب</p>
+      <v-menu
+        v-model="frameMenu"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+        max-width="290px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            label="رنگ"
+            @change="updateStar"
+            prepend-inner-icon="mdi-palette"
+            readonly
+            hide-details
+            :value="frameValue"
+            v-on="on"
+            outlined
+            dense
+            class="mb-7"
+          ></v-text-field>
+        </template>
+
+        <v-color-picker v-model="frameValue" no-title></v-color-picker>
+      </v-menu>
+
+      <v-divider class="my-5"></v-divider>
+
+      <v-row dir="rtl">
+        <v-col cols="3">
+          <v-switch @click="updateStar" v-model="showDot" inset label="نقطه‌ها"></v-switch>
+        </v-col>
+        <v-col cols="3">
+          <v-switch @click="updateStar" v-model="showStar" inset label="ستاره‌ها"></v-switch>
+        </v-col>
+        <v-col cols="3">
+          <v-switch
+          @click="updateStar"
+            v-model="showConstellation"
+            inset
+            label="صور فلکی"
+          ></v-switch>
+        </v-col>
+        <v-col cols="3">
+          <v-switch
+          @click="updateStar"
+            v-model="showConstellationText"
+            inset
+            label="نام صور فلکی"
+          ></v-switch>
+        </v-col>
+      </v-row>
+
+      <v-divider class="my-5"></v-divider>
+
+      <v-row>
+        <v-col cols="6">
+          <v-btn @click="$emit('update:stepper', 3)" block color="error" outlined> مرحله‌ی قبلی </v-btn>
+        </v-col>
+        <v-col cols="6">
+          <v-btn @click="$emit('update:stepper', 5)" block color="primary"> مرحله‌ی بعدی </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "star-customize",
+  data() {
+    return {
+      valid: true,
+      bgValue: "#000000",
+      bgMenu: false,
+      radioGroup: 'A1',
+
+      frameMenu: false,
+      frameValue: "#212121",
+
+      showDot: true,
+      showStar: true,
+      showConstellation: true,
+      showConstellationText: true,
+    };
+  },
+  methods: {
+    updateStar(){
+        this.$store.commit('setCustomize', {
+          size: this.radioGroup,
+          background: this.bgValue,
+          frame: this.frameValue,
+          dot: this.showDot,
+          star: this.showStar,
+          constellation: this.showConstellation,
+          constellationText: this.showConstellationText
+        })
+        setTimeout(()=>{
+          this.axios
+            .post("/api/starmap", this.$store.state.starmap)
+            .then((response) => {
+              if(response.data.result){
+                this.$store.commit('setImage', response.data.path+`?${Date.now()}`)
+              }
+            }).catch(error=>{
+              console.log(error);
+            });
+        }, 500)
+    }
+  }
+};
+</script>
+
+<style></style>
