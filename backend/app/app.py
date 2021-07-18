@@ -22,20 +22,18 @@ def config_creator(data):
             conf += f" -coord {lat},{lng}"
 
         if 'date' in data['geo']:
-            date = datetime.utcfromtimestamp(
-                int(data['geo']['date'])).strftime('%d.%m.%Y')
-            conf += f" -date {date}"
+            conf += f" -date {data['geo']['date']}"
 
         if 'time' in data['geo']:
             conf += f" -time {data['geo']['time']}"
     
     if 'background' in data:
         if 'bg' in data['background']:
-            conf += f" -bg {data['background']['bg']}"
+            conf += f" -bg \"{data['background']['bg']}\""
         if 'x' in data['background']:
-            conf += f" -bgPosX {data['background']['x']}"
+            conf += f" -bgPosX \"{data['background']['x']}\""
         if 'y' in data['background']:
-            conf += f" -bgPosY {data['background']['y']}"
+            conf += f" -bgPosY \"{data['background']['y']}\""
 
     if 'text' in data:
         if 'line1' in data['text'] and isinstance(data['text']['line1']['value'], str):
@@ -106,6 +104,9 @@ def downloadFile(path):
     else:
         return jsonify(result=False, message="file not found")
 
+@app.route('/fonts')
+def fontsList():
+    return jsonify(result=True, fonts=['Anton', 'Dancing Script', 'Fuggles', 'Karla', 'Qahiri', 'Roboto', 'Roboto', 'Robot Salb', 'Kamran', 'Mikhak', 'Yekan'])
 
 @app.route("/")
 def index():

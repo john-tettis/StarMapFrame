@@ -51,7 +51,7 @@ line2 = ""
 line3 = ""
 
 bg = ''
-bg_x = 0,
+bg_x = 0
 bg_y = 0
 
 # placetext for leftdown corner
