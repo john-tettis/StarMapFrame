@@ -39,7 +39,9 @@ const store = new Vuex.Store({
                 size: "42",
             },
         },
-        "music": {},
+        "music": {
+          "qr": "",
+        },
         "background": {
           "bg":"",
           "x": "",

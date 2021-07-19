@@ -97,6 +97,25 @@ def starmap():
         return jsonify(result=True, message="i did not paint anything")
 
 
+@app.route('/uploadBackground', methods=['POST'])
+def uploadBg():
+    if 'bg' not in request.files:
+        return jsonify(result=False, message="There's no file in request...")
+    bg = request.files['bg']
+    path = os.path.join(PATH, f"backgrounds/{bg.filename}")
+    try:
+        bg.save(path)
+        return jsonify(result=True, path=f"{HOST}/backgrounds/{bg.filename}")
+    except OSError as e:
+        return jsonify(result=False, message=str(e))
+
+@app.route('/backgrounds/<path>')
+def getBg(path):
+    if os.path.exists(os.path.join(PATH, 'backgrounds/'+path)):
+        return send_file("backgrounds/"+path, as_attachment=True)
+    else:
+        return jsonify(result=False, message="file not found")
+
 @app.route('/download/<path>')
 def downloadFile(path):
     if os.path.exists(os.path.join(PATH, "images/"+path)):

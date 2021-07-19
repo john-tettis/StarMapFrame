@@ -7,6 +7,9 @@ env/
 __pycache__/
 backend/*/*/*.svg
 backend/*/*/*.mp3
+backend/app/backgrounds/*.png
+backend/app/backgrounds/*.jpg
+backend/app/backgrounds/*.jpeg
 
 
 node_modules/

@@ -65,21 +65,39 @@
           ></v-text-field>
         </template>
 
-        <v-color-picker v-model="frameValue" no-title></v-color-picker>
+        <v-color-picker
+          show-swatches
+          hide-canvas
+          hide-sliders
+          hide-inputs
+          :swatches="swatches"
+          v-model="frameValue"
+          no-title
+        ></v-color-picker>
       </v-menu>
 
       <v-divider class="my-5"></v-divider>
 
       <v-row dir="rtl">
         <v-col cols="3">
-          <v-switch @click="updateStar" v-model="showDot" inset label="نقطه‌ها"></v-switch>
-        </v-col>
-        <v-col cols="3">
-          <v-switch @click="updateStar" v-model="showStar" inset label="ستاره‌ها"></v-switch>
+          <v-switch
+            @click="updateStar"
+            v-model="showDot"
+            inset
+            label="نقطه‌ها"
+          ></v-switch>
         </v-col>
         <v-col cols="3">
           <v-switch
-          @click="updateStar"
+            @click="updateStar"
+            v-model="showStar"
+            inset
+            label="ستاره‌ها"
+          ></v-switch>
+        </v-col>
+        <v-col cols="3">
+          <v-switch
+            @click="updateStar"
             v-model="showConstellation"
             inset
             label="صور فلکی"
@@ -87,7 +105,7 @@
         </v-col>
         <v-col cols="3">
           <v-switch
-          @click="updateStar"
+            @click="updateStar"
             v-model="showConstellationText"
             inset
             label="نام صور فلکی"
@@ -99,10 +117,19 @@
 
       <v-row>
         <v-col cols="6">
-          <v-btn @click="$emit('update:stepper', 3)" block color="error" outlined> مرحله‌ی قبلی </v-btn>
+          <v-btn
+            @click="$emit('update:stepper', 3)"
+            block
+            color="error"
+            outlined
+          >
+            مرحله‌ی قبلی
+          </v-btn>
         </v-col>
         <v-col cols="6">
-          <v-btn @click="$emit('update:stepper', 5)" block color="primary"> مرحله‌ی بعدی </v-btn>
+          <v-btn @click="$emit('update:stepper', 5)" block color="primary">
+            مرحله‌ی بعدی
+          </v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -117,10 +144,17 @@ export default {
       valid: true,
       bgValue: "#000000",
       bgMenu: false,
-      radioGroup: 'A1',
+      radioGroup: "A1",
 
       frameMenu: false,
       frameValue: "#212121",
+      swatches: [
+        ["#FF0000", "#AA0000", "#550000"],
+        ["#FFFF00", "#AAAA00", "#555500"],
+        ["#00FF00", "#00AA00", "#005500"],
+        ["#00FFFF", "#00AAAA", "#005555"],
+        ["#0000FF", "#0000AA", "#000055"],
+      ],
 
       showDot: true,
       showStar: true,
@@ -129,29 +163,33 @@ export default {
     };
   },
   methods: {
-    updateStar(){
-        this.$store.commit('setCustomize', {
-          size: this.radioGroup,
-          background: this.bgValue,
-          frame: this.frameValue,
-          dot: this.showDot,
-          star: this.showStar,
-          constellation: this.showConstellation,
-          constellationText: this.showConstellationText
-        })
-        setTimeout(()=>{
-          this.axios
-            .post("/api/starmap", this.$store.state.starmap)
-            .then((response) => {
-              if(response.data.result){
-                this.$store.commit('setImage', response.data.path+`?${Date.now()}`)
-              }
-            }).catch(error=>{
-              console.log(error);
-            });
-        }, 500)
-    }
-  }
+    updateStar() {
+      this.$store.commit("setCustomize", {
+        size: this.radioGroup,
+        background: this.bgValue,
+        frame: this.frameValue,
+        dot: this.showDot,
+        star: this.showStar,
+        constellation: this.showConstellation,
+        constellationText: this.showConstellationText,
+      });
+      setTimeout(() => {
+        this.axios
+          .post("/api/starmap", this.$store.state.starmap)
+          .then((response) => {
+            if (response.data.result) {
+              this.$store.commit(
+                "setImage",
+                response.data.path + `?${Date.now()}`
+              );
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }, 500);
+    },
+  },
 };
 </script>
 

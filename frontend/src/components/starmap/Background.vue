@@ -63,21 +63,31 @@
       <h2>از این عکسا خوشت نمیاد؟</h2>
       <h3>یکی از عکسای خودتو آپلود کن</h3>
       <v-form class="mb-15">
-          <v-file-input accept="image/*" label="آپلود عکس" outlined dense></v-file-input>
-          <v-btn color="primary" class="float-left">ثبت عکس</v-btn>
+        <v-file-input
+          v-model="bg"
+          accept="image/*"
+          label="آپلود عکس"
+          outlined
+          dense
+        ></v-file-input>
+        <v-btn color="primary" class="float-left" @click="uploadBg"
+          >ثبت عکس</v-btn
+        >
       </v-form>
     </div>
     <v-divider class="my-5"></v-divider>
-      <h3>تمامی شخصی سازی ها انجام شد</h3>
-      <p>حالا می‌تونی قاب ستاره‌ای خودتو سفارش بدی</p>
-      <v-row>
-          <v-col cols="6">
-          <v-btn @click="$emit('update:stepper', 4)" color="error" block outlined>مرحله‌ی قبلی</v-btn>
-        </v-col>
-        <v-col cols="6">
-          <v-btn color="primary" block>ثبت سفارش</v-btn>
-        </v-col>
-      </v-row>
+    <h3>تمامی شخصی سازی ها انجام شد</h3>
+    <p>حالا می‌تونی قاب ستاره‌ای خودتو سفارش بدی</p>
+    <v-row>
+      <v-col cols="6">
+        <v-btn @click="$emit('update:stepper', 4)" color="error" block outlined
+          >مرحله‌ی قبلی</v-btn
+        >
+      </v-col>
+      <v-col cols="6">
+        <v-btn color="primary" block>ثبت سفارش</v-btn>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -89,6 +99,7 @@ export default {
       valid: true,
       haveBg: false,
       selectedImage: "",
+      bg: [],
     };
   },
   methods: {
@@ -98,24 +109,65 @@ export default {
 
       this.selectedImage = event.target.getAttribute("src");
       event.target.setAttribute("class", "active-img");
-      
-      this.$store.commit('setBg', {
+
+      this.$store.commit("setBg", {
         bg: this.selectedImage,
         x: 10,
-        y: -50
-      })
-      
-      setTimeout(()=>{
-          this.axios
-            .post("/api/starmap", this.$store.state.starmap)
-            .then((response) => {
-              if(response.data.result){
-                this.$store.commit('setImage', response.data.path+`?${Date.now()}`)
-              }
-            }).catch(error=>{
-              console.log(error);
+        y: -50,
+      });
+
+      setTimeout(() => {
+        this.axios
+          .post("/api/starmap", this.$store.state.starmap)
+          .then((response) => {
+            if (response.data.result) {
+              this.$store.commit(
+                "setImage",
+                response.data.path + `?${Date.now()}`
+              );
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }, 500);
+    },
+    uploadBg() {
+      const formData = new FormData();
+      formData.append("bg", this.bg);
+      this.axios
+        .post("/api/uploadBackground", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          if (response.data.result) {
+            this.$store.commit("setBg", {
+              bg: response.data.path,
+              x: 0,
+              y: 0,
             });
-        }, 500)
+            setTimeout(() => {
+              this.axios
+                .post("/api/starmap", this.$store.state.starmap)
+                .then((response) => {
+                  if (response.data.result) {
+                    this.$store.commit(
+                      "setImage",
+                      response.data.path + `?${Date.now()}`
+                    );
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }, 500);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
