@@ -1,8 +1,7 @@
 <template>
   <v-container>
     <div>
-      landing page
-      <router-link to="/builder">ستاره ساز</router-link>
+      لندینگ پیج
     </div>
   </v-container>
 </template>
