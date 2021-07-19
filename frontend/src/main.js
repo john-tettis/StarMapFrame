@@ -26,17 +26,20 @@ const store = new Vuex.Store({
             "line1": {
                 value: "",
                 font: "",
-                size: "42"
+                size: "42",
+                color: "#ffffff"
             },
             "line2": {
                 value: "",
                 font: "",
-                size: "42"
+                size: "42",
+                color: "#ffffff"
             },
             "line3": {
                 value: "",
                 font: "",
                 size: "42",
+                color: "#ffffff"
             },
         },
         "music": {

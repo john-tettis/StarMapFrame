@@ -15,12 +15,16 @@ fontSize1 = 42
 fontSize2 = 42
 fontSize3 = 42
 
+fontColor1 = "#ffffff"
+fontColor2 = "#ffffff"
+fontColor3 = "#ffffff"
+
 font_style = "font-size:12px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:4;"
 font_style2 = "font-size:8px; letter-spacing:autopx; font-family:sans-serif; stroke-width:1;"
 
-line1Style = f"font-size:{fontSize1}px; letter-spacing:0; font-family:\"{fontFamily1}\"; stroke-width:4;text-align:center;text-anchor:middle"
-line2Style = f"font-size:{fontSize2}px; letter-spacing:0; font-family:\"{fontFamily2}\"; stroke-width:4;text-align:center;text-anchor:middle"
-line3Style = f"font-size:{fontSize3}px; letter-spacing:0; font-family:\"{fontFamily3}\"; stroke-width:4;text-align:center;text-anchor:middle"
+line1Style = f"font-size:{fontSize1}px;letter-spacing:0;font-family:\"{fontFamily1}\";stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor1}"
+line2Style = f"font-size:{fontSize2}px;letter-spacing:0;font-family:\"{fontFamily2}\";stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor2}"
+line3Style = f"font-size:{fontSize3}px;letter-spacing:0;font-family:\"{fontFamily3}\";stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor3}"
 
 
 background_color = "rgb(0,0,0)"
@@ -189,6 +193,10 @@ parser.add_argument("-fontSize1", "--fontSize1", type=int, default=fontSize1)
 parser.add_argument("-fontSize2", "--fontSize2", type=int, default=fontSize2)
 parser.add_argument("-fontSize3", "--fontSize3", type=int, default=fontSize3)
 
+parser.add_argument("-fontColor1", "--fontColor1", type=str, default=fontColor1)
+parser.add_argument("-fontColor2", "--fontColor2", type=str, default=fontColor2)
+parser.add_argument("-fontColor3", "--fontColor3", type=str, default=fontColor3)
+
 parser.add_argument('-bg', '--bg', type=str, default=bg)
 parser.add_argument('-bgPosX', '--bgPosX', type=str, default=bg_x)
 parser.add_argument('-bgPosY', '--bgPosY', type=str, default=bg_y)
@@ -221,15 +229,18 @@ line3 = args.line3
 
 fontFamily1 = args.fontFamily1
 fontSize1 = args.fontSize1
-line1Style = f"font-size:{fontSize1}px; letter-spacing:0; font-family:\"{fontFamily1}\"; stroke-width:4;text-align:center;text-anchor:middle"
+fontColor1 = args.fontColor1
+line1Style = f"font-size:{fontSize1}px; letter-spacing:0; font-family:\"{fontFamily1}\"; stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor1}"
 
 fontFamily2 = args.fontFamily2
 fontSize2 = args.fontSize2
-line2Style = f"font-size:{fontSize2}px; letter-spacing:0; font-family:\"{fontFamily2}\"; stroke-width:4;text-align:center;text-anchor:middle"
+fontColor2 = args.fontColor2
+line2Style = f"font-size:{fontSize2}px; letter-spacing:0; font-family:\"{fontFamily2}\"; stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor2}"
 
 fontFamily3 = args.fontFamily3
 fontSize3 = args.fontSize3
-line3Style = f"font-size:{fontSize3}px; letter-spacing:0; font-family:\"{fontFamily3}\"; stroke-width:4;text-align:center;text-anchor:middle"
+fontColor2 = args.fontColor2
+line3Style = f"font-size:{fontSize3}px; letter-spacing:0; font-family:\"{fontFamily3}\"; stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor3}"
 
 bg = args.bg
 bg_x = args.bgPosX

@@ -19,14 +19,46 @@
           dense
           @change="updateStars"
         />
-        <v-text-field
-          label="سایز متن"
-          outlined
-          dense
-          prepend-inner-icon="mdi-pencil"
-          v-model="line1.size"
-          @change="updateStars"
-        />
+        <v-row>
+          <v-col cols="6">
+            <v-text-field
+              label="سایز متن"
+              outlined
+              dense
+              prepend-inner-icon="mdi-pencil"
+              v-model="line1.size"
+              @change="updateStars"
+            />
+          </v-col>
+          <v-col cols="6">
+            <v-menu
+              v-model="line1Menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+              max-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  label="رنگ"
+                  prepend-inner-icon="mdi-palette"
+                  readonly
+                  hide-details
+                  :value="line1.color"
+                  @change="updateStars"
+                  v-on="on"
+                  outlined
+                  dense
+                  class="mb-7"
+                ></v-text-field>
+              </template>
+
+              <v-color-picker v-model="line1.color" no-title></v-color-picker>
+            </v-menu>
+          </v-col>
+        </v-row>
       </div>
 
       <v-divider class="my-5"></v-divider>
@@ -48,14 +80,46 @@
           dense
           @change="updateStars"
         />
-        <v-text-field
-          label="سایز متن"
-          outlined
-          dense
-          prepend-inner-icon="mdi-pencil"
-          v-model="line2.size"
-          @change="updateStars"
-        />
+        <v-row>
+          <v-col cols="6">
+            <v-text-field
+              label="سایز متن"
+              outlined
+              dense
+              prepend-inner-icon="mdi-pencil"
+              v-model="line2.size"
+              @change="updateStars"
+            />
+          </v-col>
+          <v-col cols="6">
+            <v-menu
+              v-model="line2Menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+              max-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  label="رنگ"
+                  prepend-inner-icon="mdi-palette"
+                  readonly
+                  hide-details
+                  :value="line2.color"
+                  @change="updateStars"
+                  v-on="on"
+                  outlined
+                  dense
+                  class="mb-7"
+                ></v-text-field>
+              </template>
+
+              <v-color-picker v-model="line2.color" no-title></v-color-picker>
+            </v-menu>
+          </v-col>
+        </v-row>
       </div>
 
       <v-divider class="my-5"></v-divider>
@@ -77,21 +141,62 @@
           dense
           @change="updateStars"
         />
-        <v-text-field
-          label="سایز متن"
-          outlined
-          dense
-          prepend-inner-icon="mdi-pencil"
-          v-model="line3.size"
-          @change="updateStars"
-        />
+        <v-row>
+          <v-col cols="6">
+            <v-text-field
+              label="سایز متن"
+              outlined
+              dense
+              prepend-inner-icon="mdi-pencil"
+              v-model="line3.size"
+              @change="updateStars"
+            />
+          </v-col>
+          <v-col cols="6">
+            <v-menu
+              v-model="line3Menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+              max-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  label="رنگ"
+                  prepend-inner-icon="mdi-palette"
+                  readonly
+                  hide-details
+                  :value="line3.color"
+                  @change="updateStars"
+                  v-on="on"
+                  outlined
+                  dense
+                  class="mb-7"
+                ></v-text-field>
+              </template>
+
+              <v-color-picker v-model="line3.color" no-title></v-color-picker>
+            </v-menu>
+          </v-col>
+        </v-row>
       </div>
       <v-row>
         <v-col cols="6">
-          <v-btn @click="$emit('update:stepper', 1)" block color="error" outlined> مرحله‌ی قبلی </v-btn>
+          <v-btn
+            @click="$emit('update:stepper', 1)"
+            block
+            color="error"
+            outlined
+          >
+            مرحله‌ی قبلی
+          </v-btn>
         </v-col>
         <v-col cols="6">
-          <v-btn @click="$emit('update:stepper', 3)" block color="primary"> مرحله‌ی بعدی </v-btn>
+          <v-btn @click="$emit('update:stepper', 3)" block color="primary">
+            مرحله‌ی بعدی
+          </v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -104,39 +209,55 @@ export default {
   data() {
     return {
       valid: true,
+      line1Menu: false,
+      line2Menu: false,
+      line3Menu: false,
+
       line1: {
         value: "",
         size: "42",
         font: "Roboto",
+        color: "#FFFFFF"
       },
       line2: {
         value: "",
         size: "42",
         font: "Roboto",
+        color: "#FFFFFF"
       },
       line3: {
         value: "",
         size: "42",
         font: "Roboto",
+        color: "#FFFFFF"
       },
       availableFonts: [],
     };
   },
   methods: {
-    updateStars(){
-      this.$store.commit('setText', {line1: this.line1, line2: this.line2, line3: this.line3})
-      console.log(this.$store.state.starmap)
-      this.axios.post("/api/starmap", this.$store.state.starmap).then(response=>{
-        if(response.data.result){
-          this.$store.commit('setImage', response.data.path+`?${Date.now()}`)
-        }
-      })
-    }
+    updateStars() {
+      this.$store.commit("setText", {
+        line1: this.line1,
+        line2: this.line2,
+        line3: this.line3,
+      });
+      console.log(this.$store.state.starmap);
+      this.axios
+        .post("/api/starmap", this.$store.state.starmap)
+        .then((response) => {
+          if (response.data.result) {
+            this.$store.commit(
+              "setImage",
+              response.data.path + `?${Date.now()}`
+            );
+          }
+        });
+    },
   },
-  mounted(){
-    this.axios.get('/api/fonts').then(response=>{
-      this.availableFonts = response.data.fonts
-    })
-  }
+  mounted() {
+    this.axios.get("/api/fonts").then((response) => {
+      this.availableFonts = response.data.fonts;
+    });
+  },
 };
 </script>

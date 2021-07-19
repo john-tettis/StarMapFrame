@@ -40,15 +40,19 @@ def config_creator(data):
             conf += f" -line1 \"{data['text']['line1']['value']}\""
             conf += f" -fontFamily1 \"{data['text']['line1']['font']}\""
             conf += f" -fontSize1 {data['text']['line1']['size']}"
+            conf += f" -fontColor1 \"{data['text']['line1']['color']}\""
 
         if 'line2' in data['text'] and isinstance(data['text']['line2']['value'], str):
             conf += f" -line2 \"{data['text']['line2']['value']}\""
             conf += f" -fontFamily2 \"{data['text']['line2']['font']}\""
             conf += f" -fontSize2 {data['text']['line2']['size']}"
+            conf += f" -fontColor2 \"{data['text']['line2']['color']}\""
+
         if 'line3' in data['text'] and isinstance(data['text']['line3']['value'], str):
             conf += f" -line3 \"{data['text']['line3']['value']}\""
             conf += f" -fontFamily3 \"{data['text']['line3']['font']}\""
             conf += f" -fontSize3 {data['text']['line3']['size']}"
+            conf += f" -fontColor3 \"{data['text']['line3']['color']}\""
 
     # Customize Options
     if 'customize' in data:
