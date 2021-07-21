@@ -1,40 +1,32 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
+    <v-app-bar app color="dark" dark>
       <div class="d-flex align-center">
-        <img src="@/assets/logo.png" alt="logo" width="32"/>
+        <img src="@/assets/logo.png" alt="logo" width="32" />
       </div>
 
       <v-spacer></v-spacer>
       <ul class="navbar">
-          <li>
-            <router-link class="white--text" to="/">
-              صفحه‌ی اصلی
-            </router-link>
-          </li>
-          <li>
-            <router-link class="white--text" to="/builder">
-              ستاره ساز
-            </router-link>
-          </li>
-        </ul>
-
+        <li>
+          <router-link class="white--text" to="/"> صفحه‌ی اصلی </router-link>
+        </li>
+        <li>
+          <router-link class="white--text" to="/builder">
+            ستاره ساز
+          </router-link>
+        </li>
+      </ul>
     </v-app-bar>
 
-    <v-main class="my-5">
-      <router-view/>
+    <v-main>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-
 export default {
-  name: 'App',
+  name: "App",
 
   data: () => ({
     //
@@ -43,21 +35,22 @@ export default {
 </script>
 
 <style>
-::v-deep .v-toolbar__content{
+::v-deep .v-toolbar__content {
   height: 45px;
 }
-ul.navbar{
+ul.navbar {
   list-style-type: none;
 }
-ul.navbar li{
-  display:inline;
+ul.navbar li {
+  display: inline;
 }
-ul.navbar a{
+ul.navbar a {
   text-decoration: none;
   padding: 11px 25px;
   font-weight: bold;
+  border-radius: 5px;
 }
-ul.navbar a:hover{
-  background-color: rgba(56, 100, 103, 0.2);
+ul.navbar a:hover {
+  background-color: hsl(0, 0%, 20%);
 }
 </style>
