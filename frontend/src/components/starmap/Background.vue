@@ -146,7 +146,7 @@ export default {
             this.$store.commit("setBg", {
               bg: response.data.path,
               x: 0,
-              y: 0,
+              y: -50,
             });
             setTimeout(() => {
               this.axios

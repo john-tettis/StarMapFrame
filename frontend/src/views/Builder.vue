@@ -43,7 +43,7 @@
         :style="'border:10px solid' + $store.state.starmap.customize.frame + '; height: 540px;width:400px;margin:25px auto;border-radius:1px'"
       >
         <inline-svg
-          style="scale: 0.509; position: relative; top: -260px;left: 190px;direction:ltr;z-index:0"
+          style="scale: 0.509; position: relative; top: -260px;left: 188px;direction:ltr;z-index:0"
           :src="$store.state.path"
         />
       </div>
