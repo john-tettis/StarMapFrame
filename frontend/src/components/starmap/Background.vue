@@ -3,6 +3,7 @@
     <h2>آیا بکگراند میخواید</h2>
     <v-switch
       v-model="haveBg"
+      @change="disableBg"
       inset
       :label="haveBg ? `آره میخوام` : `نه نمیخوام`"
     ></v-switch>
@@ -168,6 +169,30 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    disableBg() {
+      if (!this.haveBg) {
+        this.$store.commit("setBg", {
+          bg: "",
+          x: 0,
+          y: 0,
+        });
+        setTimeout(() => {
+          this.axios
+            .post("/api/starmap", this.$store.state.starmap)
+            .then((response) => {
+              if (response.data.result) {
+                this.$store.commit(
+                  "setImage",
+                  response.data.path + `?${Date.now()}`
+                );
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }, 500);
+      }
     },
   },
 };
