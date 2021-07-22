@@ -17,6 +17,7 @@ const store = new Vuex.Store({
     path: "",
     starmap:{
       "paint": true,
+      "shape": false,
         "geo": {
             "coordinate": '',
             "date": '',
@@ -80,6 +81,9 @@ const store = new Vuex.Store({
     },
     setImage(state, path){
       state.path = path
+    },
+    setShape(state, shape){
+      state.starmap.shape = shape
     }
   }
 })

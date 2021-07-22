@@ -81,6 +81,10 @@ def config_creator(data):
     if 'filename' in data:
         conf += f" -o app/images/{ data['filename'] }"
 
+    # Shape
+    if 'shape' in data:
+        pass
+
     return conf
 
 

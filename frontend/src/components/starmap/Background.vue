@@ -1,12 +1,24 @@
 <template>
   <div>
     <h2>آیا بکگراند میخواید</h2>
-    <v-switch
-      v-model="haveBg"
-      @change="disableBg"
-      inset
-      :label="haveBg ? `آره میخوام` : `نه نمیخوام`"
-    ></v-switch>
+    <v-row>
+      <v-col cols="6">
+        <v-switch
+          v-model="haveBg"
+          @change="disableBg"
+          inset
+          :label="haveBg ? `آره میخوام` : `نه نمیخوام`"
+        ></v-switch>
+      </v-col>
+      <v-col cols="6">
+        <v-switch
+          v-model="shape"
+          @change="changeShape"
+          inset
+          :label="shape ? `قلبی` : `دایره‌ای`"
+        ></v-switch>
+      </v-col>
+    </v-row>
     <div v-if="haveBg">
       <v-row>
         <v-col cols="4">
@@ -98,6 +110,7 @@ export default {
   data() {
     return {
       valid: true,
+      shape: false,
       haveBg: false,
       selectedImage: "",
       bg: [],
@@ -194,6 +207,24 @@ export default {
         }, 500);
       }
     },
+    changeShape(){
+      this.$store.commit('setShape', this.shape)
+      setTimeout(() => {
+          this.axios
+            .post("/api/starmap", this.$store.state.starmap)
+            .then((response) => {
+              if (response.data.result) {
+                this.$store.commit(
+                  "setImage",
+                  response.data.path + `?${Date.now()}`
+                );
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }, 500);
+    }
   },
 };
 </script>
