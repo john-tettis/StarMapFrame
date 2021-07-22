@@ -53,7 +53,6 @@
         <template v-slot:activator="{ on }">
           <v-text-field
             label="رنگ"
-            @change="updateStar"
             prepend-inner-icon="mdi-palette"
             readonly
             hide-details
@@ -72,6 +71,7 @@
           hide-inputs
           :swatches="swatches"
           v-model="frameValue"
+          @input="updateStar"
           no-title
         ></v-color-picker>
       </v-menu>
@@ -173,6 +173,7 @@ export default {
         constellation: this.showConstellation,
         constellationText: this.showConstellationText,
       });
+      console.log(this.frameValue)
       setTimeout(() => {
         this.axios
           .post("/api/starmap", this.$store.state.starmap)
