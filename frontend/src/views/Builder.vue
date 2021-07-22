@@ -1,6 +1,6 @@
 <template>
-  <v-row no-gutters>
-    <v-col cols="12" xl="7" lg="7" md="12" sm="12">
+  <v-row no-gutters class="py-16">
+    <v-col cols="12" xl="7" lg="7" md="12" sm="12" class="px-10">
       <v-stepper alt-labels v-model="step">
         <v-stepper-header>
           <v-stepper-step step="1"> لوکیشن </v-stepper-step>
