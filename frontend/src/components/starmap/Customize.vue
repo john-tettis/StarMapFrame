@@ -79,7 +79,10 @@
       <v-divider class="my-5"></v-divider>
 
       <v-row dir="rtl">
-        <v-col cols="3">
+        <v-col cols="12">
+          <p class="mb-0">شخصی سازی ستاره ها و صور فلکی</p>
+        </v-col>
+        <v-col cols="6">
           <v-switch
             @click="updateStar"
             v-model="showDot"
@@ -87,7 +90,7 @@
             label="نقطه‌ها"
           ></v-switch>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="6">
           <v-switch
             @click="updateStar"
             v-model="showStar"
@@ -95,17 +98,18 @@
             label="ستاره‌ها"
           ></v-switch>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="6">
           <v-switch
-            @click="updateStar"
+            @click="()=>{updateStar(); showConstellation ? '' : showConstellationText=false}"
             v-model="showConstellation"
             inset
             label="صور فلکی"
           ></v-switch>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="6">
           <v-switch
             @click="updateStar"
+            :disabled="!showConstellation ? true : false"
             v-model="showConstellationText"
             inset
             label="نام صور فلکی"
@@ -194,4 +198,3 @@ export default {
 };
 </script>
 
-<style></style>
