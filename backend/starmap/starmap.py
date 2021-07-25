@@ -26,6 +26,7 @@ line1Style = f"font-size:{fontSize1}px;letter-spacing:0;font-family:\"{fontFamil
 line2Style = f"font-size:{fontSize2}px;letter-spacing:0;font-family:\"{fontFamily2}\";stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor2}"
 line3Style = f"font-size:{fontSize3}px;letter-spacing:0;font-family:\"{fontFamily3}\";stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor3}"
 
+is_heart = "False"
 
 background_color = "rgb(0,0,0)"
 line_color = "rgb(255,255,255)"
@@ -57,6 +58,7 @@ line3 = ""
 bg = ''
 bg_x = 0
 bg_y = 0
+bg_opacity = 40
 
 # placetext for leftdown corner
 info = 'Tehran'
@@ -200,7 +202,9 @@ parser.add_argument("-fontColor3", "--fontColor3", type=str, default=fontColor3)
 parser.add_argument('-bg', '--bg', type=str, default=bg)
 parser.add_argument('-bgPosX', '--bgPosX', type=str, default=bg_x)
 parser.add_argument('-bgPosY', '--bgPosY', type=str, default=bg_y)
+parser.add_argument('-bgOpacity', '--bgOpacity', type=int, default=bg_opacity)
 
+parser.add_argument('-heart', '--heart', type=str, default=is_heart)
 
 
 args = parser.parse_args()
@@ -226,6 +230,9 @@ showStar = args.showStar
 line1 = args.line1
 line2 = args.line2
 line3 = args.line3
+
+is_heart = args.heart
+bg_opacity = args.bgOpacity
 
 fontFamily1 = args.fontFamily1
 fontSize1 = args.fontSize1
@@ -511,12 +518,15 @@ if __name__ == '__main__':
     generate_starmap(northern, eastern, date, time)
     if constellation:
         generate_constellations(northern, eastern, date, time)
-
+    
     # Custom image
     if bg.strip():
         mask = image.defs.add(image.mask(id="bg_wrapper"))
-        mask.add(image.circle(center=(half_x, half_y), r=340, fill=line_color, opacity=".4"))
+        mask.add(image.circle(center=(half_x, half_y), r=340, fill=line_color, opacity=str(bg_opacity/100)))
         image.add(image.image(href=bg, size=("100%", "100%"), mask="url(#bg_wrapper)", insert=(bg_x, bg_y)))
+
+    if is_heart == "True":
+        image.add(image.image(href="http://localhost:5000/download/heart.png", size=("100%", "100%"), insert=(0, -80)))
 
     # Custom User Text
     image.add(image.text(line1, insert=("100mm", str(height-60)+"mm"), fill=line_color, style=line1Style))

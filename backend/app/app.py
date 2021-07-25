@@ -34,6 +34,8 @@ def config_creator(data):
             conf += f" -bgPosX \"{data['background']['x']}\""
         if 'y' in data['background']:
             conf += f" -bgPosY \"{data['background']['y']}\""
+        if 'opacity' in data['background']:
+            conf += f" -bgOpacity {data['background']['opacity']}"
 
     if 'text' in data:
         if 'line1' in data['text'] and isinstance(data['text']['line1']['value'], str):
@@ -83,7 +85,7 @@ def config_creator(data):
 
     # Shape
     if 'shape' in data:
-        pass
+        conf += f" -heart {data['shape']}"
 
     return conf
 

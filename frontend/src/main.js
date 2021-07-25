@@ -50,6 +50,7 @@ const store = new Vuex.Store({
           "bg":"",
           "x": "",
           "y": "",
+          "opacity": 40,
         },
         "customize": {
             "size": "A3",

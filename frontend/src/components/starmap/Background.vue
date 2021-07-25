@@ -70,6 +70,19 @@
           />
         </v-col>
       </v-row>
+      <v-row>
+        <v-col cols="12">
+          <p>شفافیت</p>
+          <v-slider
+            hint="شفافیت تصویر"
+            max="100"
+            min="0"
+            thumb-label="always"
+            v-model="opacity"
+            @change="updateOpacity"
+          ></v-slider>
+        </v-col>
+      </v-row>
 
       <v-divider class="my-5"></v-divider>
 
@@ -83,6 +96,21 @@
           outlined
           dense
         ></v-file-input>
+
+        <v-row>
+          <v-col cols="12">
+            <p>شفافیت</p>
+            <v-slider
+              hint="شفافیت تصویر"
+              max="100"
+              min="0"
+              thumb-label="always"
+              v-model="uploadedBgOpacity"
+              @change="updateUploadedBgOpacity"
+            ></v-slider>
+          </v-col>
+        </v-row>
+
         <v-btn color="primary" class="float-left" @click="uploadBg"
           >ثبت عکس</v-btn
         >
@@ -113,7 +141,10 @@ export default {
       shape: false,
       haveBg: false,
       selectedImage: "",
+      opacity: 40,
       bg: [],
+      uploadedBg: "",
+      uploadedBgOpacity: 40,
     };
   },
   methods: {
@@ -128,6 +159,7 @@ export default {
         bg: this.selectedImage,
         x: 10,
         y: -50,
+        opacity: this.opacity,
       });
 
       setTimeout(() => {
@@ -157,10 +189,12 @@ export default {
         })
         .then((response) => {
           if (response.data.result) {
+            this.uploadedBg = response.data.path;
             this.$store.commit("setBg", {
               bg: response.data.path,
               x: 0,
               y: -50,
+              opacity: this.opacity,
             });
             setTimeout(() => {
               this.axios
@@ -189,6 +223,7 @@ export default {
           bg: "",
           x: 0,
           y: 0,
+          opacity: this.opacity,
         });
         setTimeout(() => {
           this.axios
@@ -207,24 +242,70 @@ export default {
         }, 500);
       }
     },
-    changeShape(){
-      this.$store.commit('setShape', this.shape)
+    changeShape() {
+      this.$store.commit("setShape", this.shape);
       setTimeout(() => {
-          this.axios
-            .post("/api/starmap", this.$store.state.starmap)
-            .then((response) => {
-              if (response.data.result) {
-                this.$store.commit(
-                  "setImage",
-                  response.data.path + `?${Date.now()}`
-                );
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }, 500);
-    }
+        this.axios
+          .post("/api/starmap", this.$store.state.starmap)
+          .then((response) => {
+            if (response.data.result) {
+              this.$store.commit(
+                "setImage",
+                response.data.path + `?${Date.now()}`
+              );
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }, 500);
+    },
+    updateOpacity() {
+      this.$store.commit("setBg", {
+        bg: this.selectedImage,
+        x: 10,
+        y: -50,
+        opacity: this.opacity,
+      });
+      setTimeout(() => {
+        this.axios
+          .post("/api/starmap", this.$store.state.starmap)
+          .then((response) => {
+            if (response.data.result) {
+              this.$store.commit(
+                "setImage",
+                response.data.path + `?${Date.now()}`
+              );
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }, 500);
+    },
+    updateUploadedBgOpacity() {
+      this.$store.commit("setBg", {
+        bg: this.uploadedBg,
+        x: 10,
+        y: -50,
+        opacity: this.uploadedBgOpacity,
+      });
+      setTimeout(() => {
+        this.axios
+          .post("/api/starmap", this.$store.state.starmap)
+          .then((response) => {
+            if (response.data.result) {
+              this.$store.commit(
+                "setImage",
+                response.data.path + `?${Date.now()}`
+              );
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }, 500);
+    },
   },
 };
 </script>
