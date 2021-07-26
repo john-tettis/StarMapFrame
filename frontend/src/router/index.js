@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Builder from '@/views/Builder'
+import Pay from '@/views/Pay'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/builder',
     name: "StarmapBuilder",
     component: Builder
+  },
+  {
+    path: '/pay',
+    name: "Payment",
+    component: Pay,
   }
 ]
 
