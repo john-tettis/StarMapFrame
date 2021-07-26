@@ -5,6 +5,7 @@ import math
 import argparse
 
 PATH = os.path.dirname(os.path.abspath(__file__))
+MODE = "DEV"
 ############ DEFAULT VALUES AND CONSTS ####################################
 
 fontFamily1 = "Anton"
@@ -536,7 +537,10 @@ if __name__ == '__main__':
         image.add(image.image(href="http://localhost:5000/download/heart.png", size=("100%", "100%"), insert=(0, -80)))
     
     if qrCode.strip():
-        image.add(image.image(href=qrCode, size=("64px", "64px"), insert=("170mm", str(height-25)+'mm')))
+        if MODE != "DEV":
+            image.add(image.image(href=qrCode, size=("64px", "64px"), insert=("170mm", str(height-25)+'mm')))
+        else:
+            image.add(image.image(href="http://localhost:5000/download/qr.jpeg", size=("64px", "64px"), insert=("170mm", str(height-25)+'mm')))
 
     # Custom User Text
     image.add(image.text(line1, insert=("100mm", str(height-60)+"mm"), fill=line_color, style=line1Style))
