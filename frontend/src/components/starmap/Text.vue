@@ -5,11 +5,11 @@
         <h2 class="mb-5">متن دلخواه خود را بنویسید</h2>
       </v-col>
       <v-col cols="6">
-         <h6 class="text-left">اگر متن دلخواهی ندارید به مرحله‌ی بعدی برید</h6>
+        <h6 class="text-left">اگر متن دلخواهی ندارید به مرحله‌ی بعدی برید</h6>
       </v-col>
     </v-row>
     <v-form ref="form" v-model="valid">
-      <div v-show="counter>=0" id="line1">
+      <div v-show="counter >= 0" id="line1">
         <v-text-field
           label="متن اول"
           outlined
@@ -68,9 +68,9 @@
         </v-row>
       </div>
 
-      <v-divider v-show="counter>=1" class="my-5"></v-divider>
+      <v-divider v-show="counter >= 1" class="my-5"></v-divider>
 
-      <div v-show="counter>=1" id="line2">
+      <div v-show="counter >= 1" id="line2">
         <v-text-field
           label="متن اول"
           outlined
@@ -129,9 +129,9 @@
         </v-row>
       </div>
 
-      <v-divider v-show="counter>=2" class="my-5"></v-divider>
+      <v-divider v-show="counter >= 2" class="my-5"></v-divider>
 
-      <div v-show="counter>=2" id="line3">
+      <div v-show="counter >= 2" id="line3">
         <v-text-field
           label="متن اول"
           outlined
@@ -193,14 +193,14 @@
       <v-row>
         <v-col cols="12">
           <v-btn
-          class="ml-5 float-left"
+            class="ml-5 float-left"
             color="secondary"
             @click="
               () => {
                 counter == 2 ? '' : counter++;
               }
             "
-            :disabled="counter===2"
+            :disabled="counter === 2"
             >افزودن پاراگراف</v-btn
           >
           <v-btn
@@ -211,7 +211,7 @@
                 counter == 0 ? '' : counter--;
               }
             "
-            :disabled="counter==0"
+            :disabled="counter == 0"
             >حذف پاراگراف</v-btn
           >
         </v-col>
@@ -235,12 +235,12 @@
         </v-col>
       </v-row>
     </v-form>
-    <Loading :isLoading="loading"/>
+    <Loading :isLoading="loading" />
   </div>
 </template>
 
 <script>
-import Loading from '@/components/Loading';
+import Loading from "@/components/Loading";
 
 export default {
   name: "star-text",
@@ -285,7 +285,6 @@ export default {
         line2: this.line2,
         line3: this.line3,
       });
-      console.log(this.$store.state.starmap);
       this.axios
         .post("/api/starmap", this.$store.state.starmap)
         .then((response) => {

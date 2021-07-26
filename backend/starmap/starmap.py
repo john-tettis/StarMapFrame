@@ -206,6 +206,8 @@ parser.add_argument('-bgOpacity', '--bgOpacity', type=int, default=bg_opacity)
 
 parser.add_argument('-heart', '--heart', type=str, default=is_heart)
 
+parser.add_argument('-qrCode', '--qrCode', type=str, default="")
+
 
 args = parser.parse_args()
 
@@ -233,6 +235,8 @@ line3 = args.line3
 
 is_heart = args.heart
 bg_opacity = args.bgOpacity
+
+qrCode = args.qrCode
 
 fontFamily1 = args.fontFamily1
 fontSize1 = args.fontSize1
@@ -527,6 +531,9 @@ if __name__ == '__main__':
 
     if is_heart == "True":
         image.add(image.image(href="http://localhost:5000/download/heart.png", size=("100%", "100%"), insert=(0, -80)))
+    
+    if qrCode.strip():
+        image.add(image.image(href=qrCode, size=("64px", "64px"), insert=("170mm", str(height-25)+'mm')))
 
     # Custom User Text
     image.add(image.text(line1, insert=("100mm", str(height-60)+"mm"), fill=line_color, style=line1Style))

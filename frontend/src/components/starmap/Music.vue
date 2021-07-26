@@ -5,7 +5,9 @@
         <h2 class="mb-5">موزیک دلخواه خود را بیافزایید</h2>
       </v-col>
       <v-col cols="6">
-        <h6 class="text-left">اگر مایل به افزودن QR کد نیستید وارد مرحله‌ی بعدی شوید</h6>
+        <h6 class="text-left">
+          اگر مایل به افزودن QR کد نیستید وارد مرحله‌ی بعدی شوید
+        </h6>
       </v-col>
     </v-row>
     <v-form ref="form" v-model="valid">
@@ -56,14 +58,21 @@
         </v-col>
       </v-row>
     </v-form>
+    <Loading :isLoading="loading" />
   </div>
 </template>
 
 <script>
+import Loading from '@/components/Loading';
+
 export default {
   name: "star-music",
+  components:{
+    Loading,
+  },
   data() {
     return {
+      loading: false,
       valid: false,
       mp3: [],
       cover: [],
@@ -73,12 +82,14 @@ export default {
   },
   methods: {
     uploadMusic() {
+      this.loading = true;
       const formData = new FormData();
       formData.append("music", this.mp3);
       formData.append("cover", this.cover);
       formData.append("singer", this.singer);
       formData.append("name", this.name);
       formData.append("description", "");
+      formData.append("password", "respina1234");
       this.axios
         .post("https://respina.store/player/uploader.php", formData, {
           headers: {
@@ -88,7 +99,25 @@ export default {
         .then((response) => {
           if (response.data.result) {
             this.$store.commit("setMusic", { qr: response.data.details.qr });
-            console.log(response.data.details.qr);
+            setTimeout(() => {
+              this.axios
+                .post("/api/starmap", this.$store.state.starmap)
+                .then((response) => {
+                  if (response.data.result) {
+                    this.$store.commit(
+                      "setImage",
+                      response.data.path + `?${Date.now()}`
+                    );
+                  }
+                  this.loading = false;
+                })
+                .catch((error) => {
+                  this.loading = false;
+                  console.log(error);
+                });
+            }, 500);
+          } else {
+            alert("something wrong happend");
           }
         });
     },

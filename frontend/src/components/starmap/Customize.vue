@@ -198,7 +198,6 @@ export default {
         constellation: this.showConstellation,
         constellationText: this.showConstellationText,
       });
-      console.log(this.frameValue);
       setTimeout(() => {
         this.axios
           .post("/api/starmap", this.$store.state.starmap)
