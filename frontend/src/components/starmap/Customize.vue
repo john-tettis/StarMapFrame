@@ -29,7 +29,6 @@
             readonly
             hide-details
             :value="bgValue"
-            @change="updateStar"
             v-on="on"
             outlined
             dense
@@ -37,7 +36,16 @@
           ></v-text-field>
         </template>
 
-        <v-color-picker v-model="bgValue" no-title></v-color-picker>
+        <v-color-picker
+          show-swatches
+          hide-canvas
+          hide-sliders
+          hide-inputs
+          :swatches="swatches"
+          v-model="bgValue"
+          @input="updateStar"
+          no-title
+        ></v-color-picker>
       </v-menu>
 
       <p>رنگ قاب</p>
@@ -100,7 +108,12 @@
         </v-col>
         <v-col cols="6">
           <v-switch
-            @click="()=>{updateStar(); showConstellation ? '' : showConstellationText=false}"
+            @click="
+              () => {
+                updateStar();
+                showConstellation ? '' : (showConstellationText = false);
+              }
+            "
             v-model="showConstellation"
             inset
             label="صور فلکی"
@@ -137,14 +150,21 @@
         </v-col>
       </v-row>
     </v-form>
+    <Loading :isLoading="loading" />
   </div>
 </template>
 
 <script>
+import Loading from "@/components/Loading";
+
 export default {
   name: "star-customize",
+  components: {
+    Loading,
+  },
   data() {
     return {
+      loading: false,
       valid: true,
       bgValue: "#000000",
       bgMenu: false,
@@ -168,6 +188,7 @@ export default {
   },
   methods: {
     updateStar() {
+      this.loading = true;
       this.$store.commit("setCustomize", {
         size: this.radioGroup,
         background: this.bgValue,
@@ -177,7 +198,7 @@ export default {
         constellation: this.showConstellation,
         constellationText: this.showConstellationText,
       });
-      console.log(this.frameValue)
+      console.log(this.frameValue);
       setTimeout(() => {
         this.axios
           .post("/api/starmap", this.$store.state.starmap)
@@ -188,8 +209,10 @@ export default {
                 response.data.path + `?${Date.now()}`
               );
             }
+            this.loading = false;
           })
           .catch((error) => {
+            this.loading = false;
             console.log(error);
           });
       }, 500);
@@ -197,4 +220,3 @@ export default {
   },
 };
 </script>
-

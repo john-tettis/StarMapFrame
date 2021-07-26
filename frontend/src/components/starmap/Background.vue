@@ -87,7 +87,14 @@
             />
           </v-col>
           <v-col cols="4">
-            <v-box @click="sampleImg=false;customImg=true" style="max-width:100%;height:115px" class="d-flex justify-center align-center bg-dark">
+            <v-box
+              @click="
+                sampleImg = false;
+                customImg = true;
+              "
+              style="max-width:100%;height:115px;cursor:pointer"
+              class="d-flex justify-center align-center bg-dark"
+            >
               <span class="white--text">افزودن عکس دلخواه</span>
             </v-box>
           </v-col>
@@ -136,7 +143,13 @@
           <v-btn color="primary" class="float-left" @click="uploadBg"
             >ثبت عکس</v-btn
           >
-          <v-btn color="secondary" class="float-left ml-2" @click="customImg=false;sampleImg=true;"
+          <v-btn
+            color="secondary"
+            class="float-left ml-2"
+            @click="
+              customImg = false;
+              sampleImg = true;
+            "
             >استفاده از عکس های آماده</v-btn
           >
         </v-form>
@@ -155,14 +168,22 @@
         <v-btn color="primary" block>ثبت سفارش</v-btn>
       </v-col>
     </v-row>
+
+    <Loading :isLoading="loading" />
   </div>
 </template>
 
 <script>
+import Loading from "@/components/Loading.vue";
+
 export default {
   name: "star-background",
+  components: {
+    Loading,
+  },
   data() {
     return {
+      loading: false,
       valid: true,
       shape: false,
       haveBg: false,
@@ -188,7 +209,7 @@ export default {
         y: -50,
         opacity: this.opacity,
       });
-
+      this.loading = true;
       setTimeout(() => {
         this.axios
           .post("/api/starmap", this.$store.state.starmap)
@@ -199,8 +220,10 @@ export default {
                 response.data.path + `?${Date.now()}`
               );
             }
+            this.loading = false;
           })
           .catch((error) => {
+            this.loading = false;
             console.log(error);
           });
       }, 500);
@@ -208,6 +231,8 @@ export default {
     uploadBg() {
       const formData = new FormData();
       formData.append("bg", this.bg);
+      this.loading = true;
+
       this.axios
         .post("/api/uploadBackground", formData, {
           headers: {
@@ -233,8 +258,10 @@ export default {
                       response.data.path + `?${Date.now()}`
                     );
                   }
+                  this.loading = false;
                 })
                 .catch((error) => {
+                  this.loading = false;
                   console.log(error);
                 });
             }, 500);
@@ -242,6 +269,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          this.loading = false;
         });
     },
     disableBg() {
@@ -252,6 +280,7 @@ export default {
           y: 0,
           opacity: this.opacity,
         });
+        this.loading = true;
         setTimeout(() => {
           this.axios
             .post("/api/starmap", this.$store.state.starmap)
@@ -262,14 +291,17 @@ export default {
                   response.data.path + `?${Date.now()}`
                 );
               }
+              this.loading = false;
             })
             .catch((error) => {
               console.log(error);
+              this.loading = false;
             });
         }, 500);
       }
     },
     changeShape() {
+      this.loading = true;
       this.$store.commit("setShape", this.shape);
       setTimeout(() => {
         this.axios
@@ -280,10 +312,12 @@ export default {
                 "setImage",
                 response.data.path + `?${Date.now()}`
               );
+              this.loading = false;
             }
           })
           .catch((error) => {
             console.log(error);
+            this.loading = false;
           });
       }, 500);
     },
