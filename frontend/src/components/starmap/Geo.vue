@@ -37,7 +37,6 @@
         </template>
 
         <v-date-picker
-          locale="fa-ir"
           v-model="dateValue"
           no-title
           @input="dateMenu = false"

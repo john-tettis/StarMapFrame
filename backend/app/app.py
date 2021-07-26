@@ -57,7 +57,7 @@ def config_creator(data):
             conf += f" -fontColor3 \"{data['text']['line3']['color']}\""
 
     if 'music' in data:
-        conf += f" -qrCode {data['music']['qr']}"
+        conf += f" -qrCode \"{data['music']['qr']}\""
 
     # Customize Options
     if 'customize' in data:

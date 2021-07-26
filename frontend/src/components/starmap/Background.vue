@@ -87,7 +87,7 @@
             />
           </v-col>
           <v-col cols="4">
-            <v-box
+            <div
               @click="
                 sampleImg = false;
                 customImg = true;
@@ -96,7 +96,7 @@
               class="d-flex justify-center align-center bg-dark"
             >
               <span class="white--text">افزودن عکس دلخواه</span>
-            </v-box>
+            </div>
           </v-col>
         </v-row>
         <v-row>
@@ -165,7 +165,7 @@
         >
       </v-col>
       <v-col cols="6">
-        <v-btn color="primary" block>ثبت سفارش</v-btn>
+        <v-btn @click="checkout" color="primary" block>ثبت سفارش</v-btn>
       </v-col>
     </v-row>
 
@@ -193,6 +193,7 @@ export default {
       uploadedBg: "",
       uploadedBgOpacity: 40,
       sampleImg: true,
+      customImg: false,
     };
   },
   methods: {
@@ -367,6 +368,10 @@ export default {
           });
       }, 500);
     },
+    checkout(){
+      alert("DONE!")
+      console.log(this.$store.state.starmap)
+    }
   },
 };
 </script>

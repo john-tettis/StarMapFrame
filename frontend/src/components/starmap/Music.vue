@@ -10,7 +10,12 @@
         </h6>
       </v-col>
     </v-row>
-    <v-form ref="form" v-model="valid">
+    <v-switch
+      v-model="wantMusic"
+      inset
+      :label="haveBg ? `آره میخوام` : `نه نمیخوام`"
+    ></v-switch>
+    <v-form v-if="wantMusic" ref="form" v-model="valid">
       <v-file-input
         v-model="mp3"
         :show-size="1000"
@@ -41,7 +46,8 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-row>
+    </v-form>
+    <v-row>
         <v-col cols="6">
           <v-btn
             @click="$emit('update:stepper', 2)"
@@ -57,21 +63,22 @@
           >
         </v-col>
       </v-row>
-    </v-form>
+      
     <Loading :isLoading="loading" />
   </div>
 </template>
 
 <script>
-import Loading from '@/components/Loading';
+import Loading from "@/components/Loading";
 
 export default {
   name: "star-music",
-  components:{
+  components: {
     Loading,
   },
   data() {
     return {
+      wantMusic: false,
       loading: false,
       valid: false,
       mp3: [],
