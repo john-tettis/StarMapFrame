@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app color="dark" dark>
       <div class="d-flex align-center">
-        <img src="@/assets/logo.png" alt="logo" width="32" />
+        <img src="@/assets/logo.png" alt="logo" width="72" />
       </div>
 
       <v-spacer></v-spacer>

@@ -517,7 +517,10 @@ if __name__ == '__main__':
     # Background
     image.add(image.rect(insert=(0, 0), size=('100%', '100%'),
               rx=None, ry=None, fill=background_color))
-
+    
+    # Watermark
+    image.add(image.image(href="http://localhost:5000/download/watermark.png", size=("100%", "100%"), opacity=".10"))
+    
     # Stars generation
     generate_starmap(northern, eastern, date, time)
     if constellation:
