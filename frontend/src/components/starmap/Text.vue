@@ -1,8 +1,15 @@
 <template>
   <div>
-    <h2 class="mb-5">متن دلخواه خود را بنویسید</h2>
+    <v-row align="baseline">
+      <v-col cols="6">
+        <h2 class="mb-5">متن دلخواه خود را بنویسید</h2>
+      </v-col>
+      <v-col cols="6">
+         <h6 class="text-left">اگر متن دلخواهی ندارید به مرحله‌ی بعدی برید</h6>
+      </v-col>
+    </v-row>
     <v-form ref="form" v-model="valid">
-      <div id="line1">
+      <div v-show="counter>=0" id="line1">
         <v-text-field
           label="متن اول"
           outlined
@@ -61,9 +68,9 @@
         </v-row>
       </div>
 
-      <v-divider class="my-5"></v-divider>
+      <v-divider v-show="counter>=1" class="my-5"></v-divider>
 
-      <div id="line2">
+      <div v-show="counter>=1" id="line2">
         <v-text-field
           label="متن اول"
           outlined
@@ -122,9 +129,9 @@
         </v-row>
       </div>
 
-      <v-divider class="my-5"></v-divider>
+      <v-divider v-show="counter>=2" class="my-5"></v-divider>
 
-      <div id="line3">
+      <div v-show="counter>=2" id="line3">
         <v-text-field
           label="متن اول"
           outlined
@@ -182,6 +189,34 @@
           </v-col>
         </v-row>
       </div>
+
+      <v-row>
+        <v-col cols="12">
+          <v-btn
+          class="ml-5 float-left"
+            color="secondary"
+            @click="
+              () => {
+                counter == 2 ? '' : counter++;
+              }
+            "
+            :disabled="counter===2"
+            >افزودن پاراگراف</v-btn
+          >
+          <v-btn
+            color="secondary"
+            outlined
+            @click="
+              () => {
+                counter == 0 ? '' : counter--;
+              }
+            "
+            :disabled="counter==0"
+            >حذف پاراگراف</v-btn
+          >
+        </v-col>
+      </v-row>
+
       <v-row>
         <v-col cols="6">
           <v-btn
@@ -217,21 +252,22 @@ export default {
         value: "",
         size: "42",
         font: "Roboto",
-        color: "#FFFFFF"
+        color: "#FFFFFF",
       },
       line2: {
         value: "",
         size: "42",
         font: "Roboto",
-        color: "#FFFFFF"
+        color: "#FFFFFF",
       },
       line3: {
         value: "",
         size: "42",
         font: "Roboto",
-        color: "#FFFFFF"
+        color: "#FFFFFF",
       },
       availableFonts: [],
+      counter: 0,
     };
   },
   methods: {

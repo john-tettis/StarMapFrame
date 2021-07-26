@@ -1,6 +1,13 @@
 <template>
   <div>
-    <h2>موزیک دلخواه خود را آپلود کنید</h2>
+    <v-row align="baseline">
+      <v-col cols="6">
+        <h2 class="mb-5">موزیک دلخواه خود را بیافزایید</h2>
+      </v-col>
+      <v-col cols="6">
+        <h6 class="text-left">اگر مایل به افزودن QR کد نیستید وارد مرحله‌ی بعدی شوید</h6>
+      </v-col>
+    </v-row>
     <v-form ref="form" v-model="valid">
       <v-file-input
         v-model="mp3"
@@ -72,16 +79,18 @@ export default {
       formData.append("singer", this.singer);
       formData.append("name", this.name);
       formData.append("description", "");
-      this.axios.post("https://respina.store/player/uploader.php", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }).then(response=>{
-        if(response.data.result){
-          this.$store.commit('setMusic', {qr: response.data.details.qr})
-          console.log(response.data.details.qr)
-        }
-      });
+      this.axios
+        .post("https://respina.store/player/uploader.php", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          if (response.data.result) {
+            this.$store.commit("setMusic", { qr: response.data.details.qr });
+            console.log(response.data.details.qr);
+          }
+        });
     },
   },
 };

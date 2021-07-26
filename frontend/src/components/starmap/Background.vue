@@ -20,83 +20,78 @@
       </v-col>
     </v-row>
     <div v-if="haveBg">
-      <v-row>
-        <v-col cols="4">
-          <img
-            style="max-width:100%"
-            @click="selectImage($event)"
-            src="https://picsum.photos/id/11/500/300"
-            alt="image"
-          />
-        </v-col>
-        <v-col cols="4">
-          <img
-            style="max-width:100%"
-            @click="selectImage($event)"
-            src="https://picsum.photos/id/11/500/300"
-            alt="image"
-          />
-        </v-col>
-        <v-col cols="4">
-          <img
-            style="max-width:100%"
-            @click="selectImage($event)"
-            src="https://picsum.photos/510/300?random"
-            alt="image"
-          />
-        </v-col>
-        <v-col cols="4">
-          <img
-            style="max-width:100%"
-            @click="selectImage($event)"
-            src="https://picsum.photos/id/11/500/300"
-            alt="image"
-          />
-        </v-col>
-        <v-col cols="4">
-          <img
-            style="max-width:100%"
-            @click="selectImage($event)"
-            src="https://picsum.photos/id/11/500/300"
-            alt="image"
-          />
-        </v-col>
-        <v-col cols="4">
-          <img
-            style="max-width:100%"
-            @click="selectImage($event)"
-            src="https://picsum.photos/510/300?random"
-            alt="image"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <p>شفافیت</p>
-          <v-slider
-            hint="شفافیت تصویر"
-            max="100"
-            min="0"
-            thumb-label="always"
-            v-model="opacity"
-            @change="updateOpacity"
-          ></v-slider>
-        </v-col>
-      </v-row>
-
-      <v-divider class="my-5"></v-divider>
-
-      <h2>از این عکسا خوشت نمیاد؟</h2>
-      <h3>یکی از عکسای خودتو آپلود کن</h3>
-      <v-form class="mb-15">
-        <v-file-input
-          v-model="bg"
-          accept="image/*"
-          label="آپلود عکس"
-          outlined
-          dense
-        ></v-file-input>
-
+      <div v-if="sampleImg">
+        <v-row>
+          <v-col cols="4">
+            <img
+              style="max-width:100%"
+              @click="selectImage($event)"
+              src="https://picsum.photos/id/11/500/300"
+              alt="image"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              style="max-width:100%"
+              @click="selectImage($event)"
+              src="https://picsum.photos/id/11/500/300"
+              alt="image"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              style="max-width:100%"
+              @click="selectImage($event)"
+              src="https://picsum.photos/510/300?random"
+              alt="image"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              style="max-width:100%"
+              @click="selectImage($event)"
+              src="https://picsum.photos/id/11/500/300"
+              alt="image"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              style="max-width:100%"
+              @click="selectImage($event)"
+              src="https://picsum.photos/id/11/500/300"
+              alt="image"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              style="max-width:100%"
+              @click="selectImage($event)"
+              src="https://picsum.photos/510/300?random"
+              alt="image"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              style="max-width:100%"
+              @click="selectImage($event)"
+              src="https://picsum.photos/id/11/500/300"
+              alt="image"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              style="max-width:100%"
+              @click="selectImage($event)"
+              src="https://picsum.photos/510/300?random"
+              alt="image"
+            />
+          </v-col>
+          <v-col cols="4">
+            <v-box @click="sampleImg=false;customImg=true" style="max-width:100%;height:115px" class="d-flex justify-center align-center bg-dark">
+              <span class="white--text">افزودن عکس دلخواه</span>
+            </v-box>
+          </v-col>
+        </v-row>
         <v-row>
           <v-col cols="12">
             <p>شفافیت</p>
@@ -105,16 +100,47 @@
               max="100"
               min="0"
               thumb-label="always"
-              v-model="uploadedBgOpacity"
-              @change="updateUploadedBgOpacity"
+              v-model="opacity"
+              @change="updateOpacity"
             ></v-slider>
           </v-col>
         </v-row>
+      </div>
 
-        <v-btn color="primary" class="float-left" @click="uploadBg"
-          >ثبت عکس</v-btn
-        >
-      </v-form>
+      <div v-if="customImg">
+        <h2>از این عکسا خوشت نمیاد؟</h2>
+        <h3>یکی از عکسای خودتو آپلود کن</h3>
+        <v-form class="mb-15">
+          <v-file-input
+            v-model="bg"
+            accept="image/*"
+            label="آپلود عکس"
+            outlined
+            dense
+          ></v-file-input>
+
+          <v-row>
+            <v-col cols="12">
+              <p>شفافیت</p>
+              <v-slider
+                hint="شفافیت تصویر"
+                max="100"
+                min="0"
+                thumb-label="always"
+                v-model="uploadedBgOpacity"
+                @change="updateUploadedBgOpacity"
+              ></v-slider>
+            </v-col>
+          </v-row>
+
+          <v-btn color="primary" class="float-left" @click="uploadBg"
+            >ثبت عکس</v-btn
+          >
+          <v-btn color="secondary" class="float-left ml-2" @click="customImg=false;sampleImg=true;"
+            >استفاده از عکس های آماده</v-btn
+          >
+        </v-form>
+      </div>
     </div>
     <v-divider class="my-5"></v-divider>
     <h3>تمامی شخصی سازی ها انجام شد</h3>
@@ -145,6 +171,7 @@ export default {
       bg: [],
       uploadedBg: "",
       uploadedBgOpacity: 40,
+      sampleImg: true,
     };
   },
   methods: {
