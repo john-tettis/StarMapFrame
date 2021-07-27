@@ -216,6 +216,7 @@ def delete_orders(id):
     rows = c.fetchall()
     if len(rows) > 0:
         c.execute(f"DELETE FROM orders where id={id}")
+        db.commit()
         return jsonify(result=True, message="successfully deleted")
     else:
         return jsonify(result=False, message="there is no order with that id")

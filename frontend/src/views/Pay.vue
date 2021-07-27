@@ -58,7 +58,7 @@
                 label="کدپستی"
               />
               <v-btn @click="addOrder" color="primary" block>
-                  ارسال به درگاه پرداخت
+                ارسال به درگاه پرداخت
               </v-btn>
             </v-form>
           </v-card-text>
@@ -98,25 +98,39 @@ export default {
         (item) => this.payment.province === item.province_id
       );
     },
-    addOrder(){
+    addOrder() {
       const product = JSON.parse(localStorage.getItem("product"));
       const data = {
-        "product": product,
-        "name": this.payment.name,
-        "mobile": this.payment.mobile,
-        "address": this.payment.address,
-        "province": this.payment.province,
-        "city": this.payment.city,
-        "post": this.payment.post,
-        "is_paid": 0,
-        "is_deliverd": 0,
-      }
-      this.axios.post("http://localhost:5000/orders", data).then(response=>{
-        if(response.status === 200){
-          alert("done")
-        }
-      })
-    }
+        product: product,
+        name: this.payment.name,
+        mobile: this.payment.mobile,
+        address: this.payment.address,
+        province: this.payment.province,
+        city: this.payment.city,
+        post: this.payment.post,
+        is_paid: 0,
+        is_deliverd: 0,
+      };
+      this.axios
+        .post("http://localhost:5000/orders", data)
+        .then(async (response) => {
+          if (response.status === 200 && response.data.result) {
+            const API = "test";
+            const amount = "100000";
+            const redirect = "http://localhost:8080/verify";
+            const res = await this.axios.post("https://pay.ir/pg/send ", {
+              api: API,
+              amount: amount,
+              redirect: redirect,
+            });
+            if (res.data.status === 1) {
+              const token = res.data.token;
+              localStorage.setItem("payment_token", token);
+              window.location.replace(`https://pay.ir/pg/${token}`);
+            }
+          }
+        });
+    },
   },
 };
 </script>

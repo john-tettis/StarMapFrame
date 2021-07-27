@@ -148,8 +148,8 @@ export default {
           elm.province = provinces.filter(
             (item) => item.id === parseInt(elm.province)
           )[0].name;
-          this.loading = false;
         });
+        this.loading = false;
       });
     },
     deleteOrder(id) {

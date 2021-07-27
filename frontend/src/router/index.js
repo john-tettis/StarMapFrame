@@ -5,6 +5,8 @@ import Builder from '@/views/Builder'
 import Pay from '@/views/Pay'
 import Admin from '@/views/Admin'
 import Login from '@/views/Login'
+import Verify from '@/views/Verify'
+
 
 Vue.use(VueRouter)
 
@@ -32,6 +34,15 @@ const routes = [{
     path: "/login",
     name: "Login",
     component: Login
+  },
+  {
+    path: "/verify",
+    name: "verify",
+    component: Verify,
+    props: (route) => ({
+      status: route.query.status,
+      token: route.query.token
+    })
   }
 ]
 
