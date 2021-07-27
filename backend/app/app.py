@@ -1,8 +1,10 @@
 import os
 import sqlite3
-from sqlite3.dbapi2 import Error
+from bcrypt import checkpw, kdf, gensalt, hashpw
+from sqlite3.dbapi2 import Error, OperationalError
 from PIL import ImageColor
 from datetime import datetime
+import bcrypt
 from flask import Flask, json, jsonify, request, send_file
 from flask_cors import CORS
 
@@ -28,6 +30,14 @@ product text NOT NULL
 );
 """
 
+USERS_TBL = """CREATE TABLE IF NOT EXISTS users (
+id integer PRIMARY KEY,
+name text NOT NULL,
+username text NOT NULL UNIQUE,
+password text NOT NULL
+);
+"""
+
 
 def get_db():
     db = getattr(app, '_database', None)
@@ -36,6 +46,7 @@ def get_db():
         try:
             c = db.cursor()
             c.execute(ORDERS_TBL)
+            c.execute(USERS_TBL)
         except Error as e:
             print(e)
     return db
@@ -125,7 +136,7 @@ def config_creator(data):
 @app.route("/starmap", methods=['POST'])
 def starmap():
     content = request.json
-    
+
     if 'paint' in content:
         try:
             os.system(config_creator(content))
@@ -177,7 +188,7 @@ def fontsList():
 def index():
     return "Index"
 
-
+# Orders
 @app.route("/orders", methods=['GET', 'POST'])
 def orders():
     db = get_db()
@@ -197,7 +208,6 @@ def orders():
                           [1], "mobile": rows[item][2], "address": rows[item][3], "province": rows[item][4], "city": rows[item][5], "post": rows[item][6], "is_paid": rows[item][7], "is_deliverd": rows[item][8], "product": rows[item][9]}
 
         return jsonify(result=True, data=rows)
-
 @app.route("/orders/<id>", methods=["DELETE"])
 def delete_orders(id):
     db = get_db()
@@ -209,6 +219,43 @@ def delete_orders(id):
         return jsonify(result=True, message="successfully deleted")
     else:
         return jsonify(result=False, message="there is no order with that id")
+
+# Auth
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.json
+    username = data['username']
+    password = data['password'].encode("utf-8")
+    db = get_db()
+    c = db.cursor()
+    try:
+        c.execute(f'SELECT * FROM users WHERE username="{username}"')
+        row = c.fetchone()
+        if row & checkpw(password, row[3].encode('utf-8')):
+            return jsonify(result=True, message="logged in successfully")
+        else:
+            return jsonify(result=False, message="نام کاربری یا رمز عبور صحیح نیست...")
+    except OperationalError as e:
+        return jsonify(result=False, message="شما در رسپینا اکانت ندارید :(")
+
+
+@app.route("/register", methods=["POST"])
+def register():
+    data = request.json
+    name = data['name']
+    username = data['username']
+    password = data['password'].encode('utf-8')
+
+    db = get_db()
+    c = db.cursor()
+    try:
+        hashed = hashpw(password, gensalt(10))
+        c.execute(
+            f"INSERT INTO users (name, username, password) VALUES (\"{name}\", \"{username}\", \"{hashed}\")")
+        db.commit()
+        return jsonify(result=True, message="Succefully signed up")
+    except OperationalError as e:
+        return jsonify(result=False, message="خطایی عجیبی پیش اومده! لطفا بعدا تلاش کنید...", error=str(e))
 
 
 @app.route("/test", methods=['POST', 'GET'])

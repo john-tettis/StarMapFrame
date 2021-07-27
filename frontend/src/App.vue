@@ -1,6 +1,13 @@
 <template>
   <v-app>
-    <v-app-bar app color="dark" dark>
+    <v-app-bar
+      app
+      color="dark"
+      dark
+      :style="
+        $route.path === '/login' ? 'background: transparent !important' : ''
+      "
+    >
       <div class="d-flex align-center">
         <img src="@/assets/logo.png" alt="logo" width="72" />
       </div>
@@ -15,10 +22,17 @@
             ستاره ساز
           </router-link>
         </li>
+        <li>
+          <router-link class="white--text" to="/login">
+            ورود
+          </router-link>
+        </li>
       </ul>
     </v-app-bar>
 
-    <v-main>
+    <v-main
+      :style="$route.path === '/login' ? 'position:relative;top:-64px;' : ''"
+    >
       <router-view />
     </v-main>
   </v-app>
@@ -49,6 +63,7 @@ ul.navbar a {
   padding: 11px 25px;
   font-weight: bold;
   border-radius: 5px;
+  font-size: 12px;
 }
 ul.navbar a:hover {
   background-color: hsl(0, 0%, 20%);
