@@ -57,7 +57,7 @@
                 dense
                 label="کدپستی"
               />
-              <v-btn color="primary" block>
+              <v-btn @click="addOrder" color="primary" block>
                   ارسال به درگاه پرداخت
               </v-btn>
             </v-form>
@@ -98,6 +98,25 @@ export default {
         (item) => this.payment.province === item.province_id
       );
     },
+    addOrder(){
+      const product = JSON.parse(localStorage.getItem("product"));
+      const data = {
+        "product": product,
+        "name": this.payment.name,
+        "mobile": this.payment.mobile,
+        "address": this.payment.address,
+        "province": this.payment.province,
+        "city": this.payment.city,
+        "post": this.payment.post,
+        "is_paid": 0,
+        "is_deliverd": 0,
+      }
+      this.axios.post("http://localhost:5000/orders", data).then(response=>{
+        if(response.status === 200){
+          alert("done")
+        }
+      })
+    }
   },
 };
 </script>

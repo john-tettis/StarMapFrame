@@ -369,8 +369,8 @@ export default {
       }, 500);
     },
     checkout(){
-      alert("DONE!")
-      console.log(this.$store.state.starmap)
+      localStorage.setItem("product", JSON.stringify(this.$store.state.starmap))
+      this.$router.push("/pay")
     }
   },
 };

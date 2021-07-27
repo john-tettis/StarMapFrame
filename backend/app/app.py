@@ -1,7 +1,9 @@
 import os
+import sqlite3
+from sqlite3.dbapi2 import Error
 from PIL import ImageColor
 from datetime import datetime
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, json, jsonify, request, send_file
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -10,6 +12,33 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 HOST = "http://localhost:5000"
 PATH = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(PATH, 'db.sqlite3')
+
+ORDERS_TBL = """CREATE TABLE IF NOT EXISTS orders (
+id integer PRIMARY KEY,
+name text NOT NULL,
+mobile text NOT NULL,
+address text NOT NULL,
+province text NOT NULL,
+city text NOT NULL,
+post text NOT NULL,
+is_paid integer NOT NULL,
+is_deliverd integer NOT NULL,
+product text NOT NULL
+);
+"""
+
+
+def get_db():
+    db = getattr(app, '_database', None)
+    if db is None:
+        db = app._database = sqlite3.connect(DATABASE)
+        try:
+            c = db.cursor()
+            c.execute(ORDERS_TBL)
+        except Error as e:
+            print(e)
+    return db
 
 
 def config_creator(data):
@@ -26,7 +55,7 @@ def config_creator(data):
 
         if 'time' in data['geo']:
             conf += f" -time {data['geo']['time']}"
-    
+
     if 'background' in data:
         if 'bg' in data['background']:
             conf += f" -bg \"{data['background']['bg']}\""
@@ -96,7 +125,7 @@ def config_creator(data):
 @app.route("/starmap", methods=['POST'])
 def starmap():
     content = request.json
-
+    
     if 'paint' in content:
         try:
             os.system(config_creator(content))
@@ -122,12 +151,14 @@ def uploadBg():
     except OSError as e:
         return jsonify(result=False, message=str(e))
 
+
 @app.route('/backgrounds/<path>')
 def getBg(path):
     if os.path.exists(os.path.join(PATH, 'backgrounds/'+path)):
         return send_file("backgrounds/"+path, as_attachment=True)
     else:
         return jsonify(result=False, message="file not found")
+
 
 @app.route('/download/<path>')
 def downloadFile(path):
@@ -136,13 +167,48 @@ def downloadFile(path):
     else:
         return jsonify(result=False, message="file not found")
 
+
 @app.route('/fonts')
 def fontsList():
     return jsonify(result=True, fonts=['Anton', 'Dancing Script', 'Fuggles', 'Karla', 'Qahiri', 'Roboto', 'Roboto', 'Robot Salb', 'Kamran', 'Mikhak', 'Yekan'])
 
+
 @app.route("/")
 def index():
     return "Index"
+
+
+@app.route("/orders", methods=['GET', 'POST'])
+def orders():
+    db = get_db()
+    c = db.cursor()
+    if request.method == 'POST':
+        data = request.json
+        product = data['product']
+        c.execute(
+            f"INSERT INTO orders (name, mobile, address, province, city, post, is_paid, is_deliverd, product) VALUES (\"{data['name']}\", \"{data['mobile']}\", \"{data['address']}\", \"{data['province']}\", \"{data['city']}\", \"{data['post']}\", \"{data['is_paid']}\", \"{data['is_deliverd']}\", \"{product}\")")
+        db.commit()
+        return jsonify(result=True, message="inserted")
+    elif request.method == 'GET':
+        c.execute("SELECT * FROM orders")
+        rows = c.fetchall()
+        for item in range(len(rows)):
+            rows[item] = {"id": rows[item][0], "name": rows[item]
+                          [1], "mobile": rows[item][2], "address": rows[item][3], "province": rows[item][4], "city": rows[item][5], "post": rows[item][6], "is_paid": rows[item][7], "is_deliverd": rows[item][8], "product": rows[item][9]}
+
+        return jsonify(result=True, data=rows)
+
+@app.route("/orders/<id>", methods=["DELETE"])
+def delete_orders(id):
+    db = get_db()
+    c = db.cursor()
+    c.execute(f"SELECT * FROM orders where id={id}")
+    rows = c.fetchall()
+    if len(rows) > 0:
+        c.execute(f"DELETE FROM orders where id={id}")
+        return jsonify(result=True, message="successfully deleted")
+    else:
+        return jsonify(result=False, message="there is no order with that id")
 
 
 @app.route("/test", methods=['POST', 'GET'])

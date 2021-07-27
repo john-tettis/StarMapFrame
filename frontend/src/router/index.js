@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Builder from '@/views/Builder'
 import Pay from '@/views/Pay'
+import Admin from '@/views/Admin'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,10 @@ const routes = [
     path: '/pay',
     name: "Payment",
     component: Pay,
+  },{
+    path: '/admin',
+    name: "Admin",
+    component: Admin,
   }
 ]
 
