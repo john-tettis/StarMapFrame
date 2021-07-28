@@ -202,7 +202,7 @@ def orders():
         c.execute(
             f"INSERT INTO orders (name, mobile, address, province, city, post, is_paid, is_deliverd, product, amount) VALUES (\"{data['name']}\", \"{data['mobile']}\", \"{data['address']}\", \"{data['province']}\", \"{data['city']}\", \"{data['post']}\", \"{data['is_paid']}\", \"{data['is_deliverd']}\", \"{product}\", \"{data['amount']}\")")
         db.commit()
-        return jsonify(result=True, message="inserted")
+        return jsonify(result=True, message="inserted", id=c.lastrowid)
     elif request.method == 'GET':
         c.execute("SELECT * FROM orders")
         rows = c.fetchall()
@@ -223,6 +223,25 @@ def delete_orders(id):
         return jsonify(result=True, message="successfully deleted")
     else:
         return jsonify(result=False, message="there is no order with that id")
+@app.route("/orders/<id>", methods=["PUT"])
+def update_orders(id):
+    data = request.json
+    db = get_db()
+    c = db.cursor()
+
+    if 'updatePaymentStatus' in data:
+        try:
+            c.execute(f"SELECT * from orders WHERE id={id}")
+            row = c.fetchone()
+            if row:
+                c.execute(f"UPDATE orders SET is_paid=1 WHERE id={id}")
+                db.commit()
+                return jsonify(result=True, message="updated!")
+            else:
+                return jsonify(result=False, message="there is no order")
+        except OperationalError as e:
+            return jsonify(result=False, message="update status failed")
+
 
 # Auth
 @app.route("/login", methods=["POST"])

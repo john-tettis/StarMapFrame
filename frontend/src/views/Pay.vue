@@ -130,6 +130,8 @@ export default {
         .post("http://localhost:5000/orders", data)
         .then(async (response) => {
           if (response.status === 200 && response.data.result) {
+            localStorage.setItem("orderId", response.data.id);
+            alert(response.data.id)
             const API = "test";
             const redirect = "http://localhost:8080/verify";
             const res = await this.axios.post("https://pay.ir/pg/send ", {

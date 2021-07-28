@@ -43,7 +43,7 @@
             <span v-else>پرداخت شده</span>
           </template>
           <template v-slot:[`item.is_deliverd`]="{ item }">
-            <span v-if="parseInt(item.is_paid) === 0">تحویل نشده</span>
+            <span v-if="parseInt(item.is_deliverd) === 0">تحویل نشده</span>
             <span v-else>تحویل مشتری</span>
           </template>
           <template v-slot:[`item.starmap`]="{ item }">

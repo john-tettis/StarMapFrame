@@ -70,9 +70,15 @@ export default {
         token: localStorage.getItem("payment_token"),
       });
       if (res.status === 200 && res.data.status === 1) {
-        setTimeout(() => {
-          this.$router.push("/");
-        }, 60000);
+        this.axios
+          .put(`/api/orders/${localStorage.getItem("orderId")}`, {
+            updatePaymentStatus: true,
+          })
+          .then((response) => {
+            if (response.status === 200 && response.data.result) {
+              setTimeout(()=>{this.$router.push("/");}, 30000)
+            }
+          });
       } else {
         alert("تراکنش ثبت نشد");
       }
