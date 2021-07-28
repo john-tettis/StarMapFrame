@@ -249,23 +249,8 @@ export default {
               y: -50,
               opacity: this.opacity,
             });
-            setTimeout(() => {
-              this.axios
-                .post("/api/starmap", this.$store.state.starmap)
-                .then((response) => {
-                  if (response.data.result) {
-                    this.$store.commit(
-                      "setImage",
-                      response.data.path + `?${Date.now()}`
-                    );
-                  }
-                  this.loading = false;
-                })
-                .catch((error) => {
-                  this.loading = false;
-                  console.log(error);
-                });
-            }, 500);
+            this.$store.dispatch("getStarMap");
+            this.loading = false;
           }
         })
         .catch((error) => {
@@ -282,91 +267,37 @@ export default {
           opacity: this.opacity,
         });
         this.loading = true;
-        setTimeout(() => {
-          this.axios
-            .post("/api/starmap", this.$store.state.starmap)
-            .then((response) => {
-              if (response.data.result) {
-                this.$store.commit(
-                  "setImage",
-                  response.data.path + `?${Date.now()}`
-                );
-              }
-              this.loading = false;
-            })
-            .catch((error) => {
-              console.log(error);
-              this.loading = false;
-            });
-        }, 500);
+        this.$store.dispatch("getStarMap");
+        this.loading = false;
       }
     },
     changeShape() {
       this.loading = true;
       this.$store.commit("setShape", this.shape);
-      setTimeout(() => {
-        this.axios
-          .post("/api/starmap", this.$store.state.starmap)
-          .then((response) => {
-            if (response.data.result) {
-              this.$store.commit(
-                "setImage",
-                response.data.path + `?${Date.now()}`
-              );
-              this.loading = false;
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-            this.loading = false;
-          });
-      }, 500);
+      this.$store.dispatch("getStarMap");
+      this.loading = false;
     },
     updateOpacity() {
+      this.loading = true;
       this.$store.commit("setBg", {
         bg: this.selectedImage,
         x: 10,
         y: -50,
         opacity: this.opacity,
       });
-      setTimeout(() => {
-        this.axios
-          .post("/api/starmap", this.$store.state.starmap)
-          .then((response) => {
-            if (response.data.result) {
-              this.$store.commit(
-                "setImage",
-                response.data.path + `?${Date.now()}`
-              );
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }, 500);
+      this.$store.dispatch("getStarMap");
+      this.loading = false;
     },
     updateUploadedBgOpacity() {
+      this.loading = true;
       this.$store.commit("setBg", {
         bg: this.uploadedBg,
         x: 10,
         y: -50,
         opacity: this.uploadedBgOpacity,
       });
-      setTimeout(() => {
-        this.axios
-          .post("/api/starmap", this.$store.state.starmap)
-          .then((response) => {
-            if (response.data.result) {
-              this.$store.commit(
-                "setImage",
-                response.data.path + `?${Date.now()}`
-              );
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }, 500);
+      this.$store.dispatch("getStarMap");
+      this.loading = false;
     },
     checkout(){
       localStorage.setItem("product", JSON.stringify(this.$store.state.starmap))
