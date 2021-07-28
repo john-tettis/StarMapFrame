@@ -33,6 +33,11 @@
           :items-per-page="5"
           class="elevation-1"
         >
+          <template v-slot:[`item.amount`]="{ item }">
+            <span v-if="item.amount !== undefined">{{
+              parseInt(item.amount).toLocaleString()
+            }}</span>
+          </template>
           <template v-slot:[`item.is_paid`]="{ item }">
             <span v-if="parseInt(item.is_paid) === 0">پرداخت نشده</span>
             <span v-else>پرداخت شده</span>
@@ -118,6 +123,7 @@ export default {
     return {
       loading: false,
       headers: [
+        { text: "مبلغ (ریال)", value: "amount" },
         { text: "نام و نام خانوادگی", value: "name" },
         { text: "موبایل", value: "mobile" },
         { text: "استان", value: "province" },

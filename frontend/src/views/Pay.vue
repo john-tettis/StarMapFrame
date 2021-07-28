@@ -100,6 +100,19 @@ export default {
     },
     addOrder() {
       const product = JSON.parse(localStorage.getItem("product"));
+      let amount = ""
+      if(product.customize.size==="A2")
+        amount = 3500000
+      if(product.customize.size==="A3")
+        amount = 2800000
+      if(product.customize.size==="A4")
+        amount = 2000000
+      if(product.customize.size==="A5")
+        amount = 1600000
+      if(product.music.qr)
+        amount += 150000
+      if(product.background.bg)
+        amount += 150000
       const data = {
         product: product,
         name: this.payment.name,
@@ -108,15 +121,16 @@ export default {
         province: this.payment.province,
         city: this.payment.city,
         post: this.payment.post,
+        amount: amount,
         is_paid: 0,
         is_deliverd: 0,
       };
+      
       this.axios
         .post("http://localhost:5000/orders", data)
         .then(async (response) => {
           if (response.status === 200 && response.data.result) {
             const API = "test";
-            const amount = "100000";
             const redirect = "http://localhost:8080/verify";
             const res = await this.axios.post("https://pay.ir/pg/send ", {
               api: API,

@@ -26,7 +26,8 @@ city text NOT NULL,
 post text NOT NULL,
 is_paid integer NOT NULL,
 is_deliverd integer NOT NULL,
-product text NOT NULL
+product text NOT NULL,
+amount text NOT NULL
 );
 """
 
@@ -199,7 +200,7 @@ def orders():
         data = request.json
         product = data['product']
         c.execute(
-            f"INSERT INTO orders (name, mobile, address, province, city, post, is_paid, is_deliverd, product) VALUES (\"{data['name']}\", \"{data['mobile']}\", \"{data['address']}\", \"{data['province']}\", \"{data['city']}\", \"{data['post']}\", \"{data['is_paid']}\", \"{data['is_deliverd']}\", \"{product}\")")
+            f"INSERT INTO orders (name, mobile, address, province, city, post, is_paid, is_deliverd, product, amount) VALUES (\"{data['name']}\", \"{data['mobile']}\", \"{data['address']}\", \"{data['province']}\", \"{data['city']}\", \"{data['post']}\", \"{data['is_paid']}\", \"{data['is_deliverd']}\", \"{product}\", \"{data['amount']}\")")
         db.commit()
         return jsonify(result=True, message="inserted")
     elif request.method == 'GET':
@@ -207,7 +208,7 @@ def orders():
         rows = c.fetchall()
         for item in range(len(rows)):
             rows[item] = {"id": rows[item][0], "name": rows[item]
-                          [1], "mobile": rows[item][2], "address": rows[item][3], "province": rows[item][4], "city": rows[item][5], "post": rows[item][6], "is_paid": rows[item][7], "is_deliverd": rows[item][8], "product": rows[item][9]}
+                          [1], "mobile": rows[item][2], "address": rows[item][3], "province": rows[item][4], "city": rows[item][5], "post": rows[item][6], "is_paid": rows[item][7], "is_deliverd": rows[item][8], "product": rows[item][9], "amount": rows[item][10]}
 
         return jsonify(result=True, data=rows)
 @app.route("/orders/<id>", methods=["DELETE"])
