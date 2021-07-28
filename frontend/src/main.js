@@ -1,97 +1,119 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import vuetify from './plugins/vuetify'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import Vuex from 'vuex'
-import { v4 as uuidv4 } from 'uuid';
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import vuetify from "./plugins/vuetify";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import Vuex from "vuex";
+import {
+  v4 as uuidv4
+} from "uuid";
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
-Vue.use(VueAxios, axios)
-Vue.use(Vuex)
+Vue.use(VueAxios, axios);
+Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
     path: "",
-    starmap:{
-      "paint": true,
-      "shape": false,
-        "geo": {
-            "coordinate": '',
-            "date": '',
-            "time": '',
+    starmap: {
+      paint: true,
+      shape: false,
+      geo: {
+        coordinate: "",
+        date: "",
+        time: "",
+      },
+      text: {
+        line1: {
+          value: "",
+          font: "",
+          size: "42",
+          color: "#ffffff",
         },
-        "text": {
-            "line1": {
-                value: "",
-                font: "",
-                size: "42",
-                color: "#ffffff"
-            },
-            "line2": {
-                value: "",
-                font: "",
-                size: "42",
-                color: "#ffffff"
-            },
-            "line3": {
-                value: "",
-                font: "",
-                size: "42",
-                color: "#ffffff"
-            },
+        line2: {
+          value: "",
+          font: "",
+          size: "42",
+          color: "#ffffff",
         },
-        "music": {
-          "qr": "",
+        line3: {
+          value: "",
+          font: "",
+          size: "42",
+          color: "#ffffff",
         },
-        "background": {
-          "bg":"",
-          "x": "",
-          "y": "",
-          "opacity": 40,
-        },
-        "customize": {
-            "size": "A3",
-            "frame": "#212121",
-            "background": "#000000",
-            "dot": true,
-            "star": true,
-            "constellation": true,
-            "constellationText": true,
-        },
-        "filename": uuidv4() + ".svg"
-    }
+      },
+      music: {
+        qr: "",
+      },
+      background: {
+        bg: "",
+        x: "",
+        y: "",
+        opacity: 40,
+        wallpaper: "",
+      },
+      customize: {
+        size: "A3",
+        frame: "#212121",
+        background: "#000000",
+        dot: true,
+        star: true,
+        constellation: true,
+        constellationText: true,
+      },
+      filename: uuidv4() + ".svg",
+    },
   },
   mutations: {
-    setGeo(state, geo){
-      state.starmap.geo = geo
+    setGeo(state, geo) {
+      state.starmap.geo = geo;
     },
-    setText(state, text){
-      state.starmap.text = text
+    setText(state, text) {
+      state.starmap.text = text;
     },
-    setCustomize(state, customize){
-      state.starmap.customize = customize
+    setCustomize(state, customize) {
+      state.starmap.customize = customize;
     },
-    setMusic(state, music){
-      state.starmap.music = music
+    setMusic(state, music) {
+      state.starmap.music = music;
     },
-    setBg(state, bg){
-      state.starmap.background = bg
+    setBg(state, bg) {
+      state.starmap.background = bg;
     },
-    setImage(state, path){
-      state.path = path
+    setImage(state, path) {
+      state.path = path;
     },
-    setShape(state, shape){
-      state.starmap.shape = shape
-    }
-  }
-})
+    setShape(state, shape) {
+      state.starmap.shape = shape;
+    },
+    setWallpaper(state, wallpaper) {
+      state.starmap.background.wallpaper = wallpaper;
+    },
+  },
+  actions: {
+    async getStarMap(context) {
+      await setTimeout(() => {
+        axios
+          .post("/api/starmap", context.state.starmap)
+          .then((response) => {
+            if (response.data.result) {
+              context.commit("setImage", response.data.path + `?${Date.now()}`);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }, 500);
+    },
+  },
+});
 
 new Vue({
   router,
   vuetify,
   store,
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount("#app");

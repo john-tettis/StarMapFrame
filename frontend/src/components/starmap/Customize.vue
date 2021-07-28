@@ -12,160 +12,184 @@
 
       <v-divider class="my-5"></v-divider>
 
-      <div v-show="showWallpaper===false">
+      <div v-show="showWallpaper === false">
         <v-row align="baseline">
-        <v-col cols="6">
-          <p>رنگ بکگراند</p>
-        </v-col>
-        <v-col>
-          <p @click="showWallpaper=true" class="text-left" style="font-size:10px;cursor:pointer">یا میتونی عکس بندازی</p>
-        </v-col>
-      </v-row>
-      <v-menu
-        v-model="bgMenu"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        min-width="290px"
-        max-width="290px"
-      >
-        <template v-slot:activator="{ on }">
-          <v-text-field
-            label="رنگ"
-            prepend-inner-icon="mdi-palette"
-            readonly
-            hide-details
-            :value="bgValue"
-            v-on="on"
-            outlined
-            dense
-            class="mb-7"
-          ></v-text-field>
-        </template>
-
-        <v-color-picker
-          show-swatches
-          hide-canvas
-          hide-sliders
-          hide-inputs
-          :swatches="swatches"
-          v-model="bgValue"
-          @input="updateStar"
-          no-title
-        ></v-color-picker>
-      </v-menu>
-      </div>
-
-      <div v-show="showWallpaper===true">
-      <v-row align="baseline">
-        <v-col cols="6">
-            <p>عکس بکگراند</p>
-        </v-col>
-        <v-col cols="6">
-          <p @click="showWallpaper=false" class="text-left" style="font-size:10px;cursor:pointer">یا میتونی رنگ بندازی</p>
-        </v-col>
-      </v-row>
-      <v-container>
-        <v-row>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/1.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
+          <v-col cols="6">
+            <p>رنگ بکگراند</p>
           </v-col>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/2.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
-          </v-col>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/4.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
-          </v-col>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/5.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
-          </v-col>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/6.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
-          </v-col>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/7.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
-          </v-col>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/8.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
-          </v-col>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/9.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
-          </v-col>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/10.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
-          </v-col>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/11.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
-          </v-col>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/12.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
-          </v-col>
-          <v-col cols="4">
-            <img
-              src="@/assets/wallpapers/13.jpg"
-              alt="bg"
-              width="100%"
-              height="150"
-            />
+          <v-col>
+            <p
+              @click="showWallpaper = true"
+              class="text-left"
+              style="font-size:10px;cursor:pointer"
+            >
+              یا میتونی عکس بندازی
+            </p>
           </v-col>
         </v-row>
-      </v-container>
+        <v-menu
+          v-model="bgMenu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="290px"
+          max-width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              label="رنگ"
+              prepend-inner-icon="mdi-palette"
+              readonly
+              hide-details
+              :value="bgValue"
+              v-on="on"
+              outlined
+              dense
+              class="mb-7"
+            ></v-text-field>
+          </template>
+
+          <v-color-picker
+            show-swatches
+            hide-canvas
+            hide-sliders
+            hide-inputs
+            :swatches="swatches"
+            v-model="bgValue"
+            @input="updateStar"
+            no-title
+          ></v-color-picker>
+        </v-menu>
+      </div>
+
+      <div v-show="showWallpaper === true">
+        <v-row align="baseline">
+          <v-col cols="6">
+            <p>عکس بکگراند</p>
+          </v-col>
+          <v-col cols="6">
+            <p
+              @click="showWallpaper = false;$store.commit('setWallpaper', '');"
+              class="text-left"
+              style="font-size:10px;cursor:pointer"
+            >
+              یا میتونی رنگ بندازی
+            </p>
+          </v-col>
+        </v-row>
+        <v-container>
+          <v-row>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/1.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/2.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/4.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/5.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/6.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/7.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/8.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/9.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/10.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/11.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/12.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+            <v-col cols="4">
+              <img
+                class="wallpaper"
+                src="@/assets/wallpapers/13.jpg"
+                alt="bg"
+                width="100%"
+                height="150"
+              />
+            </v-col>
+          </v-row>
+        </v-container>
       </div>
 
       <p>رنگ قاب</p>
@@ -282,6 +306,21 @@ export default {
   components: {
     Loading,
   },
+  watch: {
+    showWallpaper: function() {
+      if (this.showWallpaper) {
+        const wallpapers = document.querySelectorAll(".wallpaper");
+        wallpapers.forEach((wallpaper) => {
+          wallpaper.addEventListener("click", () => {
+            wallpapers.forEach((item) => (item.style.border = ""));
+            wallpaper.style.border = "5px solid blue";
+            this.$store.commit("setWallpaper", wallpaper.src);
+            this.$store.dispatch("getStarMap");
+          });
+        });
+      }
+    },
+  },
   data() {
     return {
       showWallpaper: false,
@@ -319,23 +358,8 @@ export default {
         constellation: this.showConstellation,
         constellationText: this.showConstellationText,
       });
-      setTimeout(() => {
-        this.axios
-          .post("/api/starmap", this.$store.state.starmap)
-          .then((response) => {
-            if (response.data.result) {
-              this.$store.commit(
-                "setImage",
-                response.data.path + `?${Date.now()}`
-              );
-            }
-            this.loading = false;
-          })
-          .catch((error) => {
-            this.loading = false;
-            console.log(error);
-          });
-      }, 500);
+      this.$store.dispatch("getStarMap");
+      this.loading = false;
     },
   },
 };

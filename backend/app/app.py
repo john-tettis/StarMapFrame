@@ -76,6 +76,8 @@ def config_creator(data):
             conf += f" -bgPosY \"{data['background']['y']}\""
         if 'opacity' in data['background']:
             conf += f" -bgOpacity {data['background']['opacity']}"
+        if 'wallpaper' in data['background']:
+            conf += f" -wallpaper \"{data['background']['wallpaper']}\""
 
     if 'text' in data:
         if 'line1' in data['text'] and isinstance(data['text']['line1']['value'], str):

@@ -34,6 +34,8 @@ line_color = "rgb(255,255,255)"
 star_color = "rgb(255,255,255)"
 constellation_color = "rgb(255,255,255)"
 
+wallpaper = ""
+
 output_file = 'starmap.svg'
 
 #Date & Time
@@ -69,7 +71,7 @@ width = 200
 height = 275
 
 # empty space in left and right of the starmap
-borders = 30
+borders = 40
 
 
 def mm_to_px(mm):
@@ -204,6 +206,8 @@ parser.add_argument('-bg', '--bg', type=str, default=bg)
 parser.add_argument('-bgPosX', '--bgPosX', type=str, default=bg_x)
 parser.add_argument('-bgPosY', '--bgPosY', type=str, default=bg_y)
 parser.add_argument('-bgOpacity', '--bgOpacity', type=int, default=bg_opacity)
+parser.add_argument('-wallpaper', '--wallpaper', type=str, default=wallpaper)
+
 
 parser.add_argument('-heart', '--heart', type=str, default=is_heart)
 
@@ -225,6 +229,7 @@ summertime = args.summertime
 
 background_color = args.background
 background_color = f"rgb({background_color})"
+wallpaper = args.wallpaper
 
 constellationText = args.constellationText
 showDot = args.showDot
@@ -519,14 +524,19 @@ if __name__ == '__main__':
     image.add(image.rect(insert=(0, 0), size=('100%', '100%'),
               rx=None, ry=None, fill=background_color))
     
+    # Generate Wallpaper
+    if wallpaper:
+        image.add(image.image(href=wallpaper, size=("100%", "100%"), insert=(-200, 0), style="scale:2"))
+    
     # Watermark
-    image.add(image.image(href="http://localhost:5000/download/watermark.png", size=("100%", "100%"), opacity=".10"))
+    image.add(image.image(href="http://localhost:5000/download/watermark.png", size=("100%", "100%"), opacity=".05"))
     
     # Stars generation
     generate_starmap(northern, eastern, date, time)
     if constellation:
         generate_constellations(northern, eastern, date, time)
-    
+
+
     # Custom image
     if bg.strip():
         mask = image.defs.add(image.mask(id="bg_wrapper"))
