@@ -12,7 +12,15 @@
 
       <v-divider class="my-5"></v-divider>
 
-      <p>رنگ بکگراند</p>
+      <div v-show="showWallpaper===false">
+        <v-row align="baseline">
+        <v-col cols="6">
+          <p>رنگ بکگراند</p>
+        </v-col>
+        <v-col>
+          <p @click="showWallpaper=true" class="text-left" style="font-size:10px;cursor:pointer">یا میتونی عکس بندازی</p>
+        </v-col>
+      </v-row>
       <v-menu
         v-model="bgMenu"
         :close-on-content-click="false"
@@ -47,6 +55,118 @@
           no-title
         ></v-color-picker>
       </v-menu>
+      </div>
+
+      <div v-show="showWallpaper===true">
+      <v-row align="baseline">
+        <v-col cols="6">
+            <p>عکس بکگراند</p>
+        </v-col>
+        <v-col cols="6">
+          <p @click="showWallpaper=false" class="text-left" style="font-size:10px;cursor:pointer">یا میتونی رنگ بندازی</p>
+        </v-col>
+      </v-row>
+      <v-container>
+        <v-row>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/1.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/2.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/4.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/5.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/6.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/7.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/8.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/9.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/10.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/11.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/12.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+          <v-col cols="4">
+            <img
+              src="@/assets/wallpapers/13.jpg"
+              alt="bg"
+              width="100%"
+              height="150"
+            />
+          </v-col>
+        </v-row>
+      </v-container>
+      </div>
 
       <p>رنگ قاب</p>
       <v-menu
@@ -164,6 +284,7 @@ export default {
   },
   data() {
     return {
+      showWallpaper: false,
       loading: false,
       valid: true,
       bgValue: "#000000",
