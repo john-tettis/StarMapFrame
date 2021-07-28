@@ -123,6 +123,7 @@ export default {
     return {
       loading: false,
       headers: [
+        { text: "کد پیگیری", value: "tracking" },
         { text: "مبلغ (ریال)", value: "amount" },
         { text: "نام و نام خانوادگی", value: "name" },
         { text: "موبایل", value: "mobile" },

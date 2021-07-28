@@ -101,6 +101,8 @@ export default {
     addOrder() {
       const product = JSON.parse(localStorage.getItem("product"));
       let amount = ""
+      let tracking = Math.random().toString(36).substring(7);
+      localStorage.setItem("tracking", tracking);
       if(product.customize.size==="A2")
         amount = 3500000
       if(product.customize.size==="A3")
@@ -124,6 +126,7 @@ export default {
         amount: amount,
         is_paid: 0,
         is_deliverd: 0,
+        tracking: tracking
       };
       
       this.axios

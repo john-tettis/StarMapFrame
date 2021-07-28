@@ -7,8 +7,10 @@
             وضعیت:
             <span v-show="parseInt(status) === 1"
               >پرداخت موفقیت آمیز بود.
-              <v-icon color="green">mdi-check-decagram</v-icon></span
-            >
+              <v-icon color="green">mdi-check-decagram</v-icon>
+              <br>
+            <span>کد پیگیری {{tracking}}</span>
+            </span>
             <span v-show="parseInt(status) === null"
               >نمی‌دونم چه اتفاقی افتاده</span
             >
@@ -54,6 +56,11 @@ export default {
       default: null,
     },
   },
+  data(){
+    return{
+      tracking: "",
+    }
+  },
   methods: {
     getLocalToken() {
       const token = localStorage.getItem("payment_token");
@@ -62,8 +69,13 @@ export default {
       }
       return false;
     },
+    getTrackingCode(){
+      this.tracking = localStorage.getItem("tracking");
+    }
   },
   async created() {
+    this.getTrackingCode();
+
     if (parseInt(this.status) === 1 && this.getLocalToken()) {
       const res = await this.axios.post("https://pay.ir/pg/verify", {
         api: "test",
