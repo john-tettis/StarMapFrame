@@ -255,7 +255,7 @@ def login():
     try:
         c.execute(f'SELECT * FROM users WHERE username="{username}"')
         row = c.fetchone()
-        if row & checkpw(password, row[3].encode('utf-8')):
+        if row and checkpw(password, row[3]):
             return jsonify(result=True, message="logged in successfully")
         else:
             return jsonify(result=False, message="نام کاربری یا رمز عبور صحیح نیست...")
@@ -274,8 +274,8 @@ def register():
     c = db.cursor()
     try:
         hashed = hashpw(password, gensalt(10))
-        c.execute(
-            f"INSERT INTO users (name, username, password) VALUES (\"{name}\", \"{username}\", \"{hashed}\")")
+        query = "INSERT INTO users (name, username, password) VALUES (?, ?, ?)"
+        c.execute(query, (name, username, hashed))
         db.commit()
         return jsonify(result=True, message="Succefully signed up")
     except OperationalError as e:
