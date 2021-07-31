@@ -1,11 +1,9 @@
 import os
 import sqlite3
-from bcrypt import checkpw, kdf, gensalt, hashpw
+from bcrypt import checkpw, gensalt, hashpw
 from sqlite3.dbapi2 import Error, OperationalError
 from PIL import ImageColor
-from datetime import datetime
-import bcrypt
-from flask import Flask, json, jsonify, request, send_file
+from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 import secrets
 
@@ -245,30 +243,23 @@ def delete_orders(id):
         return jsonify(result=False, message="You are not authenticated")
 @app.route("/orders/<id>", methods=["PUT"])
 def update_orders(id):
-    cookies = request.cookies
     data = request.json
-    if 'token' in cookies:
-        db = get_db()
-        c = db.cursor()
-        c.execute(f"SELECT * FROM tokens where token=\"{cookies['token']}\"")
-        tokens = c.fetchall()
-        if len(tokens) > 0:
-            if 'updatePaymentStatus' in data:
-                try:
-                    c.execute(f"SELECT * from orders WHERE id={id}")
-                    row = c.fetchone()
-                    if row:
-                        c.execute(f"UPDATE orders SET is_paid=1 WHERE id={id}")
-                        db.commit()
-                        return jsonify(result=True, message="updated!")
-                    else:
-                        return jsonify(result=False, message="there is no order")
-                except OperationalError as e:
-                    return jsonify(result=False, message="update status failed")
-        else:
-            return jsonify(result=False, message="You are not authenticated")
+    db = get_db()
+    c = db.cursor()
+    if 'updatePaymentStatus' in data:
+        try:
+            c.execute(f"SELECT * from orders WHERE id={id}")
+            row = c.fetchone()
+            if row:
+                c.execute(f"UPDATE orders SET is_paid=1 WHERE id={id}")
+                db.commit()
+                return jsonify(result=True, message="updated!")
+            else:
+                return jsonify(result=False, message="there is no order")
+        except OperationalError as e:
+            return jsonify(result=False, message="update status failed")
     else:
-        return jsonify(result=False, message="You are not authenticated")
+        return jsonify(result=False)
 
 
 # Auth
