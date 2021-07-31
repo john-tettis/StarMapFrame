@@ -11,6 +11,8 @@ backend/app/backgrounds/*.png
 backend/app/backgrounds/*.jpg
 backend/app/backgrounds/*.jpeg
 
+backend/app/*.sqlite3
+
 
 node_modules/
 .cache/
