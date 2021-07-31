@@ -40,7 +40,9 @@
     <v-col cols="12" xl="5" lg="5" md="12" sm="12">
       <div
         id="frame"
-        :style="'border:10px solid' + $store.state.starmap.customize.frame + '; height: 540px;width:400px;margin:25px auto;border-radius:1px'"
+        :style="
+          'border:10px solid' + $store.state.starmap.customize.frame + ';'
+        "
       >
         <inline-svg
           style="scale: 0.509; position: relative; top: -260px;left: 188px;direction:ltr;z-index:0"
@@ -79,4 +81,22 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#frame {
+  height: 540px;
+  width: 400px;
+  margin: 25px auto;
+  border-radius: 1px;
+}
+@media screen and (max-width: 400px) {
+  #frame {
+    width: 100% !important;
+    height: 520px !important;
+  }
+  svg{
+    scale: 0.490 !important;
+    left: 205px !important;
+    top: -270px !important;
+  }
+}
+</style>
