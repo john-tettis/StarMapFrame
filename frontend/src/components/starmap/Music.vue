@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-row align="baseline">
-      <v-col cols="6">
-        <h2 class="mb-5">موزیک دلخواه خود را بیافزایید</h2>
+    <v-row align="baseline" class="mb-5">
+      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+        <h2>موزیک دلخواه خود را بیافزایید</h2>
       </v-col>
-      <v-col cols="6">
-        <h6 class="text-left">
+      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+        <h6 class="text-right">
           اگر مایل به افزودن QR کد نیستید وارد مرحله‌ی بعدی شوید
         </h6>
       </v-col>
@@ -13,7 +13,7 @@
     <v-switch
       v-model="wantMusic"
       inset
-      :label="haveBg ? `آره میخوام` : `نه نمیخوام`"
+      :label="wantMusic ? `آره میخوام` : `نه نمیخوام`"
     ></v-switch>
     <v-form v-if="wantMusic" ref="form" v-model="valid">
       <v-file-input
@@ -48,7 +48,7 @@
       </v-row>
     </v-form>
     <v-row>
-        <v-col cols="6">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-btn
             @click="$emit('update:stepper', 2)"
             color="error"
@@ -57,7 +57,7 @@
             >مرحله‌ی قبلی</v-btn
           >
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-btn color="primary" block @click="$emit('update:stepper', 4)"
             >مرحله‌ی بعدی</v-btn
           >

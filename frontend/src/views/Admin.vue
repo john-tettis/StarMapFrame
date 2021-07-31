@@ -3,12 +3,12 @@
     <v-row>
       <v-col>
         <v-row align="center" class="my-2">
-          <v-col cols="6">
+          <v-col cols="8">
             <h2>لیست سفارشات</h2>
           </v-col>
-          <v-col cols="6">
+          <v-col cols="4">
             <v-row align="center" justify="end">
-              <v-col cols="1">
+              <v-col cols="6" xl="2" lg="2" md="2" sm="6">
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -26,7 +26,7 @@
                   <span>بروزرسانی</span>
                 </v-tooltip>
               </v-col>
-              <v-col cols="1">
+              <v-col cols="6" xl="2" lg="2" md="2" sm="6">
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -128,6 +128,24 @@
               <span>حذف سفارش</span>
             </v-tooltip>
           </template>
+          <template v-slot:[`item.editItem`]="{item}">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  color="pink"
+                  fab
+                  dark
+                  x-small
+                  @click.stop="deleteOrder(item.id)"
+                >
+                  <v-icon>mdi-pencil-plus-outline</v-icon>
+                </v-btn>
+              </template>
+              <span>ویرایش سفارش</span>
+            </v-tooltip>
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
@@ -163,6 +181,7 @@ export default {
         { text: "", value: "starmap", sortable: false, width: 1 },
         { text: "", value: "data", sortable: false, width: 1 },
         { text: "", value: "deleteItem", sortable: false, width: 1 },
+        { text: "", value: "editItem", sortable: false, width: 1},
       ],
       orders: [],
     };

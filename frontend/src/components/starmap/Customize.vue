@@ -80,7 +80,7 @@
         </v-row>
         <v-container>
           <v-row>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/1.jpg"
@@ -89,7 +89,7 @@
                 height="150"
               />
             </v-col>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/2.jpg"
@@ -98,7 +98,7 @@
                 height="150"
               />
             </v-col>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/4.jpg"
@@ -107,7 +107,7 @@
                 height="150"
               />
             </v-col>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/5.jpg"
@@ -116,7 +116,7 @@
                 height="150"
               />
             </v-col>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/6.jpg"
@@ -125,7 +125,7 @@
                 height="150"
               />
             </v-col>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/7.jpg"
@@ -134,7 +134,7 @@
                 height="150"
               />
             </v-col>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/8.jpg"
@@ -143,7 +143,7 @@
                 height="150"
               />
             </v-col>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/9.jpg"
@@ -152,7 +152,7 @@
                 height="150"
               />
             </v-col>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/10.jpg"
@@ -161,7 +161,7 @@
                 height="150"
               />
             </v-col>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/11.jpg"
@@ -170,7 +170,7 @@
                 height="150"
               />
             </v-col>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/12.jpg"
@@ -179,7 +179,7 @@
                 height="150"
               />
             </v-col>
-            <v-col cols="4">
+            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
                 src="@/assets/wallpapers/13.jpg"
@@ -234,7 +234,7 @@
         <v-col cols="12">
           <p class="mb-0">شخصی سازی ستاره ها و صور فلکی</p>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-switch
             @click="updateStar"
             v-model="showDot"
@@ -242,7 +242,7 @@
             label="نقطه‌ها"
           ></v-switch>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-switch
             @click="updateStar"
             v-model="showStar"
@@ -250,7 +250,7 @@
             label="ستاره‌ها"
           ></v-switch>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-switch
             @click="
               () => {
@@ -263,7 +263,7 @@
             label="صور فلکی"
           ></v-switch>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-switch
             @click="updateStar"
             :disabled="!showConstellation ? true : false"
@@ -277,7 +277,7 @@
       <v-divider class="my-5"></v-divider>
 
       <v-row>
-        <v-col cols="6">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-btn
             @click="$emit('update:stepper', 3)"
             block
@@ -287,7 +287,7 @@
             مرحله‌ی قبلی
           </v-btn>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-btn @click="$emit('update:stepper', 5)" block color="primary">
             مرحله‌ی بعدی
           </v-btn>

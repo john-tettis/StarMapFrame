@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-row align="baseline">
-      <v-col cols="6">
-        <h2 class="mb-5">متن دلخواه خود را بنویسید</h2>
+    <v-row align="baseline" class="mb-4">
+      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+        <h2 class="mb-0">متن دلخواه خود را بنویسید</h2>
       </v-col>
-      <v-col cols="6">
-        <h6 class="text-left">اگر متن دلخواهی ندارید به مرحله‌ی بعدی برید</h6>
+      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+        <h6 class="text-right">اگر متن دلخواهی ندارید به مرحله‌ی بعدی برید</h6>
       </v-col>
     </v-row>
     <v-form ref="form" v-model="valid">
@@ -191,9 +191,8 @@
       </div>
 
       <v-row>
-        <v-col cols="12">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-btn
-            class="ml-5 float-left"
             color="secondary"
             @click="
               () => {
@@ -201,9 +200,11 @@
               }
             "
             :disabled="counter === 2"
+            block
             >افزودن پاراگراف</v-btn
-          >
-          <v-btn
+          ></v-col>
+          <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+            <v-btn
             color="secondary"
             outlined
             @click="
@@ -212,13 +213,14 @@
               }
             "
             :disabled="counter == 0"
+            block
             >حذف پاراگراف</v-btn
           >
-        </v-col>
+          </v-col>
       </v-row>
 
       <v-row>
-        <v-col cols="6">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-btn
             @click="$emit('update:stepper', 1)"
             block
@@ -228,7 +230,7 @@
             مرحله‌ی قبلی
           </v-btn>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-btn @click="$emit('update:stepper', 3)" block color="primary">
             مرحله‌ی بعدی
           </v-btn>

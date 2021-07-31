@@ -2,7 +2,7 @@
   <div>
     <h2>آیا بکگراند میخواید</h2>
     <v-row>
-      <v-col cols="6">
+      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-switch
           v-model="haveBg"
           @change="disableBg"
@@ -10,7 +10,7 @@
           :label="haveBg ? `آره میخوام` : `نه نمیخوام`"
         ></v-switch>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-switch
           v-model="shape"
           @change="changeShape"
@@ -22,7 +22,7 @@
     <div v-if="haveBg">
       <div v-if="sampleImg">
         <v-row>
-          <v-col cols="4">
+          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
             <img
               style="max-width:100%"
               @click="selectImage($event)"
@@ -30,7 +30,7 @@
               alt="image"
             />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
             <img
               style="max-width:100%"
               @click="selectImage($event)"
@@ -38,7 +38,7 @@
               alt="image"
             />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
             <img
               style="max-width:100%"
               @click="selectImage($event)"
@@ -46,7 +46,7 @@
               alt="image"
             />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
             <img
               style="max-width:100%"
               @click="selectImage($event)"
@@ -54,7 +54,7 @@
               alt="image"
             />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
             <img
               style="max-width:100%"
               @click="selectImage($event)"
@@ -62,7 +62,7 @@
               alt="image"
             />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
             <img
               style="max-width:100%"
               @click="selectImage($event)"
@@ -70,7 +70,7 @@
               alt="image"
             />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
             <img
               style="max-width:100%"
               @click="selectImage($event)"
@@ -78,7 +78,7 @@
               alt="image"
             />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
             <img
               style="max-width:100%"
               @click="selectImage($event)"
@@ -86,7 +86,7 @@
               alt="image"
             />
           </v-col>
-          <v-col cols="4">
+          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
             <div
               @click="
                 sampleImg = false;
@@ -138,20 +138,24 @@
                 @change="updateUploadedBgOpacity"
               ></v-slider>
             </v-col>
-          </v-row>
 
-          <v-btn color="primary" class="float-left" @click="uploadBg"
-            >ثبت عکس</v-btn
-          >
-          <v-btn
-            color="secondary"
-            class="float-left ml-2"
-            @click="
-              customImg = false;
-              sampleImg = true;
-            "
-            >استفاده از عکس های آماده</v-btn
-          >
+            <v-col col="12" xl="6" lg="6" md="6" sm="12">
+              <v-btn color="primary" @click="uploadBg"
+                block>ثبت عکس</v-btn
+              >
+            </v-col>
+            <v-col cols="12" xl="6" lg="6" md="6" sm="12">
+              <v-btn
+              block
+                color="secondary"
+                @click="
+                  customImg = false;
+                  sampleImg = true;
+                "
+                >استفاده از عکس های آماده</v-btn
+              >
+            </v-col>
+          </v-row>
         </v-form>
       </div>
     </div>
@@ -159,12 +163,12 @@
     <h3>تمامی شخصی سازی ها انجام شد</h3>
     <p>حالا می‌تونی قاب ستاره‌ای خودتو سفارش بدی</p>
     <v-row>
-      <v-col cols="6">
+      <v-col cols="12" xl="6" lg="6" md="6" sm="12">
         <v-btn @click="$emit('update:stepper', 4)" color="error" block outlined
           >مرحله‌ی قبلی</v-btn
         >
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" xl="6" lg="6" md="6" sm="12">
         <v-btn @click="checkout" color="primary" block>ثبت سفارش</v-btn>
       </v-col>
     </v-row>
@@ -299,10 +303,13 @@ export default {
       this.$store.dispatch("getStarMap");
       this.loading = false;
     },
-    checkout(){
-      localStorage.setItem("product", JSON.stringify(this.$store.state.starmap))
-      this.$router.push("/pay")
-    }
+    checkout() {
+      localStorage.setItem(
+        "product",
+        JSON.stringify(this.$store.state.starmap)
+      );
+      this.$router.push("/pay");
+    },
   },
 };
 </script>

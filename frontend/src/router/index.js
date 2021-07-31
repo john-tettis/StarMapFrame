@@ -54,7 +54,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next)=>{
   let token = Vue.$cookies.get('token');
-  console.log(token)
   if(token === null && to.fullPath === '/admin'){
     return next("/login")
   }
