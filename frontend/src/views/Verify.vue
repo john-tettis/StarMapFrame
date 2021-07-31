@@ -1,15 +1,13 @@
 <template>
   <div class="my-16">
     <v-row justify="center">
-      <v-col cols="6">
+      <v-col cols="11" xl="4" lg="4" md="4" sm="11">
         <v-card elevation="2">
           <v-card-title>
             وضعیت:
             <span v-show="parseInt(status) === 1"
               >پرداخت موفقیت آمیز بود.
               <v-icon color="green">mdi-check-decagram</v-icon>
-              <br>
-            <span>کد پیگیری {{tracking}}</span>
             </span>
             <span v-show="parseInt(status) === null"
               >نمی‌دونم چه اتفاقی افتاده</span
@@ -17,6 +15,8 @@
           </v-card-title>
           <v-card-text>
             <div v-if="parseInt(status) === 1">
+              <b><span>کد پیگیری {{ tracking }}</span></b>
+              <br />
               پرداخت شما ثبت و تایید شد. لطفا منتظر بسته‌ی پستی درب منزل خود
               باشید :)
 
@@ -56,10 +56,10 @@ export default {
       default: null,
     },
   },
-  data(){
-    return{
+  data() {
+    return {
       tracking: "",
-    }
+    };
   },
   methods: {
     getLocalToken() {
@@ -69,9 +69,9 @@ export default {
       }
       return false;
     },
-    getTrackingCode(){
+    getTrackingCode() {
       this.tracking = localStorage.getItem("tracking");
-    }
+    },
   },
   async created() {
     this.getTrackingCode();
@@ -88,7 +88,9 @@ export default {
           })
           .then((response) => {
             if (response.status === 200 && response.data.result) {
-              setTimeout(()=>{this.$router.push("/");}, 30000)
+              setTimeout(() => {
+                this.$router.push("/");
+              }, 30000);
             }
           });
       } else {

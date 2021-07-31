@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="center" class="py-5">
-      <v-col cols="6">
+      <v-col cols="11" xl="4" lg="4" md="4" sm="11">
         <v-card elevation="2">
           <v-card-title>ثبت سفارش</v-card-title>
           <v-card-text>
@@ -134,8 +134,7 @@ export default {
         .then(async (response) => {
           if (response.status === 200 && response.data.result) {
             localStorage.setItem("orderId", response.data.id);
-            alert(response.data.id)
-            const API = "test";
+            const API = process.env.VUE_APP_PAYIR_API || "test";
             const redirect = "http://localhost:8080/verify";
             const res = await this.axios.post("https://pay.ir/pg/send ", {
               api: API,
