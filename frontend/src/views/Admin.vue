@@ -182,21 +182,7 @@ export default {
       });
     },
     downloadInvoice(item) {
-      this.axios
-        .post(
-          `http://localhost:8909/invoice.php?name=${item.name}&mobile=${item.mobile}&city=${item.city}&province=${item.province}&address=${item.address}&post=${item.post}&tracking=${item.tracking}`,
-          { responseType: "arraybuffer" }
-        )
-        .then((response) => {
-          if (response.status === 200) {
-            var win = window.open();
-            win.document.write(response.data);
-            win.onload(()=>{
-              win.print();
-              win.close()
-            })
-          }
-        });
+      window.open(`http://localhost:8909/invoice.php?name=${item.name}&mobile=${item.mobile}&city=${item.city}&province=${item.province}&address=${item.address}&post=${item.post}&tracking=${item.tracking}`)  
     },
   },
 };

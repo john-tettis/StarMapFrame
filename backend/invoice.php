@@ -5,19 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="//fdn.fontcdn.ir">
+    <link rel="preconnect" href="//v1.fontapi.ir">
+    <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">
     <title>Invoice</title>
     <style>
-        @font-face {
-            font-family: "IranSans";
-            src: url("/fonts/IRANSansXFaNum-Regular.woff") format('woff'),
-            url("/fonts/IRANSansXFaNum-Regular.woff2") format('woff2');
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'IranSans', sans-serif;
+            font-family: 'Vazir', sans-serif;
         }
 
         p {
