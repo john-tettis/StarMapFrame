@@ -182,7 +182,7 @@ export default {
       });
     },
     downloadInvoice(item) {
-      window.open(`http://localhost:8909/invoice.php?name=${item.name}&mobile=${item.mobile}&city=${item.city}&province=${item.province}&address=${item.address}&post=${item.post}&tracking=${item.tracking}`)  
+      window.open(`${process.env.VUE_APP_INVOICE_API}/invoice.php?name=${item.name}&mobile=${item.mobile}&city=${item.city}&province=${item.province}&address=${item.address}&post=${item.post}&tracking=${item.tracking}`)  
     },
   },
 };
