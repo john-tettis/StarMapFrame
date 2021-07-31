@@ -195,6 +195,8 @@ export default {
       this.axios.delete(`/api/orders/${id}`).then((res) => {
         if (res.status === 200) {
           this.getOrders();
+        }else{
+          alert("توکن شما منقضی شده است...")
         }
         this.loading = false;
       });
