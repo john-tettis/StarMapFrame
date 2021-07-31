@@ -27,7 +27,7 @@ is_paid integer NOT NULL,
 is_deliverd integer NOT NULL,
 product text NOT NULL,
 amount text NOT NULL,
-tracking text NOT NULL
+tracking text NOT NULL UNIQUE
 );
 """
 
