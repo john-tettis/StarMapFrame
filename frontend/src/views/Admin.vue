@@ -7,31 +7,56 @@
             <h2>لیست سفارشات</h2>
           </v-col>
           <v-col cols="6">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  @click="getOrders"
-                  color="green"
-                  class="white--text float-left"
-                  fab
-                  small
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-icon>mdi-update</v-icon>
-                </v-btn>
-              </template>
-              <span>بروزرسانی</span>
-            </v-tooltip>
+            <v-row align="center" justify="end">
+              <v-col cols="1">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      @click="getOrders"
+                      color="green"
+                      class="white--text float-left"
+                      fab
+                      small
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon>mdi-update</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>بروزرسانی</span>
+                </v-tooltip>
+              </v-col>
+              <v-col cols="1">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      fab
+                      small
+                      v-on="on"
+                      v-bind="attrs"
+                      @click="multiPrint"
+                      color="teal lighten-3"
+                      class="white--text my-5 float-left"
+                    >
+                      <v-icon> mdi-printer </v-icon>
+                    </v-btn>
+                  </template>
+                  <span>پرینت چندتایی</span>
+                </v-tooltip>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
 
         <v-divider class="mb-5"></v-divider>
         <v-data-table
+          v-model="selected"
           :headers="headers"
           :items="orders"
           :items-per-page="5"
           class="elevation-1"
+          show-select
+          :single-select="false"
         >
           <template v-slot:[`item.amount`]="{ item }">
             <span v-if="item.amount !== undefined">{{
@@ -123,6 +148,7 @@ export default {
   data() {
     return {
       loading: false,
+      selected: [],
       headers: [
         { text: "کد پیگیری", value: "tracking" },
         { text: "مبلغ (ریال)", value: "amount" },
@@ -148,15 +174,19 @@ export default {
     getOrders() {
       this.loading = true;
       this.axios.get("/api/orders").then((res) => {
-        this.orders = res.data.data;
-        this.orders.forEach(async (elm) => {
-          elm.city = cities.filter(
-            (item) => item.id === parseInt(elm.city)
-          )[0].name;
-          elm.province = provinces.filter(
-            (item) => item.id === parseInt(elm.province)
-          )[0].name;
-        });
+        if (res.data.result) {
+          this.orders = res.data.data;
+          this.orders.forEach(async (elm) => {
+            elm.city = cities.filter(
+              (item) => item.id === parseInt(elm.city)
+            )[0].name;
+            elm.province = provinces.filter(
+              (item) => item.id === parseInt(elm.province)
+            )[0].name;
+          });
+        } else {
+          alert("شما وارد حساب کاربری خود نشدید");
+        }
         this.loading = false;
       });
     },
@@ -182,7 +212,25 @@ export default {
       });
     },
     downloadInvoice(item) {
-      window.open(`${process.env.VUE_APP_INVOICE_API}/invoice.php?name=${item.name}&mobile=${item.mobile}&city=${item.city}&province=${item.province}&address=${item.address}&post=${item.post}&tracking=${item.tracking}`)  
+      window.open(
+        `${process.env.VUE_APP_INVOICE_API}/invoice.php?name=${item.name}&mobile=${item.mobile}&city=${item.city}&province=${item.province}&address=${item.address}&post=${item.post}&tracking=${item.tracking}`
+      );
+    },
+    multiPrint() {
+      if (this.selected.length > 0) {
+        let selectedItems = this.selected;
+        selectedItems.forEach((item) => {
+          delete item["product"];
+        });
+
+        selectedItems = JSON.stringify(selectedItems);
+        console.log(selectedItems);
+        window.open(
+          `${process.env.VUE_APP_INVOICE_API}/invoice.php?items=${selectedItems}`
+        );
+      } else {
+        alert("ابتدا باید موردی را انتخاب کنید...");
+      }
     },
   },
 };

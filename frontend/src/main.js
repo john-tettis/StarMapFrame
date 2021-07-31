@@ -8,11 +8,14 @@ import Vuex from "vuex";
 import {
   v4 as uuidv4
 } from "uuid";
+import VueCookies from 'vue-cookies'
 
 Vue.config.productionTip = false;
 
 Vue.use(VueAxios, axios);
 Vue.use(Vuex);
+Vue.use(VueCookies)
+Vue.$cookies.config('7d')
 
 const store = new Vuex.Store({
   state: {

@@ -52,4 +52,13 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next)=>{
+  let token = Vue.$cookies.get('token');
+  console.log(token)
+  if(token === null && to.fullPath === '/admin'){
+    return next("/login")
+  }
+  return next()
+})
+
 export default router

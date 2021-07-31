@@ -130,6 +130,7 @@ export default {
     doLogin() {
       this.axios.post("/api/login", this.login).then((response) => {
         if (response.status === 200 && response.data.result) {
+          this.$cookies.set('token', response.data.token, "1D");
           this.$router.push("/admin");
         } else {
           this.loginAlert = true;

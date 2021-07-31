@@ -7,6 +7,7 @@ from datetime import datetime
 import bcrypt
 from flask import Flask, json, jsonify, request, send_file
 from flask_cors import CORS
+import secrets
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -40,6 +41,14 @@ password text NOT NULL
 );
 """
 
+TOKEN_TBL = """
+CREATE TABLE IF NOT EXISTS tokens (
+    id integer PRIMARY KEY,
+    userID integer NOT NULL,
+    token text NOT NULL
+)
+"""
+
 
 def get_db():
     db = getattr(app, '_database', None)
@@ -49,6 +58,7 @@ def get_db():
             c = db.cursor()
             c.execute(ORDERS_TBL)
             c.execute(USERS_TBL)
+            c.execute(TOKEN_TBL)
         except Error as e:
             print(e)
     return db
@@ -209,39 +219,56 @@ def orders():
         rows = c.fetchall()
         for item in range(len(rows)):
             rows[item] = {"id": rows[item][0], "name": rows[item]
-                          [1], "mobile": rows[item][2], "address": rows[item][3], "province": rows[item][4], "city": rows[item][5], "post": rows[item][6], "is_paid": rows[item][7], "is_deliverd": rows[item][8], "product": rows[item][9], "amount": rows[item][10], "tracking": rows[item][11]}
+                        [1], "mobile": rows[item][2], "address": rows[item][3], "province": rows[item][4], "city": rows[item][5], "post": rows[item][6], "is_paid": rows[item][7], "is_deliverd": rows[item][8], "product": rows[item][9], "amount": rows[item][10], "tracking": rows[item][11]}
 
         return jsonify(result=True, data=rows)
 @app.route("/orders/<id>", methods=["DELETE"])
 def delete_orders(id):
-    db = get_db()
-    c = db.cursor()
-    c.execute(f"SELECT * FROM orders where id={id}")
-    rows = c.fetchall()
-    if len(rows) > 0:
-        c.execute(f"DELETE FROM orders where id={id}")
-        db.commit()
-        return jsonify(result=True, message="successfully deleted")
+    cookies = request.cookies
+    if 'token' in cookies:
+        db = get_db()
+        c = db.cursor()
+        c.execute(f"SELECT * FROM tokens where token=\"{cookies['token']}\"")
+        tokens = c.fetchall()
+        if len(tokens) > 0:
+            c.execute(f"SELECT * FROM orders where id={id}")
+            rows = c.fetchall()
+            if len(rows) > 0:
+                c.execute(f"DELETE FROM orders where id={id}")
+                db.commit()
+                return jsonify(result=True, message="successfully deleted")
+            else:
+                return jsonify(result=False, message="there is no order with that id")
+        else:
+            return jsonify(result=False, message="You are not authenticated")
     else:
-        return jsonify(result=False, message="there is no order with that id")
+        return jsonify(result=False, message="You are not authenticated")
 @app.route("/orders/<id>", methods=["PUT"])
 def update_orders(id):
+    cookies = request.cookies
     data = request.json
-    db = get_db()
-    c = db.cursor()
-
-    if 'updatePaymentStatus' in data:
-        try:
-            c.execute(f"SELECT * from orders WHERE id={id}")
-            row = c.fetchone()
-            if row:
-                c.execute(f"UPDATE orders SET is_paid=1 WHERE id={id}")
-                db.commit()
-                return jsonify(result=True, message="updated!")
-            else:
-                return jsonify(result=False, message="there is no order")
-        except OperationalError as e:
-            return jsonify(result=False, message="update status failed")
+    if 'token' in cookies:
+        db = get_db()
+        c = db.cursor()
+        c.execute(f"SELECT * FROM tokens where token=\"{cookies['token']}\"")
+        tokens = c.fetchall()
+        if len(tokens) > 0:
+            if 'updatePaymentStatus' in data:
+                try:
+                    c.execute(f"SELECT * from orders WHERE id={id}")
+                    row = c.fetchone()
+                    if row:
+                        c.execute(f"UPDATE orders SET is_paid=1 WHERE id={id}")
+                        db.commit()
+                        return jsonify(result=True, message="updated!")
+                    else:
+                        return jsonify(result=False, message="there is no order")
+                except OperationalError as e:
+                    return jsonify(result=False, message="update status failed")
+        else:
+            return jsonify(result=False, message="You are not authenticated")
+    else:
+        return jsonify(result=False, message="You are not authenticated")
 
 
 # Auth
@@ -256,13 +283,13 @@ def login():
         c.execute(f'SELECT * FROM users WHERE username="{username}"')
         row = c.fetchone()
         if row and checkpw(password, row[3]):
-            return jsonify(result=True, message="logged in successfully")
+            token = secrets.token_hex(16)
+            c.execute("INSERT INTO tokens (userID, token) VALUES (?, ?)", (row[0], token))
+            return jsonify(result=True, message="logged in successfully", token=token)
         else:
             return jsonify(result=False, message="نام کاربری یا رمز عبور صحیح نیست...")
     except OperationalError as e:
         return jsonify(result=False, message="شما در رسپینا اکانت ندارید :(")
-
-
 @app.route("/register", methods=["POST"])
 def register():
     data = request.json

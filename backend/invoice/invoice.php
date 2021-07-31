@@ -22,7 +22,7 @@
         }
 
         div.container {
-            max-width: 900px;
+            max-width: 700px;
             background-color: aliceblue;
             border-radius: 0px;
         }
@@ -34,37 +34,41 @@
             justify-content: flex-start;
 
         }
-        
+
         div.info {
-            min-height: 300px;
             width: 100%;
-            display:flex;
-            align-items:flex-start;
+            display: flex;
+            align-items: flex-start;
             justify-content: center;
-            flex-flow: column
+            flex-flow: column;
+            padding-bottom: 10px;
         }
 
         div.info>div {
             white-space: nowrap;
         }
-        div.info>div>p{
+
+        div.info>div>p {
             font-weight: bold
         }
-        div.info>div>p>span{
+
+        div.info>div>p>span {
             font-weight: normal;
         }
-        div.sender{
+
+        div.sender {
             margin-right: 25px;
-            margin-bottom: 10px;
-            padding: 10px 10px;
+            margin-bottom: 0px;
+            padding: 5px 10px;
             border-right: 1px solid gray;
             font-size: 14px;
         }
-        div.customer{
-            margin-top: 10px;
+
+        div.customer {
+            margin-top: 0px;
             margin-right: 25px;
-            margin-bottom: 5px;
-            padding: 10px 10px;
+            margin-bottom: 0px;
+            padding: 5px 10px;
             border-right: 1px solid gray;
             font-size: 14px;
         }
@@ -72,31 +76,56 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <div>
-                <img src="http://localhost:5000/download/logo.png" alt="logo" width="100" />
+    <?php if (@$_REQUEST['items'] == NULL) : ?>
+        <div class="container">
+            <div class="header">
+                <div>
+                    <img src="http://localhost:5000/download/logo.png" alt="logo" width="100" />
+                </div>
+                <div>
+                    <h1>رسپینا گالری</h1>
+                    <h6>کد پیگیری: <?php echo $_REQUEST['tracking'] ?></h6>
+                </div>
             </div>
-            <div>
-                <h1>رسپینا گالری</h1>
-                <h6>کد پیگیری: <?php echo $_REQUEST['tracking'] ?></h6>
-            </div>
-        </div>
-        <div class="info">
+            <div class="info">
                 <div class="sender">
-                    <p style="font-size:16px">فرستنده: رسپینا گالری - الهه میرزایی</p>
-                    <p>شماره تماس: <span>۰۹۱۰۳۸۰۷۳۳۱</span></p>
-                    <p>کد پستی: <span>۱۸۴۳۷۱۳۳۷۵</span></p>
-                    <p>آدرس: <span>تهران - میدان شهدای شاملو - خیابان مدرسه - خیابان ورزشگاه - رسپینا</span></p>
+                    <p style="font-size:16px">فرستنده: رسپینا گالری - الهه میرزایی (<span>۰۹۱۰۳۸۰۷۳۳۱</span>)</p>
                 </div>
                 <div class="customer">
-                    <p style="font-size:16px">گیرنده: <?php echo $_REQUEST['name'] ?></p>
-                    <p>شماره تماس: <span><?php echo $_REQUEST['mobile'] ?></span></p>
+                    <p style="font-size:16px">گیرنده: <?php echo $_REQUEST['name'] ?> (<span><?php echo $_REQUEST['mobile'] ?></span>)</p>
                     <p>آدرس کامل: <span><?php echo $_REQUEST['province'] ?> - <?php echo $_REQUEST['city'] ?> - <?php echo $_REQUEST['address'] ?></span></p>
                     <p>کد پستی: <span><?php echo $_REQUEST['post'] ?></span></p>
                 </div>
+            </div>
         </div>
-    </div>
+    <?php else : ?>
+        <?php
+        $object = urldecode(stripslashes($_REQUEST['items']));
+        $items = json_decode($object, true);
+        foreach ($items as $val) { ?>
+            <div class="container" style="margin-bottom: 10px;">
+                <div class="header">
+                    <div>
+                        <img src="http://localhost:5000/download/logo.png" alt="logo" width="100" />
+                    </div>
+                    <div>
+                        <h1>رسپینا گالری</h1>
+                        <h6>کد پیگیری: <?php echo $val['tracking'] ?></h6>
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="sender">
+                        <p style="font-size:16px">فرستنده: رسپینا گالری - الهه میرزایی (<span>۰۹۱۰۳۸۰۷۳۳۱</span>)</p>
+                    </div>
+                    <div class="customer">
+                        <p style="font-size:16px">گیرنده: <?php echo $val['name'] ?> (<span><?php echo $val['mobile'] ?></span>)</p>
+                        <p>آدرس کامل: <span><?php echo $val['province'] ?> - <?php echo $val['city'] ?> - <?php echo $val['address'] ?></span></p>
+                        <p>کد پستی: <span><?php echo $val['post'] ?></span></p>
+                    </div>
+                </div>
+            </div>
+    <?php }
+    endif; ?>
 </body>
 
 </html>
