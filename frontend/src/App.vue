@@ -22,7 +22,7 @@
             ستاره ساز
           </router-link>
         </li>
-        <li v-if="$cookies.isKey('token') && $cookies.get('token') === null">
+        <li v-if="!$cookies.isKey('token') && $cookies.get('token') === null">
           <router-link class="white--text" to="/login">
             ورود
           </router-link>
