@@ -8,7 +8,7 @@
           </v-col>
           <v-col cols="4">
             <v-row align="center" justify="end">
-              <v-col cols="6" xl="2" lg="2" md="2" sm="6">
+              <v-col cols="4" xl="2" lg="2" md="2" sm="4">
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -26,7 +26,7 @@
                   <span>بروزرسانی</span>
                 </v-tooltip>
               </v-col>
-              <v-col cols="6" xl="2" lg="2" md="2" sm="6">
+              <v-col cols="4" xl="2" lg="2" md="2" sm="4">
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -42,6 +42,24 @@
                     </v-btn>
                   </template>
                   <span>پرینت چندتایی</span>
+                </v-tooltip>
+              </v-col>
+              <v-col cols="4" xl="2" lg="2" md="2" sm="4">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      fab
+                      small
+                      v-on="on"
+                      v-bind="attrs"
+                      @click="logout"
+                      color="red darken-4"
+                      class="white--text my-5 float-left"
+                    >
+                      <v-icon> mdi-logout-variant </v-icon>
+                    </v-btn>
+                  </template>
+                  <span>خروج</span>
                 </v-tooltip>
               </v-col>
             </v-row>
@@ -294,6 +312,10 @@ export default {
         console.loading(error);
         this.loading = false;
       })
+    },
+    logout(){
+      this.$cookies.remove("token");
+      this.$router.push("/")
     }
   },
 };
