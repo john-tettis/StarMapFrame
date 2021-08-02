@@ -213,8 +213,12 @@ parser.add_argument('-heart', '--heart', type=str, default=is_heart)
 
 parser.add_argument('-qrCode', '--qrCode', type=str, default="")
 
+parser.add_argument("-MODE", "--MODE", type=str, default=MODE)
+
 
 args = parser.parse_args()
+
+MODE = args.MODE
 
 coord = args.coord
 time = args.time
@@ -529,7 +533,8 @@ if __name__ == '__main__':
         image.add(image.image(href=wallpaper, size=("100%", "100%"), insert=(-200, 0), style="scale:2"))
     
     # Watermark
-    image.add(image.image(href="http://localhost:5000/download/watermark.png", size=("100%", "100%"), opacity=".05"))
+    if MODE != "PROD":
+        image.add(image.image(href="http://localhost:5000/download/watermark.png", size=("100%", "100%"), opacity=".05"))
     
     # Stars generation
     generate_starmap(northern, eastern, date, time)
@@ -547,7 +552,7 @@ if __name__ == '__main__':
         image.add(image.image(href="http://localhost:5000/download/heart.png", size=("100%", "100%"), insert=(0, -80)))
     
     if qrCode.strip():
-        if MODE != "DEV":
+        if MODE == "PROD":
             image.add(image.image(href=qrCode, size=("64px", "64px"), insert=("170mm", str(height-25)+'mm')))
         else:
             image.add(image.image(href="http://localhost:5000/download/qr.jpeg", size=("64px", "64px"), insert=("170mm", str(height-25)+'mm')))

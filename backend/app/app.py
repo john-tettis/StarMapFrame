@@ -142,6 +142,12 @@ def config_creator(data):
     # Shape
     if 'shape' in data:
         conf += f" -heart {data['shape']}"
+    
+    # MODE
+    if 'MODE' in data:
+        conf += f" -MODE PROD"
+    else:
+        conf += f" -MODE DEV"
 
     return conf
 

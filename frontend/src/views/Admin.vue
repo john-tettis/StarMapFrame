@@ -238,7 +238,11 @@ export default {
         .replaceAll("False", "false")
         .replaceAll("'", '"');
       star = JSON.parse(star);
-      this.axios.post("/api/starmap", star).then((res) => {
+      const data = {
+        ...star,
+        MODE: "PROD"
+      }
+      this.axios.post("/api/starmap", data).then((res) => {
         this.loading = false;
         window.open(res.data.path);
       });
