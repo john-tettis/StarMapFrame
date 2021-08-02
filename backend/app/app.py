@@ -3,7 +3,7 @@ import sqlite3
 from bcrypt import checkpw, gensalt, hashpw
 from sqlite3.dbapi2 import Error, OperationalError
 from PIL import ImageColor
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, json, jsonify, request, send_file
 from flask_cors import CORS
 import secrets
 
@@ -202,6 +202,8 @@ def index():
     return "Index"
 
 # Orders
+
+
 @app.route("/orders", methods=['GET', 'POST'])
 def orders():
     db = get_db()
@@ -216,11 +218,14 @@ def orders():
     elif request.method == 'GET':
         c.execute("SELECT * FROM orders")
         rows = c.fetchall()
+        print(rows)
         for item in range(len(rows)):
             rows[item] = {"id": rows[item][0], "name": rows[item]
-                        [1], "mobile": rows[item][2], "address": rows[item][3], "province": rows[item][4], "city": rows[item][5], "post": rows[item][6], "is_paid": rows[item][7], "is_deliverd": rows[item][8], "product": rows[item][9], "amount": rows[item][10], "tracking": rows[item][11]}
+                          [1], "mobile": rows[item][2], "address": rows[item][3], "province": rows[item][4], "city": rows[item][5], "post": rows[item][6], "is_paid": rows[item][7], "is_deliverd": rows[item][8], "is_printed": rows[item][9], "product": rows[item][10], "amount": rows[item][11], "tracking": rows[item][12]}
 
         return jsonify(result=True, data=rows)
+
+
 @app.route("/orders/<id>", methods=["DELETE"])
 def delete_orders(id):
     cookies = request.cookies
@@ -242,6 +247,8 @@ def delete_orders(id):
             return jsonify(result=False, message="You are not authenticated")
     else:
         return jsonify(result=False, message="You are not authenticated")
+
+
 @app.route("/orders/<id>", methods=["PUT"])
 def update_orders(id):
     data = request.json
@@ -262,19 +269,35 @@ def update_orders(id):
     else:
         return jsonify(result=False)
 
+
 @app.route("/orders/edit/<id>", methods=["POST"])
 def edit_order(id):
     data = request.json
     db = get_db()
-    c= db.cursor()
+    c = db.cursor()
     try:
-        c.execute(f"UPDATE orders SET product=\"{data['product']}\" WHERE id={id}")
+        c.execute(
+            f"UPDATE orders SET product=\"{data['product']}\" WHERE id={id}")
+        db.commit()
+        return jsonify(result=True, message="OK!")
+    except OperationalError as e:
+        return jsonify(result=False, message="NOT OK!", error=str(e))
+
+
+@app.route("/orders/setPrinted/<id>", methods=["POST"])
+def print_status(id):
+    db = get_db()
+    c = db.cursor()
+    try:
+        c.execute(f"UPDATE orders SET is_printed=1 WHERE id={id}")
         db.commit()
         return jsonify(result=True, message="OK!")
     except OperationalError as e:
         return jsonify(result=False, message="NOT OK!", error=str(e))
 
 # Auth
+
+
 @app.route("/login", methods=["POST"])
 def login():
     data = request.json
@@ -287,12 +310,15 @@ def login():
         row = c.fetchone()
         if row and checkpw(password, row[3]):
             token = secrets.token_hex(16)
-            c.execute("INSERT INTO tokens (userID, token) VALUES (?, ?)", (row[0], token))
+            c.execute(
+                "INSERT INTO tokens (userID, token) VALUES (?, ?)", (row[0], token))
             return jsonify(result=True, message="logged in successfully", token=token)
         else:
             return jsonify(result=False, message="نام کاربری یا رمز عبور صحیح نیست...")
     except OperationalError as e:
         return jsonify(result=False, message="شما در رسپینا اکانت ندارید :(")
+
+
 @app.route("/register", methods=["POST"])
 def register():
     data = request.json

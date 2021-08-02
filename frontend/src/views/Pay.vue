@@ -99,22 +99,21 @@ export default {
       );
     },
     addOrder() {
+      let tracking = Math.random()
+        .toString(36)
+        .substring(7);
+      localStorage.setItem("tracking", tracking);
+
       const product = JSON.parse(localStorage.getItem("product"));
-      let amount = 0
-      if(product.customize.size==="A1")
-        amount = 3600000
-      if(product.customize.size==="A2")
-        amount = 3500000
-      if(product.customize.size==="A3")
-        amount = 2800000
-      if(product.customize.size==="A4")
-        amount = 2000000
-      if(product.customize.size==="A5")
-        amount = 1600000
-      if(product.music.qr)
-        amount += 150000
-      if(product.background.bg)
-        amount += 150000
+      let amount = 0;
+      if (product.customize.size === "A1") amount = 3600000;
+      if (product.customize.size === "A2") amount = 3500000;
+      if (product.customize.size === "A3") amount = 2800000;
+      if (product.customize.size === "A4") amount = 2000000;
+      if (product.customize.size === "A5") amount = 1600000;
+      if (product.music.qr) amount += 150000;
+      if (product.background.bg) amount += 150000;
+
       const data = {
         product: product,
         name: this.payment.name,
@@ -126,11 +125,8 @@ export default {
         amount: amount,
         is_paid: 0,
         is_deliverd: 0,
-        tracking: tracking
+        tracking: tracking,
       };
-
-      let tracking = Math.random().toString(36).substring(7);
-      localStorage.setItem("tracking", tracking);
       this.axios
         .post("http://localhost:5000/orders", data)
         .then(async (response) => {
@@ -149,9 +145,10 @@ export default {
               window.location.replace(`https://pay.ir/pg/${token}`);
             }
           }
-        }).catch(error=>{
+        })
+        .catch((error) => {
           console.log(error);
-          alert("خطایی پیش آمده است. لطفا مجددا تلاش کنید...")
+          alert("خطایی پیش آمده است. لطفا مجددا تلاش کنید...");
         });
     },
   },

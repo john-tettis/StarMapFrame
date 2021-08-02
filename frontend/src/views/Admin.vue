@@ -128,7 +128,7 @@
               <span>حذف سفارش</span>
             </v-tooltip>
           </template>
-          <template v-slot:[`item.editItem`]="{item}">
+          <template v-slot:[`item.editItem`]="{ item }">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -144,6 +144,16 @@
                 </v-btn>
               </template>
               <span>ویرایش سفارش</span>
+            </v-tooltip>
+          </template>
+          <template v-slot:[`item.is_printed`]="{item}">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn :disabled="item.is_printed===1" @click="setAsPrinted(item.id)" fab x-small text v-on="on" v-bind="attrs" color="green">
+                  <v-icon>mdi-printer-3d-nozzle</v-icon>
+                </v-btn>
+              </template>
+              <span>وضعیت پرینت</span>
             </v-tooltip>
           </template>
         </v-data-table>
@@ -178,10 +188,11 @@ export default {
         { text: "آدرس کامل", value: "address" },
         { text: "وضعیت پرداخت", value: "is_paid" },
         { text: "وضعیت تحویل", value: "is_deliverd" },
-        { text: "", value: "editItem", sortable: false, width: 1},
+        { text: "", value: "editItem", sortable: false, width: 1 },
         { text: "", value: "starmap", sortable: false, width: 1 },
         { text: "", value: "data", sortable: false, width: 1 },
         { text: "", value: "deleteItem", sortable: false, width: 1 },
+        { text: "", value: "is_printed", sortable: false, width: 1 },
       ],
       orders: [],
     };
@@ -212,10 +223,10 @@ export default {
     deleteOrder(id) {
       this.loading = true;
       this.axios.delete(`/api/orders/${id}`).then((res) => {
-        if (res.status === 200) {
+        if (res.status === 200 && res.data.result) {
           this.getOrders();
-        }else{
-          alert("توکن شما منقضی شده است...")
+        } else {
+          alert("توکن شما منقضی شده است...");
         }
         this.loading = false;
       });
@@ -253,16 +264,32 @@ export default {
         alert("ابتدا باید موردی را انتخاب کنید...");
       }
     },
-    editOrder(order){
-      let product = order.product.replaceAll("True", "true")
+    editOrder(order) {
+      let product = order.product
+        .replaceAll("True", "true")
         .replaceAll("False", "false")
         .replaceAll("'", '"');
-      product = JSON.parse(product)
-      localStorage.setItem("orderID", order.id)
+      product = JSON.parse(product);
+      localStorage.setItem("orderID", order.id);
       localStorage.setItem("editMode", true);
-      this.$store.commit("setProduct", product)
-      this.$store.commit("setImage", `http://localhost:5000/download/${product.path}`)
-      this.$router.push("/builder")
+      this.$store.commit("setProduct", product);
+      this.$store.commit(
+        "setImage",
+        `http://localhost:5000/download/${product.path}`
+      );
+      this.$router.push("/builder");
+    },
+    setAsPrinted(id){
+      this.loading = true;
+      this.axios.post(`/api/orders/setPrinted/${id}`).then(response=>{
+        if(response.status === 200 && response.data.result){
+          alert("وضعیت پرینتر به پرینت شده تغییر یافت...")
+        }
+        this.loading = false
+      }).catch((error)=>{
+        console.loading(error);
+        this.loading = false;
+      })
     }
   },
 };
