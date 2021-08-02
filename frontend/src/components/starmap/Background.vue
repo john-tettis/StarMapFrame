@@ -314,6 +314,8 @@ export default {
         this.axios.post(`/api/orders/edit/${orderID}`, {product: this.$store.state.starmap}).then(response=>{
           if(response.data.result){
             alert("محصول با موفقیت بروزرسانی شد!");
+            localStorage.removeItem("editMode");
+            localStorage.removeItem("orderID");
             this.$router.push("/admin")
           }else{
             alert("خطایی پیش آمده است...")
