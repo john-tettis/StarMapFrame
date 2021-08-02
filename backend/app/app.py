@@ -25,6 +25,7 @@ city text NOT NULL,
 post text NOT NULL,
 is_paid integer NOT NULL,
 is_deliverd integer NOT NULL,
+is_printed integer NOT NULL,
 product text NOT NULL,
 amount text NOT NULL,
 tracking text NOT NULL UNIQUE
@@ -209,7 +210,7 @@ def orders():
         data = request.json
         product = data['product']
         c.execute(
-            f"INSERT INTO orders (name, mobile, address, province, city, post, is_paid, is_deliverd, product, amount, tracking) VALUES (\"{data['name']}\", \"{data['mobile']}\", \"{data['address']}\", \"{data['province']}\", \"{data['city']}\", \"{data['post']}\", \"{data['is_paid']}\", \"{data['is_deliverd']}\", \"{product}\", \"{data['amount']}\", \"{data['tracking']}\")")
+            f"INSERT INTO orders (name, mobile, address, province, city, post, is_paid, is_deliverd, is_printed, product, amount, tracking) VALUES (\"{data['name']}\", \"{data['mobile']}\", \"{data['address']}\", \"{data['province']}\", \"{data['city']}\", \"{data['post']}\", \"{data['is_paid']}\", \"{data['is_deliverd']}\", 0, \"{product}\", \"{data['amount']}\", \"{data['tracking']}\")")
         db.commit()
         return jsonify(result=True, message="inserted", id=c.lastrowid)
     elif request.method == 'GET':

@@ -100,9 +100,9 @@ export default {
     },
     addOrder() {
       const product = JSON.parse(localStorage.getItem("product"));
-      let amount = ""
-      let tracking = Math.random().toString(36).substring(7);
-      localStorage.setItem("tracking", tracking);
+      let amount = 0
+      if(product.customize.size==="A1")
+        amount = 3600000
       if(product.customize.size==="A2")
         amount = 3500000
       if(product.customize.size==="A3")
@@ -128,7 +128,9 @@ export default {
         is_deliverd: 0,
         tracking: tracking
       };
-      
+
+      let tracking = Math.random().toString(36).substring(7);
+      localStorage.setItem("tracking", tracking);
       this.axios
         .post("http://localhost:5000/orders", data)
         .then(async (response) => {
