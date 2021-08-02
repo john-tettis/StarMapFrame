@@ -78,6 +78,12 @@ export default {
       svgSource: this.$store.state.path,
     };
   },
+  mounted(){
+    const editMode = localStorage.getItem("editMode");
+    if(editMode){
+      this.step=2;
+    }
+  }
 };
 </script>
 

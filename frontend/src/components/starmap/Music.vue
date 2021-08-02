@@ -32,7 +32,7 @@
         ref="cover"
         v-model="cover"
         :show-size="1000"
-        accept="image/*"
+        accept="image/jpeg"
         label="فایل کاور"
         outlined
         dense
@@ -49,11 +49,20 @@
       </v-col>
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-btn
-          :disabled="wantMusic && mp3.length === 0 || cover.length===0"
+          v-if="!wantMusic"
+          :disabled="wantMusic"
           color="primary"
           block
           @click="uploadMusic"
           >مرحله‌ی بعدی</v-btn
+        >
+        <v-btn
+          v-if="wantMusic"
+          :disabled="mp3.length===0 || cover.length===0"
+          color="primary"
+          block
+          @click="uploadMusic"
+          >آپلود و مرحله‌ی بعدی</v-btn
         >
       </v-col>
     </v-row>

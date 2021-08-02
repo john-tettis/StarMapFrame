@@ -304,6 +304,12 @@ export default {
     this.axios.get("/api/fonts").then((response) => {
       this.availableFonts = response.data.fonts;
     });
+    const editMode = localStorage.getItem("editMode")
+    if (editMode){
+      this.line1 = this.$store.state.starmap.text.line1
+      this.line2 = this.$store.state.starmap.text.line2
+      this.line3 = this.$store.state.starmap.text.line3
+    }
   },
 };
 </script>

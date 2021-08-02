@@ -261,6 +261,17 @@ def update_orders(id):
     else:
         return jsonify(result=False)
 
+@app.route("/orders/edit/<id>", methods=["POST"])
+def edit_order(id):
+    data = request.json
+    db = get_db()
+    c= db.cursor()
+    try:
+        c.execute(f"UPDATE orders SET product=\"{data['product']}\" WHERE id={id}")
+        db.commit()
+        return jsonify(result=True, message="OK!")
+    except OperationalError as e:
+        return jsonify(result=False, message="NOT OK!", error=str(e))
 
 # Auth
 @app.route("/login", methods=["POST"])

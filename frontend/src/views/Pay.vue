@@ -147,6 +147,9 @@ export default {
               window.location.replace(`https://pay.ir/pg/${token}`);
             }
           }
+        }).catch(error=>{
+          console.log(error);
+          alert("خطایی پیش آمده است. لطفا مجددا تلاش کنید...")
         });
     },
   },

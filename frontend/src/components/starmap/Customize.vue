@@ -362,5 +362,17 @@ export default {
       this.loading = false;
     },
   },
+  mounted(){
+    const editMode = localStorage.getItem("editMode");
+    if(editMode){
+      this.radioGroup = this.$store.state.starmap.customize.size;
+      this.bgValue = this.$store.state.starmap.customize.background;
+      this.frameValue = this.$store.state.starmap.customize.frame;
+      this.showDot = this.$store.state.starmap.customize.dot;
+      this.showStar = this.$store.state.starmap.customize.star;
+      this.showConstellation = this.$store.state.starmap.customize.constellation;
+      this.constellationText = this.$store.state.starmap.customize.constellationText;
+    }
+  }
 };
 </script>

@@ -14,83 +14,94 @@
       </v-autocomplete>
       <!--DatePicker-->
       <v-menu
+        ref="DateMenu"
         v-model="dateMenu"
         :close-on-content-click="false"
-        :nudge-right="40"
         transition="scale-transition"
         offset-y
-        min-width="290px"
-        max-width="290px"
+        min-width="auto"
       >
-        <template v-slot:activator="{ on }">
+        <template v-slot:activator="{ on, attrs }">
           <v-text-field
+            outlined
+            dense
+            v-model="dateValue"
             label="تاریخ"
             prepend-inner-icon="mdi-calendar"
             readonly
-            hide-details
-            :value="dateValue"
+            v-bind="attrs"
             v-on="on"
-            outlined
-            dense
-            class="mb-7"
           ></v-text-field>
         </template>
-
         <v-date-picker
+          :locale-first-day-of-year="1"
           v-model="dateValue"
-          no-title
-          @input="dateMenu = false"
+          :active-picker.sync="activePicker"
+          :max="
+            new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+              .toISOString()
+              .substr(0, 10)
+          "
+          min="1950-01-01"
+          @change="$refs.DateMenu.save(dateValue)"
         ></v-date-picker>
       </v-menu>
       <!--TimePicker-->
       <v-menu
+        ref="TimeMenu"
         v-model="timeMenu"
         :close-on-content-click="false"
         :nudge-right="40"
+        :return-value.sync="timeValue"
         transition="scale-transition"
         offset-y
-        min-width="290px"
         max-width="290px"
+        min-width="290px"
       >
-        <template v-slot:activator="{ on }">
+        <template v-slot:activator="{ on, attrs }">
           <v-text-field
-            label="ساعت"
-            prepend-inner-icon="mdi-clock"
+          outlined
+          dense
+            v-model="timeValue"
+            label="زمان"
+            prepend-inner-icon="mdi-clock-time-four-outline"
             readonly
-            hide-details
-            :value="timeValue"
+            v-bind="attrs"
             v-on="on"
-            outlined
-            dense
           ></v-text-field>
         </template>
-
         <v-time-picker
           v-model="timeValue"
-          no-title
-          @input="timeMenu = false"
+          full-width
+          @click:minute="$refs.TimeMenu.save(timeValue)"
         ></v-time-picker>
       </v-menu>
       <v-btn class="mt-8" block color="primary" @click="submit($event)">
         ثبت
       </v-btn>
     </v-form>
-    <Loading :isLoading="loading"/>
+    <Loading :isLoading="loading" />
   </div>
 </template>
 
 <script>
 import { Client } from "@googlemaps/google-maps-services-js";
-import moment from 'moment';
-import Loading from '@/components/Loading';
+import moment from "moment";
+import Loading from "@/components/Loading";
 
 export default {
   name: "star-geo",
-  components:{
+  components: {
     Loading,
   },
+  watch: {
+      dateMenu (val) {
+        val && setTimeout(() => (this.activePicker = 'YEAR'))
+      },
+    },
   data() {
     return {
+      activePicker: null,
       loading: false,
       valid: true,
       client: new Client({}),
@@ -152,19 +163,23 @@ export default {
           this.axios
             .post("/api/starmap", this.$store.state.starmap)
             .then((response) => {
-              this.loading = false
-              if(response.data.result){
-                this.$store.commit('setImage', response.data.path+`?${Date.now()}`)
-                this.$emit("update:stepper", 2)
+              this.loading = false;
+              if (response.data.result) {
+                this.$store.commit(
+                  "setImage",
+                  response.data.path + `?${Date.now()}`
+                );
+                this.$emit("update:stepper", 2);
               }
-            }).catch(error=>{
-              this.loading = false
+            })
+            .catch((error) => {
+              this.loading = false;
               console.log(error);
             });
         }, 1500);
       }
     },
   },
-  props: ['stepper'],
+  props: ["stepper"],
 };
 </script>

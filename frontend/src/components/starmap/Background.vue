@@ -308,7 +308,22 @@ export default {
         "product",
         JSON.stringify(this.$store.state.starmap)
       );
-      this.$router.push("/pay");
+      const editMode = localStorage.getItem("editMode");
+      if(editMode){
+        const orderID = localStorage.getItem("orderID");
+        this.axios.post(`/api/orders/edit/${orderID}`, {product: this.$store.state.starmap}).then(response=>{
+          if(response.data.result){
+            alert("محصول با موفقیت بروزرسانی شد!");
+            this.$router.push("/admin")
+          }else{
+            alert("خطایی پیش آمده است...")
+          }
+        }).catch(error=>{
+          console.log(error)
+        })
+      }else{
+        this.$router.push("/pay");
+      }
     },
   },
 };

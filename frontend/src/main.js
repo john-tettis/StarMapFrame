@@ -59,7 +59,7 @@ const store = new Vuex.Store({
         wallpaper: "",
       },
       customize: {
-        size: "A3",
+        size: "A1",
         frame: "#212121",
         background: "#000000",
         dot: true,
@@ -95,6 +95,9 @@ const store = new Vuex.Store({
     setWallpaper(state, wallpaper) {
       state.starmap.background.wallpaper = wallpaper;
     },
+    setProduct(state, product){
+      state.starmap = product
+    }
   },
   actions: {
     async getStarMap(context) {

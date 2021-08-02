@@ -138,7 +138,7 @@
                   fab
                   dark
                   x-small
-                  @click.stop="deleteOrder(item.id)"
+                  @click.stop="editOrder(item)"
                 >
                   <v-icon>mdi-pencil-plus-outline</v-icon>
                 </v-btn>
@@ -178,10 +178,10 @@ export default {
         { text: "آدرس کامل", value: "address" },
         { text: "وضعیت پرداخت", value: "is_paid" },
         { text: "وضعیت تحویل", value: "is_deliverd" },
+        { text: "", value: "editItem", sortable: false, width: 1},
         { text: "", value: "starmap", sortable: false, width: 1 },
         { text: "", value: "data", sortable: false, width: 1 },
         { text: "", value: "deleteItem", sortable: false, width: 1 },
-        { text: "", value: "editItem", sortable: false, width: 1},
       ],
       orders: [],
     };
@@ -253,6 +253,17 @@ export default {
         alert("ابتدا باید موردی را انتخاب کنید...");
       }
     },
+    editOrder(order){
+      let product = order.product.replaceAll("True", "true")
+        .replaceAll("False", "false")
+        .replaceAll("'", '"');
+      product = JSON.parse(product)
+      localStorage.setItem("orderID", order.id)
+      localStorage.setItem("editMode", true);
+      this.$store.commit("setProduct", product)
+      this.$store.commit("setImage", `http://localhost:5000/download/${product.path}`)
+      this.$router.push("/builder")
+    }
   },
 };
 </script>
