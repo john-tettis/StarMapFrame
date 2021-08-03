@@ -106,7 +106,6 @@ export default {
 
       const product = JSON.parse(localStorage.getItem("product"));
       let amount = 0;
-      if (product.customize.size === "A1") amount = 3600000;
       if (product.customize.size === "A2") amount = 3500000;
       if (product.customize.size === "A3") amount = 2800000;
       if (product.customize.size === "A4") amount = 2000000;
