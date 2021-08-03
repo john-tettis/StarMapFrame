@@ -138,7 +138,7 @@
                   dark
                   x-small
                   text
-                  @click.stop="deleteOrder(item.id)"
+                  @click.stop="openDeleteOrderDialog(item.id)"
                 >
                   <v-icon>mdi-delete-outline</v-icon>
                 </v-btn>
@@ -186,6 +186,16 @@
         </v-data-table>
       </v-col>
     </v-row>
+    <v-dialog v-model="deleteDialog" max-width="400">
+      <v-card>
+        <v-card-title>حذف</v-card-title>
+        <v-card-text>آیا از حذف کردن این سفارش مطمئن هستید؟</v-card-text>
+        <v-card-actions>
+          <v-btn color="red" class="white--text" @click="deleteOrder">بله</v-btn>
+          <v-btn color="gray" text @click="deleteDialog = false">خیر</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <Loading :isLoading="loading" />
   </div>
 </template>
@@ -202,6 +212,8 @@ export default {
   },
   data() {
     return {
+      deleteDialog: false,
+      orderID: null,
       loading: false,
       selected: [],
       headers: [
@@ -247,11 +259,16 @@ export default {
         this.loading = false;
       });
     },
-    deleteOrder(id) {
+    openDeleteOrderDialog(id){
+      this.orderID = id
+      this.deleteDialog = true;
+    },
+    deleteOrder() {
       this.loading = true;
-      this.axios.delete(`/api/orders/${id}`).then((res) => {
+      this.axios.delete(`/api/orders/${this.orderID}`).then((res) => {
         if (res.status === 200 && res.data.result) {
           this.getOrders();
+          this.orderID = null
         } else {
           alert("توکن شما منقضی شده است...");
         }
