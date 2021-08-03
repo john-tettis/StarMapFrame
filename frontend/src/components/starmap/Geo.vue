@@ -80,21 +80,16 @@
         ثبت
       </v-btn>
     </v-form>
-    <Loading :isLoading="loading" />
   </div>
 </template>
 
 <script>
 import { Client } from "@googlemaps/google-maps-services-js";
 import moment from "moment";
-import Loading from "@/components/Loading";
 import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "star-geo",
-  components: {
-    Loading,
-  },
   watch: {
     dateMenu(val) {
       val && setTimeout(() => (this.activePicker = "YEAR"));
@@ -103,7 +98,6 @@ export default {
   data() {
     return {
       activePicker: null,
-      loading: false,
       valid: true,
       client: new Client({}),
       API_KEY: "AIzaSyBgBc9WzvrQY4A2AJNrahd1Od8LRI2lv9w",
@@ -152,19 +146,17 @@ export default {
     },
     async submit(event) {
       event.preventDefault();
-      this.loading = true;
       if (this.valid) {
         await this.getCoordinate(this.location);
-        setTimeout(async ()=>{
+        setTimeout(async () => {
           await this.$store.commit("setGeo", {
-          location: this.coordinate,
-          time: moment(this.timeValue, "hh:mm").format("hh.mm.ss"),
-          date: moment(this.dateValue).format("DD.MM.YYYY"),
-        });
-          await this.$store.dispatch("getStarMap")
+            location: this.coordinate,
+            time: moment(this.timeValue, "hh:mm").format("hh.mm.ss"),
+            date: moment(this.dateValue).format("DD.MM.YYYY"),
+          });
+          await this.$store.dispatch("getStarMap");
           this.$emit("update:stepper", 2);
-        }, 1500)
-
+        }, 1500);
       }
     },
   },

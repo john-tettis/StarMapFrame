@@ -294,18 +294,12 @@
         </v-col>
       </v-row>
     </v-form>
-    <Loading :isLoading="loading" />
   </div>
 </template>
 
 <script>
-import Loading from "@/components/Loading";
-
 export default {
   name: "star-customize",
-  components: {
-    Loading,
-  },
   watch: {
     showWallpaper: function() {
       if (this.showWallpaper) {
@@ -324,7 +318,6 @@ export default {
   data() {
     return {
       showWallpaper: false,
-      loading: false,
       valid: true,
       bgValue: "#000000",
       bgMenu: false,
@@ -333,11 +326,9 @@ export default {
       frameMenu: false,
       frameValue: "#212121",
       swatches: [
-        ["#FF0000", "#AA0000", "#550000"],
-        ["#FFFF00", "#AAAA00", "#555500"],
-        ["#00FF00", "#00AA00", "#005500"],
-        ["#00FFFF", "#00AAAA", "#005555"],
-        ["#0000FF", "#0000AA", "#000055"],
+        ["#263238", "#212121", "#455A64", "#00ACC1"],
+        ["#3949AB", "#004D40", "#C51162", "#4A148C"],
+        ["#000000", "#81D4FA", "#FF6E40", "#2979FF"],
       ],
 
       showDot: true,
@@ -348,7 +339,6 @@ export default {
   },
   methods: {
     updateStar() {
-      this.loading = true;
       this.$store.commit("setCustomize", {
         size: this.radioGroup,
         background: this.bgValue,
@@ -359,7 +349,6 @@ export default {
         constellationText: this.showConstellationText,
       });
       this.$store.dispatch("getStarMap");
-      this.loading = false;
     },
   },
   mounted(){

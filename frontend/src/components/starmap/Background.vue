@@ -173,21 +173,14 @@
       </v-col>
     </v-row>
 
-    <Loading :isLoading="loading" />
   </div>
 </template>
 
 <script>
-import Loading from "@/components/Loading.vue";
-
 export default {
   name: "star-background",
-  components: {
-    Loading,
-  },
   data() {
     return {
-      loading: false,
       valid: true,
       shape: false,
       haveBg: false,
@@ -214,29 +207,11 @@ export default {
         y: -50,
         opacity: this.opacity,
       });
-      this.loading = true;
-      setTimeout(() => {
-        this.axios
-          .post("/api/starmap", this.$store.state.starmap)
-          .then((response) => {
-            if (response.data.result) {
-              this.$store.commit(
-                "setImage",
-                response.data.path + `?${Date.now()}`
-              );
-            }
-            this.loading = false;
-          })
-          .catch((error) => {
-            this.loading = false;
-            console.log(error);
-          });
-      }, 500);
+      this.$store.dispatch("getStarMap")
     },
     uploadBg() {
       const formData = new FormData();
       formData.append("bg", this.bg);
-      this.loading = true;
 
       this.axios
         .post("/api/uploadBackground", formData, {
@@ -254,12 +229,10 @@ export default {
               opacity: this.opacity,
             });
             this.$store.dispatch("getStarMap");
-            this.loading = false;
           }
         })
         .catch((error) => {
           console.log(error);
-          this.loading = false;
         });
     },
     disableBg() {
@@ -270,19 +243,14 @@ export default {
           y: 0,
           opacity: this.opacity,
         });
-        this.loading = true;
         this.$store.dispatch("getStarMap");
-        this.loading = false;
       }
     },
     changeShape() {
-      this.loading = true;
       this.$store.commit("setShape", this.shape);
       this.$store.dispatch("getStarMap");
-      this.loading = false;
     },
     updateOpacity() {
-      this.loading = true;
       this.$store.commit("setBg", {
         bg: this.selectedImage,
         x: 10,
@@ -290,10 +258,8 @@ export default {
         opacity: this.opacity,
       });
       this.$store.dispatch("getStarMap");
-      this.loading = false;
     },
     updateUploadedBgOpacity() {
-      this.loading = true;
       this.$store.commit("setBg", {
         bg: this.uploadedBg,
         x: 10,
@@ -301,7 +267,6 @@ export default {
         opacity: this.uploadedBgOpacity,
       });
       this.$store.dispatch("getStarMap");
-      this.loading = false;
     },
     checkout() {
       localStorage.setItem(

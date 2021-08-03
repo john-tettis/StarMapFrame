@@ -38,17 +38,26 @@
       </v-stepper>
     </v-col>
     <v-col cols="12" xl="5" lg="5" md="12" sm="12">
+      <v-card
+      height="540"
+      width="400"
+    >
       <div
         id="frame"
         :style="
           'border:10px solid' + $store.state.starmap.customize.frame + ';'
         "
       >
+        <v-overlay :absolute="true" :value="$store.state.loading">
+          <v-progress-circular indeterminate color="primary">
+        </v-progress-circular>
+        </v-overlay>
         <inline-svg
           style="scale: 0.509; position: relative; top: -260px;left: 188px;direction:ltr;z-index:0"
           :src="$store.state.path"
         />
       </div>
+      </v-card>
     </v-col>
   </v-row>
 </template>
@@ -78,12 +87,12 @@ export default {
       svgSource: this.$store.state.path,
     };
   },
-  mounted(){
+  mounted() {
     const editMode = localStorage.getItem("editMode");
-    if(editMode){
-      this.step=2;
+    if (editMode) {
+      this.step = 2;
     }
-  }
+  },
 };
 </script>
 
@@ -99,8 +108,8 @@ export default {
     width: 100% !important;
     height: 520px !important;
   }
-  svg{
-    scale: 0.490 !important;
+  svg {
+    scale: 0.49 !important;
     left: 205px !important;
     top: -270px !important;
   }

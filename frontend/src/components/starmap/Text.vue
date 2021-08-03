@@ -234,21 +234,15 @@
         </v-col>
       </v-row>
     </v-form>
-    <Loading :isLoading="loading" />
   </div>
 </template>
 
 <script>
-import Loading from "@/components/Loading";
 
 export default {
   name: "star-text",
-  components: {
-    Loading,
-  },
   data() {
     return {
-      loading: false,
       valid: true,
       line1Menu: false,
       line2Menu: false,
@@ -278,16 +272,12 @@ export default {
   },
   methods: {
     updateStars() {
-      this.loading = true;
       this.$store.commit("setText", {
         line1: this.line1,
         line2: this.line2,
         line3: this.line3,
       });
       this.$store.dispatch("getStarMap");
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
     },
     deleteLine() {
       if(this.counter === 2){

@@ -19,6 +19,7 @@ Vue.$cookies.config('7d')
 
 const store = new Vuex.Store({
   state: {
+    loading: false,
     path: "",
     starmap: {
       paint: true,
@@ -71,6 +72,9 @@ const store = new Vuex.Store({
     },
   },
   mutations: {
+    setLoading(state, loading){
+      state.loading = loading;
+    },
     setGeo(state, geo) {
       state.starmap.geo = geo;
     },
@@ -101,6 +105,7 @@ const store = new Vuex.Store({
   },
   actions: {
     async getStarMap(context) {
+      context.commit("setLoading", true);
       await setTimeout(() => {
         axios
           .post("/api/starmap", context.state.starmap)
@@ -108,9 +113,11 @@ const store = new Vuex.Store({
             if (response.data.result) {
               context.commit("setImage", response.data.path + `?${Date.now()}`);
             }
+            context.commit("setLoading", false);
           })
           .catch((error) => {
             console.log(error);
+            context.commit("setLoading", false);
           });
       }, 500);
     },
