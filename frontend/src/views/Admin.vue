@@ -330,7 +330,7 @@ export default {
       this.$store.commit("setProduct", product);
       this.$store.commit(
         "setImage",
-        `http://localhost:5000/download/${product.filename}`
+        `${process.env.VUE_APP_BACKEND || 'http://localhost:5000'}/download/${product.filename}`
       );
       //setTimeout(()=>{
         this.$router.push("/builder");

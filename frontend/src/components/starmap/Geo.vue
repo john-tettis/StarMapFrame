@@ -100,7 +100,7 @@ export default {
       activePicker: null,
       valid: true,
       client: new Client({}),
-      API_KEY: "AIzaSyBgBc9WzvrQY4A2AJNrahd1Od8LRI2lv9w",
+      API_KEY: process.env.VUE_APP_GOOGLE_MAP_API || "AIzaSyBgBc9WzvrQY4A2AJNrahd1Od8LRI2lv9w",
       dateMenu: false,
       dateValue: null,
       timeMenu: false,

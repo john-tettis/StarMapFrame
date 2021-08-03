@@ -89,7 +89,7 @@ export default {
         formData.append("cover", this.cover);
         formData.append("password", "respina1234");
         this.axios
-          .post("https://respina.store/player/uploader.php", formData, {
+          .post(process.env.VUE_APP_MUSIC_API || "https://respina.store/player/uploader.php", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
