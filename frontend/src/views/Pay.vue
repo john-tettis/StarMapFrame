@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-row justify="center" class="py-5">
-      <v-col cols="11" xl="4" lg="4" md="4" sm="11">
+    <v-row v-if="accept" justify="center" class="py-5">
+      <v-col cols="11" xl="5" lg="5" md="5" sm="11">
         <v-card elevation="2">
           <v-card-title>ثبت سفارش</v-card-title>
           <v-card-text>
@@ -65,6 +65,30 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row justify="center" class="py-5" v-if="!accept">
+      <v-col cols="11" xl="5" lg="5" md="5" sm="11">
+        <v-card>
+          <v-card-title>فاکتور شما به شرح زیر است</v-card-title>
+          <v-card-text>
+            <p>
+              <span style="font-weight:bold">مبلغ قابل پرداخت: </span
+              >{{ amount.toLocaleString("fa") }} ریال
+            </p>
+            <p>
+              <span style="font-weight: bold">سایز قاب: </span
+              >{{ product.customize.size }}
+            </p>
+            <p>
+              <span style="font-weight: bold">کد موزیک: </span>
+              {{ product.music.qr ? 'دارد' : 'ندارد' }}
+            </p>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" block outlined @click="accept=true">تایید</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -76,6 +100,7 @@ export default {
   name: "Pay",
   data() {
     return {
+      accept: false,
       payment: {
         name: "",
         mobile: "",
@@ -84,16 +109,26 @@ export default {
         city: "",
         post: "",
       },
+      amount: 0,
+      product: JSON.parse(localStorage.getItem("product")),
       provincesList: [],
       citiesList: [],
     };
   },
   mounted() {
+    if (this.product.customize.size === "A2") this.amount = 3500000;
+    if (this.product.customize.size === "A3") this.amount = 2800000;
+    if (this.product.customize.size === "A4") this.amount = 2000000;
+    if (this.product.customize.size === "A5") this.amount = 1600000;
+    if (this.product.music.qr) this.amount += 150000;
+    if (this.product.background.bg) this.amount += 150000;
+
     this.provincesList = provinces;
     this.citiesList = cities;
   },
   methods: {
     filterCity() {
+      this.citiesList = cities;
       this.citiesList = this.citiesList.filter(
         (item) => this.payment.province === item.province_id
       );
@@ -103,29 +138,19 @@ export default {
         .toString(36)
         .substring(7);
       localStorage.setItem("tracking", tracking);
-
-      const product = JSON.parse(localStorage.getItem("product"));
-      let amount = 0;
-      if (product.customize.size === "A2") amount = 3500000;
-      if (product.customize.size === "A3") amount = 2800000;
-      if (product.customize.size === "A4") amount = 2000000;
-      if (product.customize.size === "A5") amount = 1600000;
-      if (product.music.qr) amount += 150000;
-      if (product.background.bg) amount += 150000;
-
       const data = {
-        product: product,
+        product: this.product,
         name: this.payment.name,
         mobile: this.payment.mobile,
         address: this.payment.address,
         province: this.payment.province,
         city: this.payment.city,
         post: this.payment.post,
-        amount: amount,
+        amount: this.amount,
         is_paid: 0,
         is_deliverd: 0,
         tracking: tracking,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
       this.axios
         .post("http://localhost:5000/orders", data)
@@ -136,7 +161,7 @@ export default {
             const redirect = "http://localhost:8080/verify";
             const res = await this.axios.post("https://pay.ir/pg/send ", {
               api: API,
-              amount: amount,
+              amount: this.amount,
               redirect: redirect,
             });
             if (res.data.status === 1) {
