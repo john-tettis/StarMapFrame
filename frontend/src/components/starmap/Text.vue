@@ -202,21 +202,18 @@
             :disabled="counter === 2"
             block
             >افزودن پاراگراف</v-btn
-          ></v-col>
-          <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-            <v-btn
+          ></v-col
+        >
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+          <v-btn
             color="secondary"
             outlined
-            @click="
-              () => {
-                counter == 0 ? '' : counter--;
-              }
-            "
+            @click="deleteLine"
             :disabled="counter == 0"
             block
             >حذف پاراگراف</v-btn
           >
-          </v-col>
+        </v-col>
       </v-row>
 
       <v-row>
@@ -287,28 +284,48 @@ export default {
         line2: this.line2,
         line3: this.line3,
       });
-      this.axios
-        .post("/api/starmap", this.$store.state.starmap)
-        .then((response) => {
-          if (response.data.result) {
-            this.$store.commit(
-              "setImage",
-              response.data.path + `?${Date.now()}`
-            );
-          }
-          this.loading = false;
-        });
+      this.$store.dispatch("getStarMap");
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
+    },
+    deleteLine() {
+      if(this.counter === 2){
+        this.line3 = {
+        value: "",
+        size: "42",
+        font: "Roboto",
+        color: "#FFFFFF"
+        };
+        this.updateStars()
+      }
+
+      if (this.counter === 1) {
+        this.line2 = {
+          value: "",
+          size: "42",
+          font: "Roboto",
+          color: "#FFFFFF",
+        };
+        this.updateStars();
+      }
+
+      if (this.counter === 0) {
+        return;
+      } else {
+        this.counter -= 1;
+      }
     },
   },
   mounted() {
     this.axios.get("/api/fonts").then((response) => {
       this.availableFonts = response.data.fonts;
     });
-    const editMode = localStorage.getItem("editMode")
-    if (editMode){
-      this.line1 = this.$store.state.starmap.text.line1
-      this.line2 = this.$store.state.starmap.text.line2
-      this.line3 = this.$store.state.starmap.text.line3
+    const editMode = localStorage.getItem("editMode");
+    if (editMode) {
+      this.line1 = this.$store.state.starmap.text.line1;
+      this.line2 = this.$store.state.starmap.text.line2;
+      this.line3 = this.$store.state.starmap.text.line3;
     }
   },
 };

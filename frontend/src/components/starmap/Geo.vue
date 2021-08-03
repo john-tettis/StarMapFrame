@@ -60,8 +60,8 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
-          outlined
-          dense
+            outlined
+            dense
             v-model="timeValue"
             label="زمان"
             prepend-inner-icon="mdi-clock-time-four-outline"
@@ -88,6 +88,7 @@
 import { Client } from "@googlemaps/google-maps-services-js";
 import moment from "moment";
 import Loading from "@/components/Loading";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "star-geo",
@@ -95,10 +96,10 @@ export default {
     Loading,
   },
   watch: {
-      dateMenu (val) {
-        val && setTimeout(() => (this.activePicker = 'YEAR'))
-      },
+    dateMenu(val) {
+      val && setTimeout(() => (this.activePicker = "YEAR"));
     },
+  },
   data() {
     return {
       activePicker: null,
@@ -134,7 +135,7 @@ export default {
           console.log(e);
         });
     },
-    getCoordinate(location) {
+    async getCoordinate(location) {
       this.client
         .geocode({
           params: {
@@ -142,8 +143,8 @@ export default {
             key: this.API_KEY,
           },
         })
-        .then((r) => {
-          this.coordinate = r.data.results[0].geometry.location;
+        .then(async (r) => {
+          this.coordinate = await r.data.results[0].geometry.location;
         })
         .catch((e) => {
           console.log(e);
@@ -154,31 +155,70 @@ export default {
       this.loading = true;
       if (this.valid) {
         await this.getCoordinate(this.location);
-        setTimeout(() => {
-          this.$store.commit("setGeo", {
-            location: this.coordinate,
-            time: moment(this.timeValue, "hh:mm").format("hh.mm.ss"),
-            date: moment(this.dateValue).format("DD.MM.YYYY"),
-          });
-          this.axios
-            .post("/api/starmap", this.$store.state.starmap)
-            .then((response) => {
-              this.loading = false;
-              if (response.data.result) {
-                this.$store.commit(
-                  "setImage",
-                  response.data.path + `?${Date.now()}`
-                );
-                this.$emit("update:stepper", 2);
-              }
-            })
-            .catch((error) => {
-              this.loading = false;
-              console.log(error);
-            });
-        }, 1500);
+        setTimeout(async ()=>{
+          await this.$store.commit("setGeo", {
+          location: this.coordinate,
+          time: moment(this.timeValue, "hh:mm").format("hh.mm.ss"),
+          date: moment(this.dateValue).format("DD.MM.YYYY"),
+        });
+          await this.$store.dispatch("getStarMap")
+          this.$emit("update:stepper", 2);
+        }, 1500)
+
       }
     },
+  },
+  mounted() {
+    this.$store.commit("setProduct", {
+      paint: true,
+      shape: false,
+      geo: {
+        coordinate: "",
+        date: "",
+        time: "",
+      },
+      text: {
+        line1: {
+          value: "",
+          font: "",
+          size: "42",
+          color: "#ffffff",
+        },
+        line2: {
+          value: "",
+          font: "",
+          size: "42",
+          color: "#ffffff",
+        },
+        line3: {
+          value: "",
+          font: "",
+          size: "42",
+          color: "#ffffff",
+        },
+      },
+      music: {
+        qr: "",
+      },
+      background: {
+        bg: "",
+        x: "",
+        y: "",
+        opacity: 40,
+        wallpaper: "",
+      },
+      customize: {
+        size: "A1",
+        frame: "#212121",
+        background: "#000000",
+        dot: true,
+        star: true,
+        constellation: true,
+        constellationText: true,
+      },
+      filename: uuidv4() + ".svg",
+    });
+    this.$store.commit("setImage", "");
   },
   props: ["stepper"],
 };
