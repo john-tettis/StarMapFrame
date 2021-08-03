@@ -347,6 +347,7 @@ export default {
         star: this.showStar,
         constellation: this.showConstellation,
         constellationText: this.showConstellationText,
+        wallpaper: this.$store.state.starmap.customize.wallpaper
       });
       this.$store.dispatch("getStarMap");
     },

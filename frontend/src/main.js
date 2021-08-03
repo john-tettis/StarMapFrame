@@ -57,12 +57,12 @@ const store = new Vuex.Store({
         x: "",
         y: "",
         opacity: 40,
-        wallpaper: "",
       },
       customize: {
         size: "A3",
         frame: "#212121",
         background: "#000000",
+        wallpaper: "",
         dot: true,
         star: true,
         constellation: true,
@@ -97,7 +97,7 @@ const store = new Vuex.Store({
       state.starmap.shape = shape;
     },
     setWallpaper(state, wallpaper) {
-      state.starmap.background.wallpaper = wallpaper;
+      state.starmap.customize.wallpaper = wallpaper;
     },
     setProduct(state, product){
       state.starmap = product
