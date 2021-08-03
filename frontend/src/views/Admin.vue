@@ -279,6 +279,7 @@ export default {
           alert("توکن شما منقضی شده است...");
         }
         this.loading = false;
+        this.deleteDialog = false;
       });
     },
     downloadStarmap(product) {
