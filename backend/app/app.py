@@ -294,8 +294,9 @@ def edit_order(id):
 def print_status(id):
     db = get_db()
     c = db.cursor()
+    data = request.json
     try:
-        c.execute(f"UPDATE orders SET is_printed=1 WHERE id={id}")
+        c.execute(f"UPDATE orders SET is_printed={data['status']} WHERE id={id}")
         db.commit()
         return jsonify(result=True, message="OK!")
     except OperationalError as e:

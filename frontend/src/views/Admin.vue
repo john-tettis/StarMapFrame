@@ -164,14 +164,23 @@
               <span>ویرایش سفارش</span>
             </v-tooltip>
           </template>
-          <template v-slot:[`item.is_printed`]="{item}">
+          <template v-slot:[`item.is_printed`]="{ item }">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn :disabled="item.is_printed===1" @click="setAsPrinted(item.id)" fab x-small text v-on="on" v-bind="attrs" color="green">
-                  <v-icon>mdi-printer-3d-nozzle</v-icon>
+                <v-btn
+                  @click="setAsPrinted(item.id, item.is_printed)"
+                  fab
+                  x-small
+                  text
+                  v-on="on"
+                  v-bind="attrs"
+                  color="green"
+                >
+                  <v-icon>mdi-file-find</v-icon>
                 </v-btn>
               </template>
-              <span>وضعیت پرینت</span>
+              <span v-if="item.is_printed === 1">پرینت شده</span>
+              <span v-else>پرینت نشده</span>
             </v-tooltip>
           </template>
         </v-data-table>
@@ -258,8 +267,8 @@ export default {
       star = JSON.parse(star);
       const data = {
         ...star,
-        MODE: "PROD"
-      }
+        MODE: "PROD",
+      };
       this.axios.post("/api/starmap", data).then((res) => {
         this.loading = false;
         window.open(res.data.path);
@@ -301,22 +310,34 @@ export default {
       );
       this.$router.push("/builder");
     },
-    setAsPrinted(id){
+    setAsPrinted(id, status) {
       this.loading = true;
-      this.axios.post(`/api/orders/setPrinted/${id}`).then(response=>{
-        if(response.status === 200 && response.data.result){
-          alert("وضعیت پرینتر به پرینت شده تغییر یافت...")
-        }
-        this.loading = false
-      }).catch((error)=>{
-        console.loading(error);
-        this.loading = false;
-      })
+      let is_printed = 0;
+      if (status === 0) {
+        is_printed = 1;
+      } else if (status === 1) {
+        is_printed = 0;
+      } else {
+        is_printed = 0;
+      }
+      this.axios
+        .post(`/api/orders/setPrinted/${id}`, { status: is_printed })
+        .then((response) => {
+          if (response.status === 200 && response.data.result) {
+            alert("وضعیت پرینتر تغییر یافت...");
+            this.getOrders();
+          }
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.loading(error);
+          this.loading = false;
+        });
     },
-    logout(){
+    logout() {
       this.$cookies.remove("token");
-      this.$router.push("/")
-    }
+      this.$router.push("/");
+    },
   },
 };
 </script>
