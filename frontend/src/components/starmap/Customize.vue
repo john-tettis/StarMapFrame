@@ -361,7 +361,7 @@ export default {
       this.showDot = this.$store.state.starmap.customize.dot;
       this.showStar = this.$store.state.starmap.customize.star;
       this.showConstellation = this.$store.state.starmap.customize.constellation;
-      this.constellationText = this.$store.state.starmap.customize.constellationText;
+      this.showConstellationText = this.$store.state.starmap.customize.constellationText;
     }
   }
 };

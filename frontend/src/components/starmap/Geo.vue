@@ -161,56 +161,59 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit("setProduct", {
-      paint: true,
-      shape: false,
-      geo: {
-        coordinate: "",
-        date: "",
-        time: "",
-      },
-      text: {
-        line1: {
-          value: "",
-          font: "",
-          size: "42",
-          color: "#ffffff",
+    const editMode = localStorage.getItem("editMode");
+    if (!editMode) {
+      this.$store.commit("setProduct", {
+        paint: true,
+        shape: false,
+        geo: {
+          coordinate: "",
+          date: "",
+          time: "",
         },
-        line2: {
-          value: "",
-          font: "",
-          size: "42",
-          color: "#ffffff",
+        text: {
+          line1: {
+            value: "",
+            font: "",
+            size: "42",
+            color: "#ffffff",
+          },
+          line2: {
+            value: "",
+            font: "",
+            size: "42",
+            color: "#ffffff",
+          },
+          line3: {
+            value: "",
+            font: "",
+            size: "42",
+            color: "#ffffff",
+          },
         },
-        line3: {
-          value: "",
-          font: "",
-          size: "42",
-          color: "#ffffff",
+        music: {
+          qr: "",
         },
-      },
-      music: {
-        qr: "",
-      },
-      background: {
-        bg: "",
-        x: "",
-        y: "",
-        opacity: 40,
-        wallpaper: "",
-      },
-      customize: {
-        size: "A1",
-        frame: "#212121",
-        background: "#000000",
-        dot: true,
-        star: true,
-        constellation: true,
-        constellationText: true,
-      },
-      filename: uuidv4() + ".svg",
-    });
-    this.$store.commit("setImage", "");
+        background: {
+          bg: "",
+          x: "",
+          y: "",
+          opacity: 40,
+          wallpaper: "",
+        },
+        customize: {
+          size: "A1",
+          frame: "#212121",
+          background: "#000000",
+          dot: true,
+          star: true,
+          constellation: true,
+          constellationText: true,
+        },
+        filename: uuidv4() + ".svg",
+      });
+      this.$store.commit("setImage", "");
+    }
   },
   props: ["stepper"],
 };

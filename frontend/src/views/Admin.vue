@@ -330,9 +330,11 @@ export default {
       this.$store.commit("setProduct", product);
       this.$store.commit(
         "setImage",
-        `http://localhost:5000/download/${product.path}`
+        `http://localhost:5000/download/${product.filename}`
       );
-      this.$router.push("/builder");
+      //setTimeout(()=>{
+        this.$router.push("/builder");
+      //}, 1500)
     },
     setAsPrinted(id, status) {
       this.loading = true;
