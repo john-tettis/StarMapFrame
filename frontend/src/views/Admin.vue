@@ -73,17 +73,17 @@
           :items="orders"
           :sort-by="['timestamp']"
           :sort-desc="[true]"
-          :items-per-page="5"
+          :items-per-page="10"
           class="elevation-1"
           show-select
           :single-select="false"
         >
-        <template v-slot:[`item.timestamp`]="{item}">
-          {{convertUnixTimeIntoDate(item.timestamp)}}
-        </template>
+          <template v-slot:[`item.timestamp`]="{ item }">
+            {{ convertUnixTimeIntoDate(item.timestamp) }}
+          </template>
           <template v-slot:[`item.amount`]="{ item }">
             <span v-if="item.amount !== undefined">{{
-              parseInt(item.amount).toLocaleString('fa')
+              parseInt(item.amount).toLocaleString("fa")
             }}</span>
           </template>
           <template v-slot:[`item.is_paid`]="{ item }">
@@ -191,12 +191,59 @@
         </v-data-table>
       </v-col>
     </v-row>
+
+    <v-divider class="my-5"></v-divider>
+    <v-row justify="center">
+      <v-col cols="12" xl="6" lg="6" md="6" sm="12">
+        <v-card>
+          <v-card-title>آپلود والپیپر</v-card-title>
+          <v-card-text>
+            از این بخش می‌تونی والپیپر پشت ستاره‌ی آسمان رو آپلود کنی
+            <v-file-input label="فایل عکس" dense outlined class="mt-5" />
+            <v-btn color="primary" block outlined>آپلود</v-btn>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="12" xl="6" lg="6" md="6" sm="12">
+        <v-card>
+          <v-card-title>آپلود بکگراند</v-card-title>
+          <v-card-text>
+            از این بخش می‌تونی بکگراند پشت ستاره‌ی آسمان رو آپلود کنی
+            <v-file-input label="فایل عکس" dense outlined class="mt-5" />
+            <v-btn color="primary" block outlined>آپلود</v-btn>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <h2 class="my-5">لیست تمامی عکس‌های آپلود شده</h2>
+        <v-data-table :headers="fileHeaders" :items="files" class="elevation-1">
+          <template v-slot:[`item.preview`]="{ item }">
+            <img
+              class="d-block mx-auto"
+              :src="item.preview"
+              :alt="item.filename"
+              width="128"
+              height="128"
+            />
+          </template>
+          <template v-slot:[`item.deleteImage`]>
+            <v-btn color="red" text>
+              <v-icon small>mdi-delete</v-icon>
+            </v-btn>
+          </template>
+        </v-data-table>
+      </v-col>
+    </v-row>
     <v-dialog v-model="deleteDialog" max-width="400">
       <v-card>
         <v-card-title>حذف</v-card-title>
         <v-card-text>آیا از حذف کردن این سفارش مطمئن هستید؟</v-card-text>
         <v-card-actions>
-          <v-btn color="red" class="white--text" @click="deleteOrder">بله</v-btn>
+          <v-btn color="red" class="white--text" @click="deleteOrder"
+            >بله</v-btn
+          >
           <v-btn color="gray" text @click="deleteDialog = false">خیر</v-btn>
         </v-card-actions>
       </v-card>
@@ -209,7 +256,7 @@
 import cities from "@/assets/city.json";
 import provinces from "@/assets/provinces.json";
 import Loading from "@/components/Loading";
-import moment from 'moment-jalaali';
+import moment from "moment-jalaali";
 export default {
   name: "AdminPanel",
   components: {
@@ -223,7 +270,7 @@ export default {
       selected: [],
       headers: [
         { text: "کد پیگیری", value: "tracking" },
-        { text: "تاریخ", value: "timestamp"},
+        { text: "تاریخ", value: "timestamp" },
         { text: "مبلغ (ریال)", value: "amount" },
         { text: "نام و نام خانوادگی", value: "name" },
         { text: "موبایل", value: "mobile" },
@@ -239,11 +286,25 @@ export default {
         { text: "", value: "deleteItem", sortable: false, width: 1 },
         { text: "", value: "is_printed", sortable: false, width: 1 },
       ],
+      fileHeaders: [
+        { text: "نوع", value: "type" },
+        { text: "نام", value: "filename" },
+        { text: "پیش نمایش", value: "preview" },
+        { text: "", value: "deleteImage", sortable: false },
+      ],
       orders: [],
+      wallpapers: [],
+      backgrounds: [],
+      files: [],
     };
   },
   mounted() {
     this.getOrders();
+    this.getWallpapers();
+    this.getBackgrounds();
+    setTimeout(() => {
+      this.files = [...this.wallpapers, ...this.backgrounds];
+    }, 1500);
   },
   methods: {
     getOrders() {
@@ -265,8 +326,8 @@ export default {
         this.loading = false;
       });
     },
-    openDeleteOrderDialog(id){
-      this.orderID = id
+    openDeleteOrderDialog(id) {
+      this.orderID = id;
       this.deleteDialog = true;
     },
     deleteOrder() {
@@ -274,7 +335,7 @@ export default {
       this.axios.delete(`/api/orders/${this.orderID}`).then((res) => {
         if (res.status === 200 && res.data.result) {
           this.getOrders();
-          this.orderID = null
+          this.orderID = null;
         } else {
           alert("توکن شما منقضی شده است...");
         }
@@ -330,10 +391,12 @@ export default {
       this.$store.commit("setProduct", product);
       this.$store.commit(
         "setImage",
-        `${process.env.VUE_APP_BACKEND || 'http://localhost:5000'}/download/${product.filename}`
+        `${process.env.VUE_APP_BACKEND || "http://localhost:5000"}/download/${
+          product.filename
+        }`
       );
       //setTimeout(()=>{
-        this.$router.push("/builder");
+      this.$router.push("/builder");
       //}, 1500)
     },
     setAsPrinted(id, status) {
@@ -364,10 +427,50 @@ export default {
       this.$cookies.remove("token");
       this.$router.push("/");
     },
-    convertUnixTimeIntoDate(unix){
-      moment.locale('fa');
-      return moment.unix(unix/1000).format("jYYYY/jMM/jDD")
-    }
+    convertUnixTimeIntoDate(unix) {
+      moment.locale("fa");
+      return moment.unix(unix / 1000).format("jYYYY/jMM/jDD");
+    },
+    getWallpapers() {
+      this.axios
+        .post("/api/assets/get", {
+          wallpapers: true,
+        })
+        .then((response) => {
+          if (response.status === 200 && response.data.result) {
+            let wallpapers = response.data.files;
+            let images = [];
+            wallpapers.forEach((filename) => {
+              images.push({
+                type: "والپیپر",
+                filename: filename,
+                preview: `${process.env.VUE_APP_BACKEND}/assets/get/wallpapers/${filename}`,
+              });
+            });
+            this.wallpapers = images;
+          }
+        });
+    },
+    getBackgrounds() {
+      this.axios
+        .post("/api/assets/get", {
+          backgrounds: true,
+        })
+        .then((response) => {
+          if (response.status === 200 && response.data.result) {
+            let backgrounds = response.data.files;
+            let images = [];
+            backgrounds.forEach((filename) => {
+              images.push({
+                type: "بکگراند",
+                filename: filename,
+                preview: `${process.env.VUE_APP_BACKEND}/assets/get/backgrounds/${filename}`,
+              });
+            });
+            this.backgrounds = images;
+          }
+        });
+    },
   },
 };
 </script>
