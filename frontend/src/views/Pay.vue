@@ -126,6 +126,7 @@ export default {
         is_paid: 0,
         is_deliverd: 0,
         tracking: tracking,
+        timestamp: Date.now()
       };
       this.axios
         .post("http://localhost:5000/orders", data)

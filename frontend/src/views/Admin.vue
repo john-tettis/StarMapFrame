@@ -71,14 +71,19 @@
           v-model="selected"
           :headers="headers"
           :items="orders"
+          :sort-by="['timestamp']"
+          :sort-desc="[true]"
           :items-per-page="5"
           class="elevation-1"
           show-select
           :single-select="false"
         >
+        <template v-slot:[`item.timestamp`]="{item}">
+          {{convertUnixTimeIntoDate(item.timestamp)}}
+        </template>
           <template v-slot:[`item.amount`]="{ item }">
             <span v-if="item.amount !== undefined">{{
-              parseInt(item.amount).toLocaleString()
+              parseInt(item.amount).toLocaleString('fa')
             }}</span>
           </template>
           <template v-slot:[`item.is_paid`]="{ item }">
@@ -204,7 +209,7 @@
 import cities from "@/assets/city.json";
 import provinces from "@/assets/provinces.json";
 import Loading from "@/components/Loading";
-
+import moment from 'moment-jalaali';
 export default {
   name: "AdminPanel",
   components: {
@@ -218,6 +223,7 @@ export default {
       selected: [],
       headers: [
         { text: "کد پیگیری", value: "tracking" },
+        { text: "تاریخ", value: "timestamp"},
         { text: "مبلغ (ریال)", value: "amount" },
         { text: "نام و نام خانوادگی", value: "name" },
         { text: "موبایل", value: "mobile" },
@@ -355,6 +361,10 @@ export default {
       this.$cookies.remove("token");
       this.$router.push("/");
     },
+    convertUnixTimeIntoDate(unix){
+      moment.locale('fa');
+      return moment.unix(unix/1000).format("jYYYY/jMM/jDD")
+    }
   },
 };
 </script>
