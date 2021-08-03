@@ -59,7 +59,7 @@ const store = new Vuex.Store({
         wallpaper: "",
       },
       customize: {
-        size: "A1",
+        size: "A3",
         frame: "#212121",
         background: "#000000",
         dot: true,

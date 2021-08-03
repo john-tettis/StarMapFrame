@@ -4,10 +4,10 @@
     <v-form ref="form" v-model="valid">
       <p>اندازه‌ی قاب:</p>
       <v-radio-group row @change="updateStar" v-model="radioGroup">
-        <v-radio key="A1" label="A1" value="A1" />
         <v-radio key="A2" label="A2" value="A2" />
         <v-radio key="A3" label="A3" value="A3" />
         <v-radio key="A4" label="A4" value="A4" />
+        <v-radio key="A5" label="A5" value="A5" />
       </v-radio-group>
 
       <v-divider class="my-5"></v-divider>
@@ -328,7 +328,7 @@ export default {
       valid: true,
       bgValue: "#000000",
       bgMenu: false,
-      radioGroup: "A1",
+      radioGroup: "A3",
 
       frameMenu: false,
       frameValue: "#212121",
