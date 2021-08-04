@@ -195,7 +195,7 @@ def uploadAssets():
             return jsonify(result=False, message=str(e))
     if 'wallpaper' in request.files:
         bg = request.files['wallpaper']
-        path = os.path.join(PATH, f"assets/wallpaper/{bg.filename}")
+        path = os.path.join(PATH, f"assets/wallpapers/{bg.filename}")
         try:
             bg.save(path)
             return jsonify(result=True, path=f"{HOST}/assets/wallpaper/{bg.filename}")

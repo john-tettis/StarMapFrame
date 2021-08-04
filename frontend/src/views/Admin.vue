@@ -199,8 +199,21 @@
           <v-card-title>آپلود والپیپر</v-card-title>
           <v-card-text>
             از این بخش می‌تونی والپیپر پشت ستاره‌ی آسمان رو آپلود کنی
-            <v-file-input label="فایل عکس" dense outlined class="mt-5" />
-            <v-btn color="primary" block outlined>آپلود</v-btn>
+            <v-file-input
+              v-model="wallpaper"
+              label="فایل عکس"
+              dense
+              outlined
+              class="mt-5"
+            />
+            <v-btn
+              color="primary"
+              block
+              outlined
+              @click="wallpaperUpload"
+              :disabled="wallpaper.length === 0"
+              >آپلود</v-btn
+            >
           </v-card-text>
         </v-card>
       </v-col>
@@ -209,8 +222,21 @@
           <v-card-title>آپلود بکگراند</v-card-title>
           <v-card-text>
             از این بخش می‌تونی بکگراند پشت ستاره‌ی آسمان رو آپلود کنی
-            <v-file-input label="فایل عکس" dense outlined class="mt-5" />
-            <v-btn color="primary" block outlined>آپلود</v-btn>
+            <v-file-input
+              v-model="background"
+              label="فایل عکس"
+              dense
+              outlined
+              class="mt-5"
+            />
+            <v-btn
+              color="primary"
+              block
+              outlined
+              @click="backgroundUpload"
+              :disabled="background.length === 0"
+              >آپلود</v-btn
+            >
           </v-card-text>
         </v-card>
       </v-col>
@@ -296,6 +322,8 @@ export default {
       wallpapers: [],
       backgrounds: [],
       files: [],
+      wallpaper: [],
+      background: [],
     };
   },
   mounted() {
@@ -470,6 +498,54 @@ export default {
             this.backgrounds = images;
           }
         });
+    },
+    wallpaperUpload() {
+      this.loading = true;
+      if (typeof this.wallpaper === "object") {
+        const formData = new FormData();
+        formData.append("wallpaper", this.wallpaper);
+        this.axios
+          .post("/api/uploadAssets", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            if (response.status === 200 && response.data.result) {
+              alert("با موفقیت آپلود شد....");
+            }
+            this.loading = false;
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("خطایی پیش آمده است....");
+            this.loading = false;
+          });
+      }
+    },
+    backgroundUpload() {
+      this.loading = true;
+      if (typeof this.wallpaper === "object") {
+        const formData = new FormData();
+        formData.append("background", this.background);
+        this.axios
+          .post("/api/uploadAssets", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            if (response.status === 200 && response.data.result) {
+              alert("با موفقیت آپلود شد....");
+            }
+            this.loading = false;
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("خطایی پیش آمده است....");
+            this.loading = false;
+          });
+      }
     },
   },
 };
