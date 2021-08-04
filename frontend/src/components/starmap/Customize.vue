@@ -80,109 +80,10 @@
         </v-row>
         <v-container>
           <v-row>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
+            <v-col v-for="wallpaper in wallpapers" :key="wallpaper" cols="6" xl="4" lg="4" md="6" sm="6">
               <img
                 class="wallpaper"
-                src="@/assets/wallpapers/1.jpg"
-                alt="bg"
-                width="100%"
-                height="150"
-              />
-            </v-col>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
-              <img
-                class="wallpaper"
-                src="@/assets/wallpapers/2.jpg"
-                alt="bg"
-                width="100%"
-                height="150"
-              />
-            </v-col>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
-              <img
-                class="wallpaper"
-                src="@/assets/wallpapers/4.jpg"
-                alt="bg"
-                width="100%"
-                height="150"
-              />
-            </v-col>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
-              <img
-                class="wallpaper"
-                src="@/assets/wallpapers/5.jpg"
-                alt="bg"
-                width="100%"
-                height="150"
-              />
-            </v-col>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
-              <img
-                class="wallpaper"
-                src="@/assets/wallpapers/6.jpg"
-                alt="bg"
-                width="100%"
-                height="150"
-              />
-            </v-col>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
-              <img
-                class="wallpaper"
-                src="@/assets/wallpapers/7.jpg"
-                alt="bg"
-                width="100%"
-                height="150"
-              />
-            </v-col>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
-              <img
-                class="wallpaper"
-                src="@/assets/wallpapers/8.jpg"
-                alt="bg"
-                width="100%"
-                height="150"
-              />
-            </v-col>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
-              <img
-                class="wallpaper"
-                src="@/assets/wallpapers/9.jpg"
-                alt="bg"
-                width="100%"
-                height="150"
-              />
-            </v-col>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
-              <img
-                class="wallpaper"
-                src="@/assets/wallpapers/10.jpg"
-                alt="bg"
-                width="100%"
-                height="150"
-              />
-            </v-col>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
-              <img
-                class="wallpaper"
-                src="@/assets/wallpapers/11.jpg"
-                alt="bg"
-                width="100%"
-                height="150"
-              />
-            </v-col>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
-              <img
-                class="wallpaper"
-                src="@/assets/wallpapers/12.jpg"
-                alt="bg"
-                width="100%"
-                height="150"
-              />
-            </v-col>
-            <v-col cols="6" xl="4" lg="4" md="6" sm="6">
-              <img
-                class="wallpaper"
-                src="@/assets/wallpapers/13.jpg"
+                :src="'http://localhost:5000/assets/get/wallpapers/' + wallpaper"
                 alt="bg"
                 width="100%"
                 height="150"
@@ -335,6 +236,8 @@ export default {
       showStar: true,
       showConstellation: true,
       showConstellationText: true,
+
+      wallpapers: []
     };
   },
   methods: {
@@ -351,6 +254,13 @@ export default {
       });
       this.$store.dispatch("getStarMap");
     },
+    getWallpapers(){
+      this.axios.post("/api/assets/get", {"wallpapers": true}).then((response)=>{
+        if(response.status===200 && response.data.result){
+          this.wallpapers = response.data.files
+        }
+      })
+    }
   },
   mounted(){
     const editMode = localStorage.getItem("editMode");
@@ -363,6 +273,7 @@ export default {
       this.showConstellation = this.$store.state.starmap.customize.constellation;
       this.showConstellationText = this.$store.state.starmap.customize.constellationText;
     }
+    this.getWallpapers()
   }
 };
 </script>
