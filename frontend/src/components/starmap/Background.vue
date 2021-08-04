@@ -22,67 +22,11 @@
     <div v-if="haveBg">
       <div v-if="sampleImg">
         <v-row>
-          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
+          <v-col v-for="background in backgrounds" :key="background" cols="12" xl="4" lg="4" md="6" sm="12">
             <img
               style="max-width:100%"
               @click="selectImage($event)"
-              src="https://picsum.photos/id/11/500/300"
-              alt="image"
-            />
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
-            <img
-              style="max-width:100%"
-              @click="selectImage($event)"
-              src="https://picsum.photos/id/11/500/300"
-              alt="image"
-            />
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
-            <img
-              style="max-width:100%"
-              @click="selectImage($event)"
-              src="https://picsum.photos/510/300?random"
-              alt="image"
-            />
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
-            <img
-              style="max-width:100%"
-              @click="selectImage($event)"
-              src="https://picsum.photos/id/11/500/300"
-              alt="image"
-            />
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
-            <img
-              style="max-width:100%"
-              @click="selectImage($event)"
-              src="https://picsum.photos/id/11/500/300"
-              alt="image"
-            />
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
-            <img
-              style="max-width:100%"
-              @click="selectImage($event)"
-              src="https://picsum.photos/510/300?random"
-              alt="image"
-            />
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
-            <img
-              style="max-width:100%"
-              @click="selectImage($event)"
-              src="https://picsum.photos/id/11/500/300"
-              alt="image"
-            />
-          </v-col>
-          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
-            <img
-              style="max-width:100%"
-              @click="selectImage($event)"
-              src="https://picsum.photos/510/300?random"
+              :src="'http://localhost:5000/assets/get/backgrounds/'+background"
               alt="image"
             />
           </v-col>
@@ -191,6 +135,7 @@ export default {
       uploadedBgOpacity: 40,
       sampleImg: true,
       customImg: false,
+      backgrounds: [],
     };
   },
   methods: {
@@ -292,7 +237,17 @@ export default {
         this.$router.push("/pay");
       }
     },
+    getBackgrounds(){
+      this.axios.post("/api/assets/get", {"backgrounds": true}).then((response)=>{
+        if(response.status===200 && response.data.result){
+          this.backgrounds = response.data.files
+        }
+      })
+    }
   },
+  mounted(){
+    this.getBackgrounds()
+  }
 };
 </script>
 
