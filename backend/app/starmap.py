@@ -145,6 +145,7 @@ def starmap_download_assets(path: str) -> Response:
     else:
         return jsonify(result=False, message="file not found")
 
+
 @blueprint.route('/download/<path>')
 def starmap_download_file(path: str) -> Response:
     """download the genrated svg of starmap
