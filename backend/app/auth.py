@@ -13,13 +13,13 @@ def login():
     username = data['username']
     password = data['password'].encode("utf-8")
     db = get_db()
-    c = db.cursor()
+    cursor = db.cursor()
     try:
-        c.execute(f'SELECT * FROM users WHERE username="{username}"')
-        row = c.fetchone()
+        cursor.execute(f'SELECT * FROM users WHERE username="{username}"')
+        row = cursor.fetchone()
         if row and checkpw(password, row[3]):
             token = secrets.token_hex(16)
-            c.execute(
+            cursor.execute(
                 "INSERT INTO tokens (userID, token) VALUES (?, ?)", (row[0], token))
             return jsonify(result=True, message="logged in successfully", token=token)
         else:
@@ -36,11 +36,11 @@ def register():
     password = data['password'].encode('utf-8')
 
     db = get_db()
-    c = db.cursor()
+    cursor = db.cursor()
     try:
         hashed = hashpw(password, gensalt(10))
         query = "INSERT INTO users (name, username, password) VALUES (?, ?, ?)"
-        c.execute(query, (name, username, hashed))
+        cursor.execute(query, (name, username, hashed))
         db.commit()
         return jsonify(result=True, message="Succefully signed up")
     except OperationalError as e:

@@ -44,6 +44,14 @@ CREATE TABLE IF NOT EXISTS tokens (
 )
 """
 
+DISCOUNT_TBL ="""
+CREATE TABLE IF NOT EXISTS discounts (
+    id integer PRIMARY KEY,
+    code text NOT NULL,
+    amount integer NOT NULL
+)
+"""
+
 
 def get_db():
     db = getattr(blueprint, '_database', None)
@@ -54,12 +62,27 @@ def get_db():
             c.execute(ORDERS_TBL)
             c.execute(USERS_TBL)
             c.execute(TOKEN_TBL)
+            c.execute(DISCOUNT_TBL)
         except Error as e:
             print(e)
     return db
+
+def to_json(rows: list, fields: list)-> list:
+    column_list = []
+    for i in fields:
+        column_list.append(i[0])
+    jsonData_list = []
+    for row in rows:
+        data_dict = {}
+        for i in range(len(column_list)):
+            data_dict[column_list[i]] = row[i]
+        jsonData_list.append(data_dict)
+
+    return jsonData_list
 
 
 from . import orders
 from . import starmap
 from . import auth
 from . import assets
+from . import discount
