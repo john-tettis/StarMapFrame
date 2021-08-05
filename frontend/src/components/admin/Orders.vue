@@ -252,22 +252,28 @@ export default {
   methods: {
     getOrders() {
       this.$emit("update:loading", true);
-      this.axios.get("/api/orders").then((res) => {
-        if (res.data.result) {
-          this.orders = res.data.data;
-          this.orders.forEach(async (elm) => {
-            elm.city = cities.filter(
-              (item) => item.id === parseInt(elm.city)
-            )[0].name;
-            elm.province = provinces.filter(
-              (item) => item.id === parseInt(elm.province)
-            )[0].name;
-          });
-        } else {
-          alert("شما وارد حساب کاربری خود نشدید");
-        }
-        this.$emit("update:loading", false);
-      });
+      this.axios
+        .get("/api/orders", {
+          headers: {
+            token: this.$cookies.get("token"),
+          },
+        })
+        .then((res) => {
+          if (res.data.result) {
+            this.orders = res.data.data;
+            this.orders.forEach(async (elm) => {
+              elm.city = cities.filter(
+                (item) => item.id === parseInt(elm.city)
+              )[0].name;
+              elm.province = provinces.filter(
+                (item) => item.id === parseInt(elm.province)
+              )[0].name;
+            });
+          } else {
+            alert("شما وارد حساب کاربری خود نشدید");
+          }
+          this.$emit("update:loading", false);
+        });
     },
     openDeleteOrderDialog(id) {
       this.orderID = id;
@@ -275,17 +281,23 @@ export default {
     },
     deleteOrder() {
       this.$emit("update:loading", true);
-      this.axios.delete(`/api/orders/${this.orderID}`).then((res) => {
-        if (res.status === 200 && res.data.result) {
-          this.getOrders();
-          this.orderID = null;
-        } else {
-          alert("توکن شما منقضی شده است...");
-        }
-        this.$emit("update:loading", false);
+      this.axios
+        .delete(`/api/orders/${this.orderID}`, {
+          headers: {
+            token: this.$cookies.get("token"),
+          },
+        })
+        .then((res) => {
+          if (res.status === 200 && res.data.result) {
+            this.getOrders();
+            this.orderID = null;
+          } else {
+            alert("توکن شما منقضی شده است...");
+          }
+          this.$emit("update:loading", false);
 
-        this.deleteDialog = false;
-      });
+          this.deleteDialog = false;
+        });
     },
     downloadStarmap(product) {
       this.$emit("update:loading", true);
@@ -355,7 +367,15 @@ export default {
         is_printed = 0;
       }
       this.axios
-        .post(`/api/orders/setPrinted/${id}`, { status: is_printed })
+        .post(
+          `/api/orders/setPrinted/${id}`,
+          { status: is_printed },
+          {
+            headers: {
+              token: this.$cookies.get("token"),
+            },
+          }
+        )
         .then((response) => {
           if (response.status === 200 && response.data.result) {
             alert("وضعیت پرینتر تغییر یافت...");

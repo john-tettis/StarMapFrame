@@ -4,9 +4,11 @@ from flask import jsonify, request, send_file
 from flask.wrappers import Response
 
 from . import HOST, PATH, blueprint
+from app.middleware import login_required
 
 
 @blueprint.route("/assets/upload", methods=['POST'])
+@login_required
 def assets_upload() -> Response:
     """Upload backgrounds & wallpapers into assets folder...\n
     For example: you have to have one of the following in your `request.files`. you can do it in frontend using javascript like the code below:
@@ -92,10 +94,12 @@ def assets_list_backgrounds(path: str) -> Response:
 
 
 @blueprint.route('/assets/delete/<path>', methods=['POST'])
+@login_required
 def assets_del_wallpaper(path: str) -> Response:
     pass
 
 
 @blueprint.route('/assets/delete/<path>', methods=['POST'])
+@login_required
 def assets_del_background(path: str) -> Response:
     pass

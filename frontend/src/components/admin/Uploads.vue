@@ -102,7 +102,9 @@ export default {
       this.axios
         .post("/api/assets/get", {
           wallpapers: true,
-        })
+        }, {headers: {
+            token: this.$cookies.get("token"),
+          },})
         .then((response) => {
           if (response.status === 200 && response.data.result) {
             let wallpapers = response.data.files;
@@ -122,7 +124,9 @@ export default {
       this.axios
         .post("/api/assets/get", {
           backgrounds: true,
-        })
+        }, {headers: {
+            token: this.$cookies.get("token"),
+          },})
         .then((response) => {
           if (response.status === 200 && response.data.result) {
             let backgrounds = response.data.files;
@@ -147,6 +151,7 @@ export default {
           .post("/api/assets/upload", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
+              "token": this.$cookies.get('token')
             },
           })
           .then((response) => {
@@ -172,6 +177,7 @@ export default {
           .post("/api/assets/upload", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
+              "token": this.$cookies.get('token')
             },
           })
           .then((response) => {
