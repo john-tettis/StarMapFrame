@@ -77,6 +77,12 @@
           show-select
           :single-select="false"
         >
+          <template v-slot:[`item.mobile`]="{ item }">
+            <span>{{ toFarsiNumber(item.mobile) }}</span>
+          </template>
+          <template v-slot:[`item.post`]="{ item }">
+            <span>{{ toFarsiNumber(item.post) }}</span>
+          </template>
           <template v-slot:[`item.timestamp`]="{ item }">
             {{ convertUnixTimeIntoDate(item.timestamp) }}
           </template>
@@ -369,6 +375,10 @@ export default {
     convertUnixTimeIntoDate(unix) {
       moment.locale("fa");
       return moment.unix(unix / 1000).format("jYYYY/jMM/jDD");
+    },
+    toFarsiNumber(n) {
+      const farsiDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+      return n.toString().replace(/\d/g, (x) => farsiDigits[x]);
     },
   },
 };
