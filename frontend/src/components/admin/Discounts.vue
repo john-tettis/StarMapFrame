@@ -60,7 +60,9 @@
           <v-btn color="red" class="white--text" @click="deleteDiscount"
             >حذف</v-btn
           >
-          <v-btn color="dark" text @click="deleteDiscountDialog = false">لغو</v-btn>
+          <v-btn color="dark" text @click="deleteDiscountDialog = false"
+            >لغو</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -89,51 +91,75 @@ export default {
   },
   methods: {
     addDiscount() {
-      this.$emit('update:loading', true);
-      if(this.code===null){
-        alert("کد تخفیف نباید خالی باشد!")
+      this.$emit("update:loading", true);
+      if (this.code === null) {
+        alert("کد تخفیف نباید خالی باشد!");
         return;
       }
-      if(this.amount===null){
+      if (this.amount === null) {
         alert("درصد تخفیف نباید خالی باشد");
         return;
       }
 
-      this.axios.post("/api/discounts", {
-        code: this.code, amount: this.amount
-      }).then(response=>{
-        if(response.status === 200 && response.data.result){
-          alert("کد تخفیف جدید اضافه شد...");
-          this.getDiscounts();
-        }
-        this.$emit('update:loading', false);
-      })
+      this.axios
+        .post(
+          "/api/discounts",
+          {
+            code: this.code,
+            amount: this.amount,
+          },
+          {
+            headers: {
+              token: this.$cookies.get("token"),
+            },
+          }
+        )
+        .then((response) => {
+          if (response.status === 200 && response.data.result) {
+            alert("کد تخفیف جدید اضافه شد...");
+            this.getDiscounts();
+          }
+          this.$emit("update:loading", false);
+        });
     },
     getDiscounts() {
-      this.axios.get("/api/discounts").then((response) => {
-        if (response.status === 200 && response.data.result) {
-          this.discounts = response.data.discounts;
-        }
-      });
+      this.axios
+        .get("/api/discounts", {
+          headers: {
+            token: this.$cookies.get("token"),
+          },
+        })
+        .then((response) => {
+          if (response.status === 200 && response.data.result) {
+            this.discounts = response.data.discounts;
+          }
+        });
     },
-    openDeleteDialog(id){
+    openDeleteDialog(id) {
       this.deleteDiscountDialog = true;
-      this.discountID = id
+      this.discountID = id;
     },
-    deleteDiscount(){
-      this.$emit('update:loading', true);
-      this.axios.delete(`/api/discounts/${this.discountID}`).then(response=>{
-        if(response.status === 200 && response.data.result){
-          alert("با موفقیت حذف شد!")
-          this.getDiscounts();
-        }
-        this.$emit('update:loading', false);
-        this.deleteDiscountDialog = false
-      }).catch(error=>{
-        console.log(error);
-        this.$emit('update:loading', false);
-      })
-    }
+    deleteDiscount() {
+      this.$emit("update:loading", true);
+      this.axios
+        .delete(`/api/discounts/${this.discountID}`, {
+          headers: {
+            token: this.$cookies.get("token"),
+          },
+        })
+        .then((response) => {
+          if (response.status === 200 && response.data.result) {
+            alert("با موفقیت حذف شد!");
+            this.getDiscounts();
+          }
+          this.$emit("update:loading", false);
+          this.deleteDiscountDialog = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$emit("update:loading", false);
+        });
+    },
   },
 };
 </script>

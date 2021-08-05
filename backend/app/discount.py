@@ -1,10 +1,13 @@
 from sqlite3.dbapi2 import Connection, OperationalError
 from flask.wrappers import Response
+
+from app.middleware import login_required
 from . import blueprint, get_db, to_json
 from flask import request, jsonify
 
 
 @blueprint.route('/discounts/', methods=['GET'])
+@login_required
 def discounts_get() -> Response:
     """List of all discounts available in database
 
@@ -24,6 +27,7 @@ def discounts_get() -> Response:
 
 
 @blueprint.route('/discounts/', methods=['POST'])
+@login_required
 def discounts_add() -> Response:
     """Create a discount by giving a discount `code` and `amount`!
 
@@ -43,6 +47,7 @@ def discounts_add() -> Response:
 
 
 @blueprint.route('/discounts/<id>', methods=['DELETE'])
+@login_required
 def discounts_delete(id: int) -> Response:
     """Removes a discount by giving an id
 

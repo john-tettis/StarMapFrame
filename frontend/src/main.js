@@ -12,10 +12,12 @@ import VueCookies from 'vue-cookies'
 
 Vue.config.productionTip = false;
 
+Vue.use(VueCookies)
 Vue.use(VueAxios, axios);
 Vue.use(Vuex);
-Vue.use(VueCookies)
+
 Vue.$cookies.config('7d')
+
 
 const store = new Vuex.Store({
   state: {

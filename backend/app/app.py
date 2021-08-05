@@ -7,8 +7,10 @@ from . import HOST, PATH, blueprint
 
 app = Flask(__name__)
 app.register_blueprint(blueprint)
+
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 @app.route('/uploadBackground', methods=['POST'])
 def upload_user_background():

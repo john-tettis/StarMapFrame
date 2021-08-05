@@ -4,11 +4,12 @@ import sqlite3
 from sqlite3.dbapi2 import Error
 
 
-blueprint = Blueprint('my_blueprint', __name__)
+blueprint = Blueprint('respina', __name__)
 
 HOST = "http://localhost:5000"
 PATH = os.path.dirname(os.path.abspath(__file__))
 DATABASE = os.path.join(PATH, 'db.sqlite3')
+FRONTEND = "http://localhost:8080/"
 
 ORDERS_TBL = """CREATE TABLE IF NOT EXISTS orders (
 id integer PRIMARY KEY,
@@ -86,3 +87,4 @@ from . import starmap
 from . import auth
 from . import assets
 from . import discount
+from . import redirects
