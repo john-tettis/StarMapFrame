@@ -110,12 +110,13 @@ export default {
         post: "",
       },
       amount: 0,
-      product: JSON.parse(localStorage.getItem("product")),
+      product: {},
       provincesList: [],
       citiesList: [],
     };
   },
   mounted() {
+    this.product = JSON.parse(localStorage.getItem("product"))
     if (this.product.customize.size === "A2") this.amount = 3500000;
     if (this.product.customize.size === "A3") this.amount = 2800000;
     if (this.product.customize.size === "A4") this.amount = 2000000;
