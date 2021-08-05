@@ -1,6 +1,7 @@
 import os
 
-from flask import jsonify, request
+from flask import jsonify, request, send_file
+from flask.wrappers import Response
 from PIL import ImageColor
 
 from app import HOST, PATH
@@ -8,7 +9,15 @@ from app import HOST, PATH
 from . import blueprint
 
 
-def CONFIG(data):
+def CONFIG(data: list) -> str:
+    """Create a config string for starmap module to run in the terminal
+
+    Args:
+        `data (request.json)`: it should be `JSON` array with the following keys:\n `['geo', 'background', 'text', 'music', 'customize', 'filename', 'shape', 'mode']`
+
+    Returns:
+        `conf (str)`: full configuration string to run on the starmap module using `os.system()`
+    """
     conf = "python starmap/starmap.py"
     # Geo Location data
     if 'geo' in data:
@@ -99,9 +108,14 @@ def CONFIG(data):
 
 
 @blueprint.route("/starmap", methods=['POST'])
-def starmap():
-    content = request.json
+def starmap() -> Response:
+    """Genrate starmap using `starmap` module. it gets configuration from `CONFIG()` and then it saves the \n
+    genrated starmap into `images` folder...
 
+    Returns:
+        `Response`: return result True if the file creation is succesfull otherwise it raise an exception
+    """
+    content = request.json
     if 'paint' in content:
         try:
             os.system(CONFIG(content))
@@ -113,3 +127,35 @@ def starmap():
             return jsonify(result=False, message="something wrong happend here...", error=str(e))
     else:
         return jsonify(result=True, message="i did not paint anything")
+
+
+@blueprint.route('/starmap/assets/<path>')
+def starmap_download_assets(path: str) -> Response:
+    """
+    starmap module require some images to render correctly. This function make it possible to get static assets it needed...
+
+    Args:
+        `path (string)`: filename of the image
+
+    Returns:
+        `Response`: returns the actual file if it's available otherwise return a json object with result of `False`
+    """
+    if os.path.exists(os.path.join(PATH, "assets/"+path)):
+        return send_file("assets/" + path, as_attachment=True)
+    else:
+        return jsonify(result=False, message="file not found")
+
+@blueprint.route('/download/<path>')
+def starmap_download_file(path: str) -> Response:
+    """download the genrated svg of starmap
+
+    Args:
+        `path (str)`: the filename of genrated starmap
+
+    Returns:
+        `Response`: returns the actual file if it's available otherwise return a json object with result of `False`
+    """
+    if os.path.exists(os.path.join(PATH, "images/"+path)):
+        return send_file("images/" + path, as_attachment=True)
+    else:
+        return jsonify(result=False, message="file not found")

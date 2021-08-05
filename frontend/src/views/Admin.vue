@@ -505,7 +505,7 @@ export default {
         const formData = new FormData();
         formData.append("wallpaper", this.wallpaper);
         this.axios
-          .post("/api/uploadAssets", formData, {
+          .post("/api/assets/upload", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -529,7 +529,7 @@ export default {
         const formData = new FormData();
         formData.append("background", this.background);
         this.axios
-          .post("/api/uploadAssets", formData, {
+          .post("/api/assets/upload", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },

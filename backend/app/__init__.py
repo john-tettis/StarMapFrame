@@ -62,3 +62,4 @@ def get_db():
 from . import orders
 from . import starmap
 from . import auth
+from . import assets

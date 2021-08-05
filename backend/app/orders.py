@@ -9,7 +9,7 @@ from . import blueprint
 
 
 @blueprint.route("/orders", methods=['GET', 'POST'])
-def orders():
+def orders_list():
     db = get_db()
     c = db.cursor()
     if request.method == 'POST':
@@ -29,7 +29,7 @@ def orders():
 
 
 @blueprint.route("/orders/<id>", methods=["DELETE"])
-def delete_orders(id):
+def orders_del(id):
     cookies = request.cookies
     if 'token' in cookies:
         db = get_db()
@@ -52,7 +52,7 @@ def delete_orders(id):
 
 
 @blueprint.route("/orders/<id>", methods=["PUT"])
-def update_orders(id):
+def orders_update_payment_status(id):
     data = request.json
     db = get_db()
     c = db.cursor()
@@ -73,7 +73,7 @@ def update_orders(id):
 
 
 @blueprint.route("/orders/edit/<id>", methods=["POST"])
-def edit_order(id):
+def orders_update_product(id):
     data = request.json
     db = get_db()
     c = db.cursor()
@@ -87,7 +87,7 @@ def edit_order(id):
 
 
 @blueprint.route("/orders/setPrinted/<id>", methods=["POST"])
-def print_status(id):
+def orders_update_print_status(id):
     db = get_db()
     c = db.cursor()
     data = request.json
