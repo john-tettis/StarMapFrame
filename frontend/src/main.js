@@ -59,6 +59,7 @@ const store = new Vuex.Store({
         x: "",
         y: "",
         opacity: 40,
+        circle: true,
       },
       customize: {
         size: "A3",
@@ -76,6 +77,9 @@ const store = new Vuex.Store({
   mutations: {
     setLoading(state, loading){
       state.loading = loading;
+    },
+    setCircle(state, circle){
+      state.starmap.background.circle = circle;
     },
     setGeo(state, geo) {
       state.starmap.geo = geo;

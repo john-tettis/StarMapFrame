@@ -41,6 +41,8 @@ def CONFIG(data: list) -> str:
             conf += f" -bgPosY \"{data['background']['y']}\""
         if 'opacity' in data['background']:
             conf += f" -bgOpacity {data['background']['opacity']}"
+        if 'circle' in data['background']:
+            conf += f" -setCircle \"{data['background']['circle']}\""
 
     if 'text' in data:
         if 'line1' in data['text'] and isinstance(data['text']['line1']['value'], str):

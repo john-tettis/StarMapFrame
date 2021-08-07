@@ -18,15 +18,34 @@
           :label="shape ? `قلبی` : `دایره‌ای`"
         ></v-switch>
       </v-col> -->
+      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+        <v-switch
+          v-model="circle"
+          @change="changeCircle"
+          inset
+          :label="circle ? 'دایره دار' : 'بی دایره'"
+        >
+        </v-switch>
+      </v-col>
     </v-row>
     <div v-if="haveBg">
       <div v-if="sampleImg">
         <v-row>
-          <v-col v-for="background in backgrounds" :key="background" cols="12" xl="4" lg="4" md="6" sm="12">
+          <v-col
+            v-for="background in backgrounds"
+            :key="background"
+            cols="12"
+            xl="4"
+            lg="4"
+            md="6"
+            sm="12"
+          >
             <img
               style="max-width:100%"
               @click="selectImage($event)"
-              :src="'http://localhost:5000/assets/get/backgrounds/'+background"
+              :src="
+                'http://localhost:5000/assets/get/backgrounds/' + background
+              "
               alt="image"
             />
           </v-col>
@@ -84,13 +103,11 @@
             </v-col>
 
             <v-col col="12" xl="6" lg="6" md="6" sm="12">
-              <v-btn color="primary" @click="uploadBg"
-                block>ثبت عکس</v-btn
-              >
+              <v-btn color="primary" @click="uploadBg" block>ثبت عکس</v-btn>
             </v-col>
             <v-col cols="12" xl="6" lg="6" md="6" sm="12">
               <v-btn
-              block
+                block
                 color="secondary"
                 @click="
                   customImg = false;
@@ -116,7 +133,6 @@
         <v-btn @click="checkout" color="primary" block>ثبت سفارش</v-btn>
       </v-col>
     </v-row>
-
   </div>
 </template>
 
@@ -125,6 +141,7 @@ export default {
   name: "star-background",
   data() {
     return {
+      circle: true,
       valid: true,
       shape: false,
       haveBg: false,
@@ -152,7 +169,7 @@ export default {
         y: -50,
         opacity: this.opacity,
       });
-      this.$store.dispatch("getStarMap")
+      this.$store.dispatch("getStarMap");
     },
     uploadBg() {
       const formData = new FormData();
@@ -219,35 +236,46 @@ export default {
         JSON.stringify(this.$store.state.starmap)
       );
       const editMode = localStorage.getItem("editMode");
-      if(editMode){
+      if (editMode) {
         const orderID = localStorage.getItem("orderID");
-        this.axios.post(`/api/orders/edit/${orderID}`, {product: this.$store.state.starmap}).then(response=>{
-          if(response.data.result){
-            alert("محصول با موفقیت بروزرسانی شد!");
-            localStorage.removeItem("editMode");
-            localStorage.removeItem("orderID");
-            this.$router.push("/admin")
-          }else{
-            alert("خطایی پیش آمده است...")
-          }
-        }).catch(error=>{
-          console.log(error)
-        })
-      }else{
+        this.axios
+          .post(`/api/orders/edit/${orderID}`, {
+            product: this.$store.state.starmap,
+          })
+          .then((response) => {
+            if (response.data.result) {
+              alert("محصول با موفقیت بروزرسانی شد!");
+              localStorage.removeItem("editMode");
+              localStorage.removeItem("orderID");
+              this.$router.push("/admin");
+            } else {
+              alert("خطایی پیش آمده است...");
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
         this.$router.push("/pay");
       }
     },
-    getBackgrounds(){
-      this.axios.post("/api/assets/get", {"backgrounds": true}).then((response)=>{
-        if(response.status===200 && response.data.result){
-          this.backgrounds = response.data.files
-        }
-      })
+    getBackgrounds() {
+      this.axios
+        .post("/api/assets/get", { backgrounds: true })
+        .then((response) => {
+          if (response.status === 200 && response.data.result) {
+            this.backgrounds = response.data.files;
+          }
+        });
+    },
+    changeCircle(){
+      this.$store.commit("setCircle", this.circle);
+      this.$store.dispatch("getStarMap");
     }
   },
-  mounted(){
-    this.getBackgrounds()
-  }
+  mounted() {
+    this.getBackgrounds();
+  },
 };
 </script>
 

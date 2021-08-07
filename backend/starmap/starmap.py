@@ -54,6 +54,8 @@ constellationText = False
 showDot = False
 showStar = False
 
+circle = "True"
+
 line1 = ""
 line2 = ""
 line3 = ""
@@ -208,6 +210,8 @@ parser.add_argument('-bgPosY', '--bgPosY', type=str, default=bg_y)
 parser.add_argument('-bgOpacity', '--bgOpacity', type=int, default=bg_opacity)
 parser.add_argument('-wallpaper', '--wallpaper', type=str, default=wallpaper)
 
+parser.add_argument("-setCircle", "--setCircle", type=str, default=circle)
+
 
 parser.add_argument('-heart', '--heart', type=str, default=is_heart)
 
@@ -219,6 +223,8 @@ parser.add_argument("-MODE", "--MODE", type=str, default=MODE)
 args = parser.parse_args()
 
 MODE = args.MODE
+
+circle = args.setCircle
 
 coord = args.coord
 time = args.time
@@ -542,8 +548,9 @@ if __name__ == '__main__':
         generate_constellations(northern, eastern, date, time)
 
 
-    # Cirlcle around
-    image.add(image.circle(center=(half_x, half_y), r=335, opacity="1", stroke="white", fill_opacity="0"))
+    # circle around starmap
+    if circle == "True":
+        image.add(image.circle(center=(half_x, half_y), r=335, opacity="1", stroke="white", fill_opacity="0"))
 
     # Custom image
     if bg.strip():
