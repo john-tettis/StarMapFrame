@@ -12,14 +12,16 @@
 
       <v-divider class="my-5"></v-divider>
       <v-row justify="center">
-        <v-col cols="12">
-          <v-switch
-            v-model="showWallpaper"
-            color="primary"
-            hide-details
-            inset
-            :label="showWallpaper ? 'بکگراند می‌خوام' : 'می‌خواهم رنگ باشه'"
-          ></v-switch>
+        <v-col cols="6">
+          <v-radio-group row @change="updateStar" v-model="showWallpaper">
+            <v-radio key="wallpaper" label="عکسی" :value="true" selected />
+            <v-radio
+              @click="removeWallpaper"
+              key="color"
+              label="رنگی"
+              :value="false"
+            />
+          </v-radio-group>
         </v-col>
       </v-row>
       <div v-show="showWallpaper === false">
@@ -253,6 +255,19 @@ export default {
         constellation: this.showConstellation,
         constellationText: this.showConstellationText,
         wallpaper: this.$store.state.starmap.customize.wallpaper,
+      });
+      this.$store.dispatch("getStarMap");
+    },
+    removeWallpaper() {
+      this.$store.commit("setCustomize", {
+        size: this.radioGroup,
+        background: this.bgValue,
+        frame: this.frameValue,
+        dot: this.showDot,
+        star: this.showStar,
+        constellation: this.showConstellation,
+        constellationText: this.showConstellationText,
+        wallpaper: "",
       });
       this.$store.dispatch("getStarMap");
     },
