@@ -11,20 +11,21 @@
       </v-radio-group>
 
       <v-divider class="my-5"></v-divider>
-
+      <v-row justify="center">
+        <v-col cols="12">
+          <v-switch
+            v-model="showWallpaper"
+            color="primary"
+            hide-details
+            inset
+            :label="showWallpaper ? 'بکگراند می‌خوام' : 'می‌خواهم رنگ باشه'"
+          ></v-switch>
+        </v-col>
+      </v-row>
       <div v-show="showWallpaper === false">
         <v-row align="baseline">
           <v-col cols="6">
             <p>رنگ بکگراند</p>
-          </v-col>
-          <v-col>
-            <p
-              @click="showWallpaper = true"
-              class="text-left"
-              style="font-size:10px;cursor:pointer"
-            >
-              یا میتونی عکس بندازی
-            </p>
           </v-col>
         </v-row>
         <v-menu
@@ -68,22 +69,23 @@
           <v-col cols="6">
             <p>عکس بکگراند</p>
           </v-col>
-          <v-col cols="6">
-            <p
-              @click="showWallpaper = false;$store.commit('setWallpaper', '');"
-              class="text-left"
-              style="font-size:10px;cursor:pointer"
-            >
-              یا میتونی رنگ بندازی
-            </p>
-          </v-col>
         </v-row>
         <v-container>
           <v-row>
-            <v-col v-for="wallpaper in wallpapers" :key="wallpaper" cols="6" xl="4" lg="4" md="6" sm="6">
+            <v-col
+              v-for="wallpaper in wallpapers"
+              :key="wallpaper"
+              cols="6"
+              xl="4"
+              lg="4"
+              md="6"
+              sm="6"
+            >
               <img
                 class="wallpaper"
-                :src="'http://localhost:5000/assets/get/wallpapers/' + wallpaper"
+                :src="
+                  'http://localhost:5000/assets/get/wallpapers/' + wallpaper
+                "
                 alt="bg"
                 width="100%"
                 height="150"
@@ -237,7 +239,7 @@ export default {
       showConstellation: true,
       showConstellationText: true,
 
-      wallpapers: []
+      wallpapers: [],
     };
   },
   methods: {
@@ -250,21 +252,23 @@ export default {
         star: this.showStar,
         constellation: this.showConstellation,
         constellationText: this.showConstellationText,
-        wallpaper: this.$store.state.starmap.customize.wallpaper
+        wallpaper: this.$store.state.starmap.customize.wallpaper,
       });
       this.$store.dispatch("getStarMap");
     },
-    getWallpapers(){
-      this.axios.post("/api/assets/get", {"wallpapers": true}).then((response)=>{
-        if(response.status===200 && response.data.result){
-          this.wallpapers = response.data.files
-        }
-      })
-    }
+    getWallpapers() {
+      this.axios
+        .post("/api/assets/get", { wallpapers: true })
+        .then((response) => {
+          if (response.status === 200 && response.data.result) {
+            this.wallpapers = response.data.files;
+          }
+        });
+    },
   },
-  mounted(){
+  mounted() {
     const editMode = localStorage.getItem("editMode");
-    if(editMode){
+    if (editMode) {
       this.radioGroup = this.$store.state.starmap.customize.size;
       this.bgValue = this.$store.state.starmap.customize.background;
       this.frameValue = this.$store.state.starmap.customize.frame;
@@ -273,7 +277,7 @@ export default {
       this.showConstellation = this.$store.state.starmap.customize.constellation;
       this.showConstellationText = this.$store.state.starmap.customize.constellationText;
     }
-    this.getWallpapers()
-  }
+    this.getWallpapers();
+  },
 };
 </script>
