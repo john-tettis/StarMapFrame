@@ -542,10 +542,13 @@ if __name__ == '__main__':
         generate_constellations(northern, eastern, date, time)
 
 
+    # Cirlcle around
+    image.add(image.circle(center=(half_x, half_y), r=335, opacity="1", stroke="white", fill_opacity="0"))
+
     # Custom image
     if bg.strip():
         mask = image.defs.add(image.mask(id="bg_wrapper"))
-        mask.add(image.circle(center=(half_x, half_y), r=340, fill=line_color, opacity=str(bg_opacity/100)))
+        mask.add(image.circle(center=(half_x, half_y), r=335, fill=line_color, opacity=str(bg_opacity/100)))
         image.add(image.image(href=bg, size=("100%", "100%"), mask="url(#bg_wrapper)", insert=(bg_x, bg_y)))
 
     if is_heart == "True":

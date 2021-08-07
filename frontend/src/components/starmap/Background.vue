@@ -10,14 +10,14 @@
           :label="haveBg ? `آره میخوام` : `نه نمیخوام`"
         ></v-switch>
       </v-col>
-      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+      <!-- <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-switch
           v-model="shape"
           @change="changeShape"
           inset
           :label="shape ? `قلبی` : `دایره‌ای`"
         ></v-switch>
-      </v-col>
+      </v-col> -->
     </v-row>
     <div v-if="haveBg">
       <div v-if="sampleImg">
