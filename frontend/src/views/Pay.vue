@@ -6,10 +6,36 @@
           <v-card-text>
             <h3 class="mb-5">جزییات سفارش:</h3>
             <div>
-              <p>قیمت قاب: {{ product.customize.size }} - {{sizePriceCal().toLocaleString("fa")}}</p>
-              <p>قیمت کد موزیک: {{!!product.music.qr ? ' ۱۵,۰۰۰ ریال': 'ندارد'}}</p>
-              <p>قیمت بکگراند: {{!!product.background.bg ? '۱۵,۰۰۰ ریال':'ندارد'}}</p>
-              <p>مبلغ کل: {{amount.toLocaleString("fa")}} ریال</p>
+              <p>
+                قیمت قاب: {{ product.customize.size }} -
+                {{ sizePriceCal().toLocaleString("fa") }}
+              </p>
+              <p>
+                قیمت کد موزیک:
+                {{ !!product.music.qr ? " ۱۵,۰۰۰ ریال" : "ندارد" }}
+              </p>
+              <p>
+                قیمت بکگراند:
+                {{ !!product.background.bg ? "۱۵,۰۰۰ ریال" : "ندارد" }}
+              </p>
+              <p>مبلغ کل: {{ amount.toLocaleString("fa") }} ریال</p>
+              <div class="d-flex justify-space-between align-center">
+                <div>
+                  <p>کد تخفیف دارید:</p>
+                </div>
+                <div class="d-flex justify-space-between align-center">
+                  <v-text-field v-model="code" label="کد تخفیف"></v-text-field>
+                  <v-btn
+                    @click="checkDiscount"
+                    small
+                    class="mr-1"
+                    color="secondary"
+                    outlined
+                    :disabled="discount"
+                    >ثبت</v-btn
+                  >
+                </div>
+              </div>
             </div>
             <h2 class="mb-5">مشخصات گیرنده:</h2>
             <v-divider class="mb-5"></v-divider>
@@ -83,6 +109,7 @@ export default {
   name: "Pay",
   data() {
     return {
+      discount: false,
       payment: {
         name: "",
         mobile: "",
@@ -95,6 +122,7 @@ export default {
       product: {},
       provincesList: [],
       citiesList: [],
+      code: "",
     };
   },
   mounted() {
@@ -164,6 +192,25 @@ export default {
           console.log(error);
           alert("خطایی پیش آمده است. لطفا مجددا تلاش کنید...");
         });
+    },
+    percentage(num, per) {
+      return Math.round((num / 100) * per);
+    },
+    checkDiscount() {
+      this.axios.post(`/api/discounts/${this.code}`).then((response) => {
+        if (response.status === 200 && response.data.result) {
+          if(response.data.discount===null){
+            alert("این کد تخفیف وجود ندارد...")
+            return
+          }
+          const discount = this.percentage(
+            this.amount,
+            response.data.discount[2]
+          );
+          this.amount -= discount;
+          this.discount = true;
+        }
+      });
     },
   },
 };

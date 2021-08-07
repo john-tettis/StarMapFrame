@@ -66,3 +66,15 @@ def discounts_delete(id: int) -> Response:
         return jsonify(result=False, message="Something went wrong...", error=str(e))
     finally:
         return jsonify(result=True, message="Succeed")
+
+@blueprint.route('/discounts/<code>', methods=['POST'])
+def discount_available(code: str) -> Response:
+    db: Connection = get_db()
+    cursor = db.cursor()
+    try:
+        cursor.execute(f"SELECT * FROM discounts where code=\"{code}\"")
+        code = cursor.fetchone()
+        return jsonify(result=True, discount=code)
+    except OperationalError as e:
+        return jsonify(result=False, message="Something went wrong...", error=str(e))
+
