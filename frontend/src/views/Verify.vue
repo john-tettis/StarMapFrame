@@ -88,9 +88,7 @@ export default {
           })
           .then((response) => {
             if (response.status === 200 && response.data.result) {
-              setTimeout(() => {
-                this.$router.push("/");
-              }, 30000);
+              alert("پرداخت با موفقیت تایید شد")
             }
           });
       } else {
