@@ -93,13 +93,20 @@ def assets_list_backgrounds(path: str) -> Response:
         return jsonify(result=False, message="file not found")
 
 
-@blueprint.route('/assets/delete/<path>', methods=['POST'])
+@blueprint.route('/assets/wallpapers/delete/<path>', methods=['POST'])
 @login_required
 def assets_del_wallpaper(path: str) -> Response:
-    pass
+    if os.path.exists(os.path.join(PATH, f"assets/wallpapers/{path}")):
+        os.remove(os.path.join(PATH, f"assets/wallpapers/{path}"))
+        return jsonify(result=True, message="Wallpaper deleted successfully...")
+    return jsonify(result=False, message="File not found....", error="There's no such file or directory...")
 
 
-@blueprint.route('/assets/delete/<path>', methods=['POST'])
+@blueprint.route('/assets/backgrounds/delete/<path>', methods=['POST'])
 @login_required
 def assets_del_background(path: str) -> Response:
-    pass
+    if os.path.exists(os.path.join(PATH, f"assets/backgrounds/{path}")):
+        os.remove(os.path.join(PATH, f"assets/backgrounds/{path}"))
+        return jsonify(result=True, message="Background deleted successfully...")
+    return jsonify(result=False, message="File not found....", error="There's no such file or directory...")
+

@@ -61,14 +61,30 @@
               height="128"
             />
           </template>
-          <template v-slot:[`item.deleteImage`]>
-            <v-btn color="red" text>
+          <template v-slot:[`item.deleteImage`]="{ item }">
+            <v-btn color="red" text @click="openDeleteDialog(item)">
               <v-icon small>mdi-delete</v-icon>
             </v-btn>
           </template>
         </v-data-table>
       </v-col>
     </v-row>
+    <v-dialog v-model="deleteImageDialog" max-width="400">
+      <v-card>
+        <v-card-title>حذف تخفیف</v-card-title>
+        <v-card-text>
+          آیا از حذف این تخفیف مطمئن هستید؟
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="red" class="white--text" @click="deleteImage"
+            >حذف</v-btn
+          >
+          <v-btn color="dark" text @click="deleteImageDialog = false"
+            >لغو</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -77,6 +93,9 @@ export default {
   name: "AdminUploads",
   data() {
     return {
+      deleteImageDialog: false,
+      filetype: "",
+      filename: "",
       fileHeaders: [
         { text: "نوع", value: "type" },
         { text: "نام", value: "filename" },
@@ -100,11 +119,17 @@ export default {
   methods: {
     getWallpapers() {
       this.axios
-        .post("/api/assets/get", {
-          wallpapers: true,
-        }, {headers: {
-            token: this.$cookies.get("token"),
-          },})
+        .post(
+          "/api/assets/get",
+          {
+            wallpapers: true,
+          },
+          {
+            headers: {
+              token: this.$cookies.get("token"),
+            },
+          }
+        )
         .then((response) => {
           if (response.status === 200 && response.data.result) {
             let wallpapers = response.data.files;
@@ -122,11 +147,17 @@ export default {
     },
     getBackgrounds() {
       this.axios
-        .post("/api/assets/get", {
-          backgrounds: true,
-        }, {headers: {
-            token: this.$cookies.get("token"),
-          },})
+        .post(
+          "/api/assets/get",
+          {
+            backgrounds: true,
+          },
+          {
+            headers: {
+              token: this.$cookies.get("token"),
+            },
+          }
+        )
         .then((response) => {
           if (response.status === 200 && response.data.result) {
             let backgrounds = response.data.files;
@@ -151,12 +182,17 @@ export default {
           .post("/api/assets/upload", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
-              "token": this.$cookies.get('token')
+              token: this.$cookies.get("token"),
             },
           })
           .then((response) => {
             if (response.status === 200 && response.data.result) {
               alert("با موفقیت آپلود شد....");
+              this.getWallpapers();
+              this.getBackgrounds();
+              setTimeout(() => {
+                this.files = [...this.wallpapers, ...this.backgrounds];
+              }, 500);
             }
             this.$emit("update:loading", false);
           })
@@ -177,21 +213,71 @@ export default {
           .post("/api/assets/upload", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
-              "token": this.$cookies.get('token')
+              token: this.$cookies.get("token"),
             },
           })
           .then((response) => {
             if (response.status === 200 && response.data.result) {
               alert("با موفقیت آپلود شد....");
+              this.getWallpapers();
+              this.getBackgrounds();
+              setTimeout(() => {
+                this.files = [...this.wallpapers, ...this.backgrounds];
+              }, 500);
             }
-            this.$emit("update:loading", true);
+            this.$emit("update:loading", false);
           })
           .catch((error) => {
             console.log(error);
             alert("خطایی پیش آمده است....");
-            this.$emit("update:loading", true);
+            this.$emit("update:loading", false);
           });
       }
+    },
+    openDeleteDialog(object) {
+      this.filetype = object.type;
+      this.filename = object.filename;
+      this.deleteImageDialog = true;
+    },
+    async deleteImage() {
+      let response = "";
+      if (this.filetype === "بکگراند") {
+        response = await this.axios.post(
+          `/api/assets/backgrounds/delete/${this.filename}`,
+          {},
+          {
+            headers: {
+              token: this.$cookies.get("token"),
+            },
+          }
+        );
+      } else if (this.filetype === "والپیپر") {
+        response = await this.axios.post(
+          `/api/assets/wallpapers/delete/${this.filename}`,
+          {},
+          {
+            headers: {
+              token: this.$cookies.get("token"),
+            },
+          }
+        );
+      } else {
+        alert("نوع عکس مشخص نشده است!");
+        return;
+      }
+      this.$emit("update:loading", true);
+      if (response.status === 200 && response.data.result) {
+        alert("فایل با موفقیت حذف شد!");
+      } else {
+        alert("خطایی هنگام حذف فایل به وجود آمده است...");
+      }
+      this.deleteImageDialog = false;
+      this.getWallpapers();
+      this.getBackgrounds();
+      setTimeout(() => {
+        this.files = [...this.wallpapers, ...this.backgrounds];
+      }, 500);
+      this.$emit("update:loading", false);
     },
   },
 };
