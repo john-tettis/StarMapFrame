@@ -1,25 +1,25 @@
 <template>
   <div>
-    <v-row justify="center" class="py-5">
+    <v-row class="mt-5 border-1" justify="center">
       <v-col cols="11" xl="5" lg="5" md="5" sm="11">
-        <v-card elevation="2">
+        <v-card class="elevation-4">
           <v-card-text>
-            <h3 class="mb-5">جزییات سفارش:</h3>
+            <h3 class="mb-5">جزییات سفارش <v-icon>mdi-basket</v-icon></h3>
             <div>
-              <p>
-                قیمت قاب: {{ product.customize.size }} -
-                {{ sizePriceCal().toLocaleString("fa") }}
+              <p class="d-flex justify-space-between">
+                قیمت قاب: <span>{{ product.customize.size }} -
+                {{ sizePriceCal().toLocaleString("fa") }}</span>
               </p>
-              <p>
+              <p class="d-flex justify-space-between">
                 قیمت کد موزیک:
-                {{ !!product.music.qr ? " ۱۵,۰۰۰ ریال" : "ندارد" }}
+                <span>{{ !!product.music.qr ? " ۱۵,۰۰۰ ریال" : "ندارد" }}</span>
               </p>
-              <p>
+              <p class="d-flex justify-space-between">
                 قیمت بکگراند:
-                {{ !!product.background.bg ? "۱۵,۰۰۰ ریال" : "ندارد" }}
+                <span>{{ !!product.background.bg ? "۱۵,۰۰۰ ریال" : "ندارد" }}</span>
               </p>
-              <p>مبلغ کل: {{ amount.toLocaleString("fa") }} ریال</p>
-              <div class="d-flex justify-space-between align-center">
+              <p class="d-flex justify-space-between">مبلغ کل: <span>{{ amount.toLocaleString("fa") }} ریال</span></p>
+              <div class="d-flex justify-space-between align-baseline">
                 <div>
                   <p>کد تخفیف دارید:</p>
                 </div>
@@ -36,8 +36,18 @@
                   >
                 </div>
               </div>
+              <h3 class="text-center" v-show="discount">این کد شامل {{discountAmount.toLocaleString("fa")}} ریال تخفیف است!</h3>
             </div>
-            <h2 class="mb-5">مشخصات گیرنده:</h2>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-row justify="center" class="pb-5 mt-1">
+      <v-col cols="11" xl="5" lg="5" md="5" sm="11">
+        <v-card elevation="2">
+          <v-card-text>
+            <h2 class="mb-5">مشخصات گیرنده <v-icon>mdi-post</v-icon></h2>
             <v-divider class="mb-5"></v-divider>
             <v-form>
               <v-text-field
@@ -110,6 +120,7 @@ export default {
   data() {
     return {
       discount: false,
+      discountAmount: 0,
       payment: {
         name: "",
         mobile: "",
@@ -199,15 +210,15 @@ export default {
     checkDiscount() {
       this.axios.post(`/api/discounts/${this.code}`).then((response) => {
         if (response.status === 200 && response.data.result) {
-          if(response.data.discount===null){
-            alert("این کد تخفیف وجود ندارد...")
-            return
+          if (response.data.discount === null) {
+            alert("این کد تخفیف وجود ندارد...");
+            return;
           }
-          const discount = this.percentage(
+          this.discountAmount = this.percentage(
             this.amount,
             response.data.discount[2]
           );
-          this.amount -= discount;
+          this.amount -= this.discountAmount;
           this.discount = true;
         }
       });
