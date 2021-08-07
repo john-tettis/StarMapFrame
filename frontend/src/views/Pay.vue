@@ -1,10 +1,17 @@
 <template>
   <div>
-    <v-row v-if="accept" justify="center" class="py-5">
+    <v-row justify="center" class="py-5">
       <v-col cols="11" xl="5" lg="5" md="5" sm="11">
         <v-card elevation="2">
-          <v-card-title>ثبت سفارش</v-card-title>
           <v-card-text>
+            <h3 class="mb-5">جزییات سفارش:</h3>
+            <div>
+              <p>قیمت قاب: {{ product.customize.size }} - {{sizePriceCal().toLocaleString("fa")}}</p>
+              <p>قیمت کد موزیک: {{!!product.music.qr ? ' ۱۵,۰۰۰ ریال': 'ندارد'}}</p>
+              <p>قیمت بکگراند: {{!!product.background.bg ? '۱۵,۰۰۰ ریال':'ندارد'}}</p>
+              <p>مبلغ کل: {{amount.toLocaleString("fa")}} ریال</p>
+            </div>
+            <h2 class="mb-5">مشخصات گیرنده:</h2>
             <v-divider class="mb-5"></v-divider>
             <v-form>
               <v-text-field
@@ -65,30 +72,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row justify="center" class="py-5" v-if="!accept">
-      <v-col cols="11" xl="5" lg="5" md="5" sm="11">
-        <v-card>
-          <v-card-title>فاکتور شما به شرح زیر است</v-card-title>
-          <v-card-text>
-            <p>
-              <span style="font-weight:bold">مبلغ قابل پرداخت: </span
-              >{{ amount.toLocaleString("fa") }} ریال
-            </p>
-            <p>
-              <span style="font-weight: bold">سایز قاب: </span
-              >{{ product.customize.size }}
-            </p>
-            <p>
-              <span style="font-weight: bold">کد موزیک: </span>
-              {{ product.music.qr ? 'دارد' : 'ندارد' }}
-            </p>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="primary" block outlined @click="accept=true">تایید</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
   </div>
 </template>
 
@@ -100,7 +83,6 @@ export default {
   name: "Pay",
   data() {
     return {
-      accept: false,
       payment: {
         name: "",
         mobile: "",
@@ -116,7 +98,7 @@ export default {
     };
   },
   mounted() {
-    this.product = JSON.parse(localStorage.getItem("product"))
+    this.product = JSON.parse(localStorage.getItem("product"));
     if (this.product.customize.size === "A2") this.amount = 3500000;
     if (this.product.customize.size === "A3") this.amount = 2800000;
     if (this.product.customize.size === "A4") this.amount = 2000000;
@@ -128,6 +110,12 @@ export default {
     this.citiesList = cities;
   },
   methods: {
+    sizePriceCal() {
+      if (this.product.customize.size === "A2") return 3500000;
+      if (this.product.customize.size === "A3") return 2800000;
+      if (this.product.customize.size === "A4") return 2000000;
+      if (this.product.customize.size === "A5") return 1600000;
+    },
     filterCity() {
       this.citiesList = cities;
       this.citiesList = this.citiesList.filter(
