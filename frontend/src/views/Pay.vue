@@ -181,12 +181,12 @@ export default {
         timestamp: Date.now(),
       };
       this.axios
-        .post("http://localhost:5000/orders", data)
+        .post("/api/orders", data)
         .then(async (response) => {
           if (response.status === 200 && response.data.result) {
             localStorage.setItem("orderId", response.data.id);
             const API = process.env.VUE_APP_PAYIR_API || "test";
-            const redirect = "http://localhost:8080/verify";
+            const redirect = "http://sky.starmap.store/verify";
             const res = await this.axios.post("https://pay.ir/pg/send ", {
               api: API,
               amount: this.amount,
