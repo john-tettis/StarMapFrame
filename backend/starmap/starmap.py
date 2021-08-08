@@ -4,6 +4,8 @@ import random
 import math
 import argparse
 
+from app import HOST
+
 PATH = os.path.dirname(os.path.abspath(__file__))
 MODE = "DEV"
 ############ DEFAULT VALUES AND CONSTS ####################################
@@ -540,7 +542,7 @@ if __name__ == '__main__':
     
     # Watermark
     if MODE != "PROD":
-        image.add(image.image(href="http://localhost:5000/starmap/assets/watermark.png", size=("100%", "100%"), opacity=".05"))
+        image.add(image.image(href=f"{HOST}/starmap/assets/watermark.png", size=("100%", "100%"), opacity=".05"))
     
     # Stars generation
     generate_starmap(northern, eastern, date, time)
@@ -559,13 +561,13 @@ if __name__ == '__main__':
         image.add(image.image(href=bg, size=("100%", "100%"), mask="url(#bg_wrapper)", insert=(bg_x, bg_y)))
 
     if is_heart == "True":
-        image.add(image.image(href="http://localhost:5000/starmap/assets/heart.png", size=("100%", "100%"), insert=(0, -80)))
+        image.add(image.image(href=f"{HOST}/starmap/assets/heart.png", size=("100%", "100%"), insert=(0, -80)))
     
     if qrCode.strip():
         if MODE == "PROD":
             image.add(image.image(href=qrCode, size=("64px", "64px"), insert=("170mm", str(height-25)+'mm')))
         else:
-            image.add(image.image(href="http://localhost:5000/starmap/assets/qr.jpeg", size=("64px", "64px"), insert=("170mm", str(height-25)+'mm')))
+            image.add(image.image(href=f"{HOST}/starmap/assets/qr.jpeg", size=("64px", "64px"), insert=("170mm", str(height-25)+'mm')))
 
     # Custom User Text
     image.add(image.text(line1, insert=("100mm", str(height-60)+"mm"), fill=line_color, style=line1Style))

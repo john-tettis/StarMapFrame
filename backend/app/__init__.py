@@ -9,7 +9,7 @@ blueprint = Blueprint('respina', __name__)
 HOST = "http://localhost:5000"
 PATH = os.path.dirname(os.path.abspath(__file__))
 DATABASE = os.path.join(PATH, 'db.sqlite3')
-FRONTEND = "http://localhost:8080/"
+
 
 ORDERS_TBL = """CREATE TABLE IF NOT EXISTS orders (
 id integer PRIMARY KEY,
