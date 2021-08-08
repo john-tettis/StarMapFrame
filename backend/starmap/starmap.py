@@ -7,7 +7,7 @@ import argparse
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 MODE = "DEV"
-HOST = "http://sky.respina.store"
+HOST = "http://sky.respina.store/api"
 ############ DEFAULT VALUES AND CONSTS ####################################
 
 fontFamily1 = "Anton"
