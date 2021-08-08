@@ -186,7 +186,7 @@ export default {
           if (response.status === 200 && response.data.result) {
             localStorage.setItem("orderId", response.data.id);
             const API = process.env.VUE_APP_PAYIR_API || "test";
-            const redirect = "http://sky.starmap.store/verify";
+            const redirect = "http://sky.respina.store/verify";
             const res = await this.axios.post("https://pay.ir/pg/send ", {
               api: API,
               amount: this.amount,
