@@ -80,7 +80,7 @@
         <div class="container">
             <div class="header">
                 <div>
-                    <img src="http://sky.respina.store/api/download/logo.png" alt="logo" width="100" />
+                    <img src="http://sky.respina.store/api/starmap/assets/logo.png" alt="logo" width="100" />
                 </div>
                 <div>
                     <h1>رسپینا گالری</h1>
