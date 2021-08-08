@@ -4,10 +4,10 @@ import random
 import math
 import argparse
 
-from app import HOST
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 MODE = "DEV"
+HOST = "http://sky.respina.store"
 ############ DEFAULT VALUES AND CONSTS ####################################
 
 fontFamily1 = "Anton"
