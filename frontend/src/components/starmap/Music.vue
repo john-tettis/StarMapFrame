@@ -21,6 +21,7 @@
         :clearable="false"
         append-outer-icon="mdi-close-box-outline"
         @click:append-outer="mp3=[]"
+        @change="done=false"
       ></v-file-input>
       <v-file-input
         ref="cover"
@@ -53,29 +54,51 @@
         <v-btn
           v-if="wantMusic"
           :disabled="mp3.length===0 || cover.length===0"
-          color="primary"
+          :color="done ? 'green' : 'primary'"
+          class="white--text"
           @click="uploadMusic"
           style="width:120px"
-          >آپلود موسیقی</v-btn
+          >
+          <span v-if="done">ثبت شد</span>
+          <span v-else>آپلود موسیقی</span>
+          </v-btn
+        >
+      </v-col>
+      <v-col cols="12" xl="12" lg="12" md="12" sm="12" class="my-3">
+        <v-btn
+          v-if="done"
+          color="primary"
+          @click="checkout"
+          block
+          >نهایی سازی سفارش</v-btn
         >
       </v-col>
     </v-row>
+    <Loading :isLoading="loading"/>
   </div>
 </template>
 
 <script>
+import Loading from '@/components/Loading';
+
 export default {
   name: "star-music",
+  components: {
+    Loading,
+  },
   data() {
     return {
+      loading: false,
       wantMusic: false,
       valid: false,
       mp3: [],
       cover: [],
+      done: false,
     };
   },
   methods: {
     uploadMusic() {
+      this.loading = true;
       this.$store.commit("setLoading", true)
       if (this.wantMusic) {
         const formData = new FormData();
@@ -90,16 +113,17 @@ export default {
           })
           .then((response) => {
             if (response.data.result) {
+              console.log(response.data);
               this.$store.commit("setMusic", { qr: response.data.details.qr });
-              this.$store.dispath("getStarMap");
-              this.checkout()
+              this.$store.dispatch("getStarMap");
+              this.done = true;
             } else {
               alert("خطایی پیش آمده است...");
             }
+            this.loading = false;
           });
       } else {
         this.$store.commit("setLoading", false)
-        this.checkout()
       }
     },
     checkout() {

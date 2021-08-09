@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-form ref="form" v-model="valid">
+        <v-form ref="form">
             <p>اندازه‌ی قاب:</p>
             <v-radio-group row @change="updateStar" v-model="radioGroup">
                 <v-radio key="A2" label="A2" value="A2" />

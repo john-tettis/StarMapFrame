@@ -5,29 +5,30 @@
         <v-card class="elevation-4">
           <v-card-text>
             <h3 class="mb-5" style="font-size:1.3rem">
-              جزییات سفارش
               <v-icon>mdi-basket</v-icon>
+              فاکتور سفارش
             </h3>
-            <div>
+            <div class="remove-p-m">
               <p class="d-flex justify-space-between">
-                قیمت قاب:
+                ساخت آسمان + قاب:
                 <span>
                   {{ product.customize.size }} -
                   {{ sizePriceCal().toLocaleString("fa") }}
                 </span>
               </p>
               <p class="d-flex justify-space-between">
-                قیمت کد موزیک:
-                <span>{{ !!product.music.qr ? " ۱۵,۰۰۰ ریال" : "ندارد" }}</span>
+                بارکد موسیقی:
+                <span>{{ !!product.music.qr ? " ۱۵۰,۰۰۰ ریال" : "ندارد" }}</span>
               </p>
               <p class="d-flex justify-space-between">
-                قیمت بکگراند:
-                <span>{{ !!product.background.bg ? "۱۵,۰۰۰ ریال" : "ندارد" }}</span>
+                بکگراند ستاره:
+                <span>{{ !!product.background.bg ? "۱۵۰,۰۰۰ ریال" : "ندارد" }}</span>
               </p>
               <p class="d-flex justify-space-between">
-                قیمت ربان:
-                <span>{{product.roban ? "۱۵,۰۰۰ ریال" : "ندارد"}}</span>
+                ربان:
+                <span>{{product.roban ? "۱۵۰,۰۰۰ ریال" : "ندارد"}}</span>
               </p>
+              <v-divider class="my-2"/>
               <p class="d-flex justify-space-between">
                 مبلغ کل:
                 <span>{{ amount.toLocaleString("fa") }} ریال</span>
@@ -52,7 +53,7 @@
                 class="text-center"
                 v-show="discount"
                 style="font-size:1rem"
-              >این کد شامل {{ discountAmount.toLocaleString("fa") }} ریال تخفیف است!</h3>
+              >مبلغ {{ discountAmount.toLocaleString("fa") }} ریال تخفیف اعمال شد.</h3>
             </div>
           </v-card-text>
         </v-card>
@@ -64,8 +65,8 @@
         <v-card elevation="2">
           <v-card-text>
             <h2 class="mb-5" style="font-size:1.3rem">
-              مشخصات گیرنده
               <v-icon>mdi-post</v-icon>
+              مشخصات گیرنده
             </h2>
             <p>فیلد شماره موبایل و کد پستی را با اعداد انگلیسی پر کنید!</p>
             <v-divider class="mb-5"></v-divider>
@@ -128,7 +129,7 @@
                 required
                 outlined
                 dense
-                label="کدپستی"
+                label="کدپستی (اختیاری)"
                 @input="$v.payment.post.$touch()"
                 @blur="$v.payment.post.$touch()"
               />
@@ -172,7 +173,6 @@ export default {
       },
       post: {
         numeric,
-        required
       },
       address:{
         required
@@ -295,3 +295,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.remove-p-m p{
+  margin: 0 !important;
+}
+</style>
