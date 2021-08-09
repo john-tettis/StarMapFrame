@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-dark">
+  <div style="background: #121212">
     <v-container>
       <v-row class="py-2">
         <v-col cols="12">

@@ -24,8 +24,4 @@ export default {
 
 <style lang="scss">
 @import "@/assets/styles/main.scss";
-
-::v-deep .v-toolbar__content {
-  height: 45px;
-}
 </style>
