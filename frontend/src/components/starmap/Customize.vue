@@ -146,13 +146,13 @@
             @click="$emit('update:stepper', 2)"
             color="error"
             outlined
-            style="width:120px"
+            style="width:98%"
           >
             مرحله‌ی قبلی
           </v-btn>
         </v-col>
         <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-          <v-btn @click="$emit('update:stepper', 4)" style="width:120px"  color="primary">
+          <v-btn @click="$emit('update:stepper', 4)" style="width:98%"  color="primary">
             مرحله‌ی بعدی
           </v-btn>
         </v-col>

@@ -38,7 +38,7 @@
     </v-form>
     <v-row no-gutters>
       <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-        <v-btn @click="$emit('update:stepper', 2)" color="error" outlined style="width:120px"
+        <v-btn @click="$emit('update:stepper', 2)" color="error" outlined style="width:98%"
           >مرحله‌ی قبلی</v-btn
         >
       </v-col>
@@ -48,7 +48,7 @@
           :disabled="wantMusic"
           color="primary"
           @click="uploadMusic"
-          style="width:120px"
+          style="width:98%"
           >مرحله‌ی بعدی</v-btn
         >
         <v-btn
@@ -57,7 +57,7 @@
           :color="done ? 'green' : 'primary'"
           class="white--text"
           @click="uploadMusic"
-          style="width:120px"
+          style="width:98%"
           >
           <span v-if="done">ثبت شد</span>
           <span v-else>آپلود موسیقی</span>

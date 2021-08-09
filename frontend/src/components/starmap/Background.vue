@@ -124,10 +124,10 @@
 
     <v-row no-gutters justify="center">
       <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-        <v-btn @click="$emit('update:stepper', 3)" color="error" style="width:120px" outlined>مرحله‌ی قبلی</v-btn>
+        <v-btn @click="$emit('update:stepper', 3)" color="error" style="width:98%" outlined>مرحله‌ی قبلی</v-btn>
       </v-col>
       <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-        <v-btn @click="$emit('update:stepper', 5)" color="primary" style="width:120px">مرحله‌ی بعدی</v-btn>
+        <v-btn @click="$emit('update:stepper', 5)" color="primary" style="width:98%">مرحله‌ی بعدی</v-btn>
       </v-col>
     </v-row>
   </div>
