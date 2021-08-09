@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>شخصی سازی کنید:</h2>
+    <p style="font-size:1.3rem">شخصی سازی کنید:</p>
     <v-form ref="form" v-model="valid">
       <p>اندازه‌ی قاب:</p>
       <v-radio-group row @change="updateStar" v-model="radioGroup">

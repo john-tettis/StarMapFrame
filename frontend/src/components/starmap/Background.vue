@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>آیا بکگراند میخواید</h2>
+    <p style="font-size:1.3rem">آیا بکگراند میخواید</p>
     <v-row>
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-switch

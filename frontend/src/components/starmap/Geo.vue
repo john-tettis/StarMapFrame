@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="mb-5">تاریخ و ساعت و لوکیشن را انتخاب کنید</h2>
+    <p class="mb-5" style="font-size:1.3rem">تاریخ و ساعت و لوکیشن را انتخاب کنید</p>
     <v-form ref="form" v-model="valid">
       <v-autocomplete
         outlined

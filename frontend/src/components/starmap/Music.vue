@@ -2,12 +2,12 @@
   <div>
     <v-row align="baseline" class="mb-5">
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <h2>موزیک دلخواه خود را بیافزایید</h2>
+        <p style="font-size:1.3rem">موزیک دلخواه خود را بیافزایید</p>
       </v-col>
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <h6 class="text-right">
+        <p class="text-center" style="font-size:.6rem">
           اگر مایل به افزودن QR کد نیستید وارد مرحله‌ی بعدی شوید
-        </h6>
+        </p>
       </v-col>
     </v-row>
     <v-switch

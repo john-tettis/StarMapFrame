@@ -2,10 +2,10 @@
   <div>
     <v-row align="baseline" class="mb-4">
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <h2 class="mb-0">متن دلخواه خود را بنویسید</h2>
+        <p class="mb-0" style="font-size:1.3rem">متن دلخواه خود را بنویسید</p>
       </v-col>
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <h6 class="text-right">اگر متن دلخواهی ندارید به مرحله‌ی بعدی برید</h6>
+        <p class="text-center" style="font-size:.6rem">اگر متن دلخواهی ندارید به مرحله‌ی بعدی برید</p>
       </v-col>
     </v-row>
     <v-form ref="form" v-model="valid">

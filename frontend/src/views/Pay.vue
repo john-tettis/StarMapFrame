@@ -4,7 +4,7 @@
       <v-col cols="11" xl="5" lg="5" md="5" sm="11">
         <v-card class="elevation-4">
           <v-card-text>
-            <h3 class="mb-5">جزییات سفارش <v-icon>mdi-basket</v-icon></h3>
+            <h3 class="mb-5" style="font-size:1.3rem">جزییات سفارش <v-icon>mdi-basket</v-icon></h3>
             <div>
               <p class="d-flex justify-space-between">
                 قیمت قاب: <span>{{ product.customize.size }} -
@@ -36,7 +36,7 @@
                   >
                 </div>
               </div>
-              <h3 class="text-center" v-show="discount">این کد شامل {{discountAmount.toLocaleString("fa")}} ریال تخفیف است!</h3>
+              <h3 class="text-center" v-show="discount" style="font-size:1rem">این کد شامل {{discountAmount.toLocaleString("fa")}} ریال تخفیف است!</h3>
             </div>
           </v-card-text>
         </v-card>
@@ -47,7 +47,7 @@
       <v-col cols="11" xl="5" lg="5" md="5" sm="11">
         <v-card elevation="2">
           <v-card-text>
-            <h2 class="mb-5">مشخصات گیرنده <v-icon>mdi-post</v-icon></h2>
+            <h2 class="mb-5" style="font-size:1.3rem">مشخصات گیرنده <v-icon>mdi-post</v-icon></h2>
             <v-divider class="mb-5"></v-divider>
             <v-form>
               <v-text-field
