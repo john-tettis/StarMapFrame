@@ -198,7 +198,7 @@ export default {
         -ms-flex-align: center;
             align-items: center;
     margin-bottom: 25px;
-    margin-top: 40px;
+    margin-top: 45px;
   }
 }
 </style>
