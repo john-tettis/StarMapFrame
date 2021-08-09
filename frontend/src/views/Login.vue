@@ -115,18 +115,18 @@ export default {
   },
   methods: {
     doRegister() {
-      // this.axios.post("/api/register", this.register).then((response) => {
-      //   if (response.status === 200 && response.data.result) {
-      //     this.$router.push("/builder");
-      //   } else {
-      //     this.registerAlert = true;
-      //     this.registerAlertText = response.data.message;
-      //     setTimeout(() => {
-      //       this.registerAlert = false;
-      //     }, 5000);
-      //   }
-      // });
-      alert("ثبت نام غیر فعال است");
+      this.axios.post("/api/register", this.register).then((response) => {
+        if (response.status === 200 && response.data.result) {
+          this.$router.push("/builder");
+        } else {
+          this.registerAlert = true;
+          this.registerAlertText = response.data.message;
+          setTimeout(() => {
+            this.registerAlert = false;
+          }, 5000);
+        }
+      });
+      // alert("ثبت نام غیر فعال است");
     },
     doLogin() {
       this.axios.post("/api/login", this.login).then((response) => {
