@@ -101,7 +101,7 @@ export default {
       dateMenu: false,
       dateValue: null,
       timeMenu: false,
-      timeValue: null,
+      timeValue: "00:00",
       locationGuess: [],
       location: "",
       coordinate: {},
