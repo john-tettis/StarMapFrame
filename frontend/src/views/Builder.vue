@@ -110,6 +110,13 @@ export default {
 </script>
 
 <style>
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.3.6,
+* Autoprefixer: v10.3.1
+* Browsers: last 4 version
+*/
+
 #frame {
   height: 540px;
   width: 400px;
@@ -123,19 +130,34 @@ export default {
     height: 465px !important;
   }
   svg {
+    -webkit-transform:scale(0.43); /*Webkit:Scale down image to 0.8x original size*/
+    -moz-transform:scale(0.43); /*Mozilla scale version*/
+    -o-transform:scale(0.43); /*Opera scale version*/
     scale: 0.43 !important;
     left: 216px !important;
     top: -297px !important;
   }
 
   #builder {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-flow: column-reverse wrap;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-flow: column-reverse wrap;
+            flex-flow: column-reverse wrap;
   }
   #frame_wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-flow: column;
-    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+            flex-flow: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     margin-bottom: 25px;
   }
 }
@@ -146,19 +168,34 @@ export default {
     height: 404px !important;
   }
   svg {
+    -webkit-transform:scale(0.37); /*Webkit:Scale down image to 0.8x original size*/
+    -moz-transform:scale(0.37); /*Mozilla scale version*/
+    -o-transform:scale(0.37); /*Opera scale version*/
     scale: 0.37 !important;
     left: 240px !important;
     top: -328px !important;
   }
 
   #builder {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-flow: column-reverse wrap;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-flow: column-reverse wrap;
+            flex-flow: column-reverse wrap;
   }
   #frame_wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-flow: column;
-    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+            flex-flow: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     margin-bottom: 25px;
   }
 }
