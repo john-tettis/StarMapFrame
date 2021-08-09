@@ -4,11 +4,17 @@
       <v-col cols="11" xl="5" lg="5" md="5" sm="11">
         <v-card class="elevation-4">
           <v-card-text>
-            <h3 class="mb-5" style="font-size:1.3rem">جزییات سفارش <v-icon>mdi-basket</v-icon></h3>
+            <h3 class="mb-5" style="font-size:1.3rem">
+              جزییات سفارش
+              <v-icon>mdi-basket</v-icon>
+            </h3>
             <div>
               <p class="d-flex justify-space-between">
-                قیمت قاب: <span>{{ product.customize.size }} -
-                {{ sizePriceCal().toLocaleString("fa") }}</span>
+                قیمت قاب:
+                <span>
+                  {{ product.customize.size }} -
+                  {{ sizePriceCal().toLocaleString("fa") }}
+                </span>
               </p>
               <p class="d-flex justify-space-between">
                 قیمت کد موزیک:
@@ -18,7 +24,10 @@
                 قیمت بکگراند:
                 <span>{{ !!product.background.bg ? "۱۵,۰۰۰ ریال" : "ندارد" }}</span>
               </p>
-              <p class="d-flex justify-space-between">مبلغ کل: <span>{{ amount.toLocaleString("fa") }} ریال</span></p>
+              <p class="d-flex justify-space-between">
+                مبلغ کل:
+                <span>{{ amount.toLocaleString("fa") }} ریال</span>
+              </p>
               <div class="d-flex justify-space-between align-baseline">
                 <div>
                   <p>کد تخفیف دارید:</p>
@@ -32,11 +41,14 @@
                     color="secondary"
                     outlined
                     :disabled="discount"
-                    >ثبت</v-btn
-                  >
+                  >ثبت</v-btn>
                 </div>
               </div>
-              <h3 class="text-center" v-show="discount" style="font-size:1rem">این کد شامل {{discountAmount.toLocaleString("fa")}} ریال تخفیف است!</h3>
+              <h3
+                class="text-center"
+                v-show="discount"
+                style="font-size:1rem"
+              >این کد شامل {{ discountAmount.toLocaleString("fa") }} ریال تخفیف است!</h3>
             </div>
           </v-card-text>
         </v-card>
@@ -47,7 +59,11 @@
       <v-col cols="11" xl="5" lg="5" md="5" sm="11">
         <v-card elevation="2">
           <v-card-text>
-            <h2 class="mb-5" style="font-size:1.3rem">مشخصات گیرنده <v-icon>mdi-post</v-icon></h2>
+            <h2 class="mb-5" style="font-size:1.3rem">
+              مشخصات گیرنده
+              <v-icon>mdi-post</v-icon>
+            </h2>
+            <p>فیلد شماره موبایل و کد پستی را با اعداد انگلیسی پر کنید!</p>
             <v-divider class="mb-5"></v-divider>
             <v-form>
               <v-text-field
@@ -56,6 +72,8 @@
                 outlined
                 dense
                 label="نام و نام خانوادگی"
+                @input="$v.payment.name.$touch()"
+                @blur="$v.payment.name.$touch()"
               />
               <v-text-field
                 v-model="payment.mobile"
@@ -63,6 +81,8 @@
                 outlined
                 dense
                 label="شماره موبایل"
+                @input="$v.payment.mobile.$touch()"
+                @blur="$v.payment.mobile.$touch()"
               />
               <v-text-field
                 v-model="payment.address"
@@ -70,6 +90,8 @@
                 outlined
                 dense
                 label="آدرس"
+                @input="$v.payment.address.$touch()"
+                @blur="$v.payment.address.$touch()"
               />
               <v-select
                 :items="provincesList"
@@ -81,6 +103,8 @@
                 dense
                 label="استان"
                 @change="filterCity"
+                @input="$v.payment.province.$touch()"
+                @blur="$v.payment.province.$touch()"
               />
               <v-select
                 :disabled="payment.province === null || payment.province === ''"
@@ -92,6 +116,8 @@
                 outlined
                 dense
                 label="شهر"
+                @input="$v.payment.city.$touch()"
+                @blur="$v.payment.city.$touch()"
               />
               <v-text-field
                 v-model="payment.post"
@@ -99,10 +125,20 @@
                 outlined
                 dense
                 label="کدپستی"
+                @input="$v.payment.post.$touch()"
+                @blur="$v.payment.post.$touch()"
               />
-              <v-btn @click="addOrder" color="primary" block>
-                ارسال به درگاه پرداخت
-              </v-btn>
+              <v-btn
+                @click="addOrder"
+                color="primary"
+                :disabled="$v.payment.name.$invalid || 
+                $v.payment.mobile.$invalid || 
+                $v.payment.address.$invalid ||
+                $v.payment.province.$invalid ||
+                $v.payment.city.$invalid ||
+                $v.payment.post.$invalid"
+                block
+              >ارسال به درگاه پرداخت</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -115,8 +151,36 @@
 import provinces from "@/assets/provinces.json";
 import cities from "@/assets/city.json";
 
+import { validationMixin } from 'vuelidate';
+import { required, numeric } from "vuelidate/lib/validators"
+
 export default {
   name: "Pay",
+  mixins: [validationMixin],
+  validations: {
+    payment:{
+      name: {
+        required
+      },
+      mobile: {
+        required,
+        numeric
+      },
+      post: {
+        numeric,
+        required
+      },
+      address:{
+        required
+      },
+      city: {
+        required
+      },
+      province: {
+        required
+      }
+    }
+  },
   data() {
     return {
       discount: false,
