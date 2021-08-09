@@ -9,12 +9,14 @@ import {
   v4 as uuidv4
 } from "uuid";
 import VueCookies from 'vue-cookies'
+import Vuelidate from 'vuelidate'
 
 Vue.config.productionTip = false;
 
 Vue.use(VueCookies)
 Vue.use(VueAxios, axios);
 Vue.use(Vuex);
+Vue.use(Vuelidate);
 
 Vue.$cookies.config('7d')
 

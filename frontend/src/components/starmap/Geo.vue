@@ -11,6 +11,8 @@
         :items="locationGuess"
         item-text="display_name"
         @keyup="updateGuess($event)"
+        @input="$v.location.$touch()"
+        @blur="$v.location.$touch()"
       ></v-autocomplete>
       <!--DatePicker-->
       <v-menu
@@ -31,6 +33,8 @@
             readonly
             v-bind="attrs"
             v-on="on"
+            @input="$v.dateValue.$touch()"
+            @blur="$v.dateValue.$touch()"
           ></v-text-field>
         </template>
         <v-date-picker
@@ -68,6 +72,8 @@
             readonly
             v-bind="attrs"
             v-on="on"
+            @input="$v.timeValue.$touch()"
+            @blur="$v.timeValue.$touch()"
           ></v-text-field>
         </template>
         <v-time-picker
@@ -76,7 +82,7 @@
           @click:minute="$refs.TimeMenu.save(timeValue)"
         ></v-time-picker>
       </v-menu>
-      <v-btn class="mt-8" block color="primary" @click="submit($event)">ثبت</v-btn>
+      <v-btn class="mt-8" block color="primary" @click="submit($event)" :disabled="$v.location.$invalid || $v.timeValue.$invalid || $v.dateValue.$invalid">ثبت</v-btn>
     </v-form>
   </div>
 </template>
@@ -85,6 +91,8 @@
 import { Client } from "@googlemaps/google-maps-services-js";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
+import { validationMixin } from 'vuelidate';
+import { required } from "vuelidate/lib/validators"
 
 export default {
   name: "star-geo",
@@ -92,6 +100,18 @@ export default {
     dateMenu(val) {
       val && setTimeout(() => (this.activePicker = "YEAR"));
     },
+  },
+  mixins: [validationMixin],
+  validations: {
+    timeValue: {
+      required
+    },
+    location: {
+      required
+    },
+    dateValue: {
+      required,
+    }
   },
   data() {
     return {
@@ -125,7 +145,7 @@ export default {
           this.locationGuess = data
 
         }
-      }).catch(error=>{
+      }).catch(error => {
         console.log(error)
       })
     },
