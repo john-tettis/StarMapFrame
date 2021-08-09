@@ -41,28 +41,28 @@
         @click:append-outer="cover=[]"
       ></v-file-input>
     </v-form>
-    <v-row>
-      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <v-btn @click="$emit('update:stepper', 2)" color="error" block outlined
+    <v-row no-gutters>
+      <v-col cols="6" xl="6" lg="6" md="6" sm="6">
+        <v-btn @click="$emit('update:stepper', 2)" color="error" outlined block
           >مرحله‌ی قبلی</v-btn
         >
       </v-col>
-      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+      <v-col cols="6" xl="6" lg="6" md="6" sm="6">
         <v-btn
           v-if="!wantMusic"
           :disabled="wantMusic"
           color="primary"
-          block
           @click="uploadMusic"
+          block
           >مرحله‌ی بعدی</v-btn
         >
         <v-btn
           v-if="wantMusic"
           :disabled="mp3.length===0 || cover.length===0"
           color="primary"
-          block
           @click="uploadMusic"
-          >آپلود و مرحله‌ی بعدی</v-btn
+          block
+          >آپلود موسیقی</v-btn
         >
       </v-col>
     </v-row>

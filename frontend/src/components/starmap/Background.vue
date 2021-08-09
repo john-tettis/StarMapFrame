@@ -17,15 +17,14 @@
           inset
           :label="shape ? `قلبی` : `دایره‌ای`"
         ></v-switch>
-      </v-col> -->
+      </v-col>-->
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-switch
           v-model="circle"
           @change="changeCircle"
           inset
           :label="circle ? 'دایره دار' : 'بی دایره'"
-        >
-        </v-switch>
+        ></v-switch>
       </v-col>
     </v-row>
     <div v-if="haveBg">
@@ -52,8 +51,8 @@
           <v-col cols="12" xl="4" lg="4" md="6" sm="12">
             <div
               @click="
-                sampleImg = false;
-                customImg = true;
+              sampleImg = false;
+              customImg = true;
               "
               style="max-width:100%;height:115px;cursor:pointer"
               class="d-flex justify-center align-center bg-dark"
@@ -81,15 +80,22 @@
         <h2>از این عکسا خوشت نمیاد؟</h2>
         <h3>یکی از عکسای خودتو آپلود کن</h3>
         <v-form class="mb-15">
-          <v-file-input
-            v-model="bg"
-            accept="image/*"
-            label="آپلود عکس"
-            outlined
-            dense
-          ></v-file-input>
+          <v-file-input v-model="bg" accept="image/*" label="آپلود عکس" outlined dense></v-file-input>
 
-          <v-row>
+          <v-row no-gutters>
+            <v-col cols="6" xl="6" lg="6" md="6" sm="6">
+              <v-btn
+                block
+                color="secondary"
+                @click="
+                customImg = false;
+                sampleImg = true;
+                "
+              >عکس آماده</v-btn>
+            </v-col>
+            <v-col col="6" xl="6" lg="6" md="6" sm="6">
+              <v-btn color="primary" @click="uploadBg" block>ثبت عکس</v-btn>
+            </v-col>
             <v-col cols="12">
               <p>شفافیت</p>
               <v-slider
@@ -101,21 +107,6 @@
                 @change="updateUploadedBgOpacity"
               ></v-slider>
             </v-col>
-
-            <v-col col="12" xl="6" lg="6" md="6" sm="12">
-              <v-btn color="primary" @click="uploadBg" block>ثبت عکس</v-btn>
-            </v-col>
-            <v-col cols="12" xl="6" lg="6" md="6" sm="12">
-              <v-btn
-                block
-                color="secondary"
-                @click="
-                  customImg = false;
-                  sampleImg = true;
-                "
-                >استفاده از عکس های آماده</v-btn
-              >
-            </v-col>
           </v-row>
         </v-form>
       </div>
@@ -123,13 +114,11 @@
     <v-divider class="my-5"></v-divider>
     <h3>تمامی شخصی سازی ها انجام شد</h3>
     <p>حالا می‌تونی قاب ستاره‌ای خودتو سفارش بدی</p>
-    <v-row>
-      <v-col cols="12" xl="6" lg="6" md="6" sm="12">
-        <v-btn @click="$emit('update:stepper', 4)" color="error" block outlined
-          >مرحله‌ی قبلی</v-btn
-        >
+    <v-row no-gutters>
+      <v-col cols="6" xl="6" lg="6" md="6" sm="6">
+        <v-btn @click="$emit('update:stepper', 4)" color="error" block outlined>مرحله‌ی قبلی</v-btn>
       </v-col>
-      <v-col cols="12" xl="6" lg="6" md="6" sm="12">
+      <v-col cols="6" xl="6" lg="6" md="6" sm="6">
         <v-btn @click="checkout" color="primary" block>ثبت سفارش</v-btn>
       </v-col>
     </v-row>
@@ -268,7 +257,7 @@ export default {
           }
         });
     },
-    changeCircle(){
+    changeCircle() {
       this.$store.commit("setCircle", this.circle);
       this.$store.dispatch("getStarMap");
     }

@@ -190,8 +190,8 @@
         </v-row>
       </div>
 
-      <v-row>
-        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+      <v-row no-gutters justify="center">
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
           <v-btn
             color="secondary"
             @click="
@@ -204,7 +204,7 @@
             >افزودن پاراگراف</v-btn
           ></v-col
         >
-        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
           <v-btn
             color="secondary"
             outlined
@@ -216,18 +216,18 @@
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+      <v-row no-gutters class="mt-3">
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
           <v-btn
             @click="$emit('update:stepper', 1)"
-            block
             color="error"
             outlined
+            block
           >
             مرحله‌ی قبلی
           </v-btn>
         </v-col>
-        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
           <v-btn @click="$emit('update:stepper', 3)" block color="primary">
             مرحله‌ی بعدی
           </v-btn>

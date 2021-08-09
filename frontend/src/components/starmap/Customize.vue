@@ -11,8 +11,8 @@
       </v-radio-group>
 
       <v-divider class="my-5"></v-divider>
-      <v-row justify="center">
-        <v-col cols="6">
+      <v-row>
+        <v-col cols="6" lg="6" xl="6" md="6" sm="6">
           <v-radio-group row @change="updateStar" v-model="showWallpaper">
             <v-radio key="wallpaper" label="عکسی" :value="true" selected />
             <v-radio
@@ -26,7 +26,7 @@
       </v-row>
       <div v-show="showWallpaper === false">
         <v-row align="baseline">
-          <v-col cols="6">
+          <v-col cols="6" lg="6" xl="6" md="6" sm="6">
             <p>رنگ بکگراند</p>
           </v-col>
         </v-row>
@@ -181,18 +181,18 @@
 
       <v-divider class="my-5"></v-divider>
 
-      <v-row>
-        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+      <v-row no-gutters>
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
           <v-btn
             @click="$emit('update:stepper', 3)"
-            block
             color="error"
             outlined
+            block
           >
             مرحله‌ی قبلی
           </v-btn>
         </v-col>
-        <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
           <v-btn @click="$emit('update:stepper', 5)" block color="primary">
             مرحله‌ی بعدی
           </v-btn>

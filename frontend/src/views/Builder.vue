@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters class="py-16">
+  <v-row id="builder" no-gutters class="py-sm-3 py-12">
     <v-col cols="12" xl="7" lg="7" md="12" sm="12" class="px-10">
       <v-stepper alt-labels v-model="step">
         <!-- <v-stepper-header>
@@ -37,10 +37,11 @@
         </v-stepper-items>
       </v-stepper>
     </v-col>
-    <v-col cols="12" xl="5" lg="5" md="12" sm="12">
+    <v-col cols="12" xl="5" lg="5" md="12" sm="12" id="frame_wrapper">
       <v-card
       height="540"
       width="400"
+      class="elevation-0"
     >
       <div
         id="frame"
@@ -112,6 +113,33 @@ export default {
     scale: 0.49 !important;
     left: 205px !important;
     top: -270px !important;
+  }
+
+  #builder{
+    display:flex;
+    flex-flow: column-reverse wrap;
+  }
+}
+@media screen and (max-width: 900px) {
+  #frame {
+    width: 100% !important;
+    height: 520px !important;
+  }
+  svg {
+    scale: 0.49 !important;
+    left: 205px !important;
+    top: -270px !important;
+  }
+
+  #builder{
+    display:flex;
+    flex-flow: column-reverse wrap;
+  }
+  #frame_wrapper{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-bottom: 25px;
   }
 }
 </style>
