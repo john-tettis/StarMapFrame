@@ -198,7 +198,7 @@ export default {
         post: "",
       },
       amount: 0,
-      product: {},
+      product: JSON.parse(localStorage.getItem("product")),
       provincesList: [],
       citiesList: [],
       code: "",
