@@ -31,7 +31,7 @@
               <v-divider class="my-2"/>
               <p class="d-flex justify-space-between">
                 مبلغ کل:
-                <span>{{ amount.toLocaleString("fa") }} ریال</span>
+                <span v-if="amount !== undefined">{{ amount.toLocaleString("fa") }} ریال</span>
               </p>
               <div class="d-flex justify-space-between align-baseline">
                 <div>
@@ -53,6 +53,7 @@
                 class="text-center"
                 v-show="discount"
                 style="font-size:1rem"
+                v-if="discountAmount !== undefined"
               >مبلغ {{ discountAmount.toLocaleString("fa") }} ریال تخفیف اعمال شد.</h3>
             </div>
           </v-card-text>
