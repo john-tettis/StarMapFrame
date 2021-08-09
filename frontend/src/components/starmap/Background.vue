@@ -117,7 +117,7 @@
             key="خیر"
             label="خیر"
             :value="false"
-            @click="haveBg = false"
+            @click="circle = false"
           />
         </v-radio-group>
       </v-col>

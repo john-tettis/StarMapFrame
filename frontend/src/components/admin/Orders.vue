@@ -96,7 +96,7 @@
             <span v-else>پرداخت شده</span>
           </template>
           <template v-slot:[`item.roban`]="{ item }">
-            <span v-if="item.product.roban">دارد</span>
+            <span v-if="isRoban(item.product)">دارد</span>
             <span v-else>ندارد</span>
           </template>
           <template v-slot:[`item.starmap`]="{ item }">
@@ -274,6 +274,9 @@ export default {
           }
           this.$emit("update:loading", false);
         });
+    },
+    isRoban(object){
+      return JSON.parse(object.replaceAll("True", "true").replaceAll("False", "false").replaceAll("'", '"')).roban
     },
     openDeleteOrderDialog(id) {
       this.orderID = id;

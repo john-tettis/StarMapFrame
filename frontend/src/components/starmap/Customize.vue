@@ -204,7 +204,7 @@ export default {
       this.$store.commit("setCustomize", {
         size: this.radioGroup,
         background: this.bgValue,
-        frame: this.frameValue,
+        frame: this.$store.state.starmap.customize.frame,
         dot: this.showDot,
         star: this.showStar,
         constellation: this.showConstellation,

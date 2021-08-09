@@ -123,7 +123,9 @@ export default {
             this.loading = false;
           });
       } else {
+        this.loading = false;
         this.$store.commit("setLoading", false)
+        this.checkout();
       }
     },
     checkout() {
