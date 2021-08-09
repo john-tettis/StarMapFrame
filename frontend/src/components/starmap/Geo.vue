@@ -9,9 +9,9 @@
         prepend-inner-icon="mdi-map-marker"
         label="موقعیت جغرافیایی"
         :items="locationGuess"
+        item-text="display_name"
         @keyup="updateGuess($event)"
-      >
-      </v-autocomplete>
+      ></v-autocomplete>
       <!--DatePicker-->
       <v-menu
         ref="DateMenu"
@@ -76,9 +76,7 @@
           @click:minute="$refs.TimeMenu.save(timeValue)"
         ></v-time-picker>
       </v-menu>
-      <v-btn class="mt-8" block color="primary" @click="submit($event)">
-        ثبت
-      </v-btn>
+      <v-btn class="mt-8" block color="primary" @click="submit($event)">ثبت</v-btn>
     </v-form>
   </div>
 </template>
@@ -100,7 +98,6 @@ export default {
       activePicker: null,
       valid: true,
       client: new Client({}),
-      API_KEY: process.env.VUE_APP_GOOGLE_MAP_API || "AIzaSyBm3NW7y6lDZ8CayYISgbc8H3GRAMFuUwY",
       dateMenu: false,
       dateValue: null,
       timeMenu: false,
@@ -111,46 +108,37 @@ export default {
     };
   },
   methods: {
-    updateGuess(event) {
-      this.client
-        .placeAutocomplete({
-          params: {
-            input: event.target.value,
-            key: this.API_KEY,
-          },
-        })
-        .then((r) => {
-          this.locationGuess = [];
-          r.data.predictions.forEach((location) => {
-            this.locationGuess.push(location.description);
-          });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    truncateString(str, num) {
+      if (str.length > num) {
+        return str.slice(0, num) + "...";
+      } else {
+        return str;
+      }
     },
-    async getCoordinate(location) {
-      this.client
-        .geocode({
-          params: {
-            address: location,
-            key: this.API_KEY,
-          },
-        })
-        .then(async (r) => {
-          this.coordinate = await r.data.results[0].geometry.location;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    updateGuess(event) {
+      this.axios.get(`https://heavens-above.com/api2/geocoder/?q=${encodeURI(event.target.value.trim())}`).then((response) => {
+        if (response.status === 200) {
+          const data = response.data
+          data.forEach(item => {
+            item.display_name = this.truncateString(item.display_name, 40) + '...'
+          })
+          this.locationGuess = data
+
+        }
+      }).catch(error=>{
+        console.log(error)
+      })
     },
     async submit(event) {
       event.preventDefault();
       if (this.valid) {
-        await this.getCoordinate(this.location);
+        this.coordinate = {
+          lat: this.location.lat,
+          lng: this.location.lon
+        }
         setTimeout(async () => {
           await this.$store.commit("setGeo", {
-            location: this.coordinate,
+            coordinate: this.coordinate,
             time: moment(this.timeValue, "hh:mm").format("hh.mm.ss"),
             date: moment(this.dateValue).format("DD.MM.YYYY"),
           });
