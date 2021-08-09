@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column align-center justify-center px-5" style="background: #121212">
+  <div class="d-flex flex-column align-center justify-center px-5 pb-16" style="background: #121212">
     <div class="white--text">
       <h2 class="text-center">آسمان را هدیه بدهید!</h2>
       <h3 class="text-center">هدیه‌ای به وسعت آسمان را برای عزیزان خود تهیه کنید!</h3>

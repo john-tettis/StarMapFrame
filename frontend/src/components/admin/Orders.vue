@@ -348,7 +348,7 @@ export default {
       this.$store.commit("setProduct", product);
       this.$store.commit(
         "setImage",
-        `${process.env.VUE_APP_BACKEND || "http://localhost:5000"}/download/${
+        `${process.env.VUE_APP_BACKEND || "http://localhost:8000"}/download/${
           product.filename
         }`
       );

@@ -1,14 +1,18 @@
 <template>
   <div>
-    <p style="font-size:1.3rem">آیا بکگراند میخواید</p>
+    <p style="font-size:1.3rem">انتخاب بکگراند ستاره‌ها</p>
     <v-row>
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <v-switch
-          v-model="haveBg"
-          @change="disableBg"
-          inset
-          :label="haveBg ? `آره میخوام` : `نه نمیخوام`"
-        ></v-switch>
+        <v-radio-group v-model="haveBg">
+          <v-radio
+            key="نمی‌خوام"
+            label="نمی‌خوام"
+            :value="false"
+            @click="haveBg = false"
+            selected
+          />
+          <v-radio key="می‌خوام" label="می‌خوام" :value="true" />
+        </v-radio-group>
       </v-col>
       <!-- <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-switch
@@ -18,14 +22,6 @@
           :label="shape ? `قلبی` : `دایره‌ای`"
         ></v-switch>
       </v-col>-->
-      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <v-switch
-          v-model="circle"
-          @change="changeCircle"
-          inset
-          :label="circle ? 'دایره دار' : 'بی دایره'"
-        ></v-switch>
-      </v-col>
     </v-row>
     <div v-if="haveBg">
       <div v-if="sampleImg">
@@ -43,7 +39,7 @@
               style="max-width:100%"
               @click="selectImage($event)"
               :src="
-                'http://localhost:5000/assets/get/backgrounds/' + background
+                'http://localhost:8000/assets/get/backgrounds/' + background
               "
               alt="image"
             />
@@ -54,8 +50,8 @@
               sampleImg = false;
               customImg = true;
               "
-              style="max-width:100%;height:115px;cursor:pointer"
-              class="d-flex justify-center align-center bg-dark"
+              style="max-width:100%;height:115px;cursor:pointer;background:#212121"
+              class="d-flex justify-center align-center"
             >
               <span class="white--text">افزودن عکس دلخواه</span>
             </div>
@@ -112,14 +108,26 @@
       </div>
     </div>
     <v-divider class="my-5"></v-divider>
-    <h3>تمامی شخصی سازی ها انجام شد</h3>
-    <p>حالا می‌تونی قاب ستاره‌ای خودتو سفارش بدی</p>
-    <v-row no-gutters>
-      <v-col cols="6" xl="6" lg="6" md="6" sm="6">
-        <v-btn @click="$emit('update:stepper', 4)" color="error" block outlined>مرحله‌ی قبلی</v-btn>
+
+    <v-col cols="12" xl="6" lg="6" md="12" sm="12">
+      <p style="font-size:1.3rem">دور ستاره‌ها دایره‌ای باشد؟</p>
+        <v-radio-group @change="changeCircle" v-model="circle">
+          <v-radio key="بله" label="بله" :value="true" />
+          <v-radio
+            key="خیر"
+            label="خیر"
+            :value="false"
+            @click="haveBg = false"
+          />
+        </v-radio-group>
       </v-col>
-      <v-col cols="6" xl="6" lg="6" md="6" sm="6">
-        <v-btn @click="checkout" color="primary" block>ثبت سفارش</v-btn>
+
+    <v-row no-gutters justify="center">
+      <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
+        <v-btn @click="$emit('update:stepper', 3)" color="error" style="width:120px" outlined>مرحله‌ی قبلی</v-btn>
+      </v-col>
+      <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
+        <v-btn @click="$emit('update:stepper', 5)" color="primary" style="width:120px">مرحله‌ی بعدی</v-btn>
       </v-col>
     </v-row>
   </div>

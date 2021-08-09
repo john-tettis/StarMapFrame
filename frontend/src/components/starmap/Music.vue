@@ -1,20 +1,14 @@
 <template>
   <div>
-    <v-row align="baseline" class="mb-5">
+    <v-row align="baseline">
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <p style="font-size:1.3rem">موزیک دلخواه خود را بیافزایید</p>
-      </v-col>
-      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <p class="text-center" style="font-size:.6rem">
-          اگر مایل به افزودن QR کد نیستید وارد مرحله‌ی بعدی شوید
-        </p>
+        <p style="font-size:1.3rem">اضافه کردن بارکد موسیقی</p>
       </v-col>
     </v-row>
-    <v-switch
-      v-model="wantMusic"
-      inset
-      :label="wantMusic ? `آره میخوام` : `نه نمیخوام`"
-    ></v-switch>
+    <v-radio-group v-model="wantMusic">
+      <v-radio key="نمی‌خوام" label="نمی‌خوام" :value="false" @click="wantMusic=false" selected/>
+      <v-radio key="می‌خوام" label="می‌خوام" :value="true" />
+    </v-radio-group>
     <v-form v-if="wantMusic" ref="form" v-model="valid">
       <v-file-input
         ref="mp3"
@@ -42,18 +36,18 @@
       ></v-file-input>
     </v-form>
     <v-row no-gutters>
-      <v-col cols="6" xl="6" lg="6" md="6" sm="6">
-        <v-btn @click="$emit('update:stepper', 2)" color="error" outlined block
+      <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
+        <v-btn @click="$emit('update:stepper', 2)" color="error" outlined style="width:120px"
           >مرحله‌ی قبلی</v-btn
         >
       </v-col>
-      <v-col cols="6" xl="6" lg="6" md="6" sm="6">
+      <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
         <v-btn
           v-if="!wantMusic"
           :disabled="wantMusic"
           color="primary"
           @click="uploadMusic"
-          block
+          style="width:120px"
           >مرحله‌ی بعدی</v-btn
         >
         <v-btn
@@ -61,7 +55,7 @@
           :disabled="mp3.length===0 || cover.length===0"
           color="primary"
           @click="uploadMusic"
-          block
+          style="width:120px"
           >آپلود موسیقی</v-btn
         >
       </v-col>
@@ -98,16 +92,46 @@ export default {
             if (response.data.result) {
               this.$store.commit("setMusic", { qr: response.data.details.qr });
               this.$store.dispath("getStarMap");
-              this.$emit("update:stepper", 4); // Moves to next step
+              this.checkout()
             } else {
               alert("خطایی پیش آمده است...");
             }
           });
       } else {
         this.$store.commit("setLoading", false)
-        this.$emit("update:stepper", 4); // Moves to next step
+        this.checkout()
       }
     },
+    checkout() {
+      localStorage.setItem(
+        "product",
+        JSON.stringify(this.$store.state.starmap)
+      );
+      const editMode = localStorage.getItem("editMode");
+      if (editMode) {
+        const orderID = localStorage.getItem("orderID");
+        this.axios
+          .post(`/api/orders/edit/${orderID}`, {
+            product: this.$store.state.starmap,
+          })
+          .then((response) => {
+            if (response.data.result) {
+              alert("محصول با موفقیت بروزرسانی شد!");
+              localStorage.removeItem("editMode");
+              localStorage.removeItem("orderID");
+              this.$router.push("/admin");
+            } else {
+              alert("خطایی پیش آمده است...");
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        this.$router.push("/pay");
+      }
+    },
+    
   },
 };
 </script>

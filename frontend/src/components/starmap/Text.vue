@@ -2,10 +2,7 @@
   <div>
     <v-row align="baseline" class="mb-4">
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <p class="mb-0" style="font-size:1.3rem">متن دلخواه خود را بنویسید</p>
-      </v-col>
-      <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <p class="text-center" style="font-size:.6rem">اگر متن دلخواهی ندارید به مرحله‌ی بعدی برید</p>
+        <p class="mb-0" style="font-size:1.3rem">اضافه کردن متن روی تابلو</p>
       </v-col>
     </v-row>
     <v-form ref="form" v-model="valid">
@@ -191,44 +188,44 @@
       </div>
 
       <v-row no-gutters justify="center">
-        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
           <v-btn
             color="secondary"
+            outlined
+            @click="deleteLine"
+            :disabled="counter == 0"
+            style="width:120px"
+            >حذف پاراگراف</v-btn
+          >
+        </v-col>
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
+          <v-btn
+            color="secondary"
+            style="width:120px"
             @click="
               () => {
                 counter == 2 ? '' : counter++;
               }
             "
             :disabled="counter === 2"
-            block
             >افزودن پاراگراف</v-btn
           ></v-col
         >
-        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
-          <v-btn
-            color="secondary"
-            outlined
-            @click="deleteLine"
-            :disabled="counter == 0"
-            block
-            >حذف پاراگراف</v-btn
-          >
-        </v-col>
       </v-row>
 
-      <v-row no-gutters class="mt-3">
-        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
+      <v-row no-gutters class="mt-3 mb-3" justify="center">
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
           <v-btn
             @click="$emit('update:stepper', 1)"
             color="error"
             outlined
-            block
+            style="width:120px"
           >
             مرحله‌ی قبلی
           </v-btn>
         </v-col>
-        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
-          <v-btn @click="$emit('update:stepper', 3)" block color="primary">
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
+          <v-btn @click="$emit('update:stepper', 3)" color="primary" style="width:120px">
             مرحله‌ی بعدی
           </v-btn>
         </v-col>

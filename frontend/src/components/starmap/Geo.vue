@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="mb-5" style="font-size:1.3rem">تاریخ و ساعت و لوکیشن را انتخاب کنید</p>
+    <p class="mb-5" style="font-size:1.3rem">انتخاب تاریخ و مکان آسمان</p>
     <v-form ref="form" v-model="valid">
       <v-autocomplete
         outlined
@@ -82,7 +82,7 @@
           @click:minute="$refs.TimeMenu.save(timeValue)"
         ></v-time-picker>
       </v-menu>
-      <v-btn class="mt-8" block color="primary" @click="submit($event)" :disabled="$v.location.$invalid || $v.timeValue.$invalid || $v.dateValue.$invalid">ثبت</v-btn>
+      <v-btn class="mt-8 mb-5" block color="primary" @click="submit($event)" :disabled="$v.location.$invalid || $v.timeValue.$invalid || $v.dateValue.$invalid">مرحله‌ی بعدی</v-btn>
     </v-form>
   </div>
 </template>

@@ -1,12 +1,12 @@
 <template>
-  <header class="d-flex align-center justify-space-between" style="background: #121212">
+  <header class="d-flex align-center justify-space-between" style="background: #121212;height:50px">
     <div>
-      <img src="@/assets/logo.png" width="100"/>
+      <img src="@/assets/logo.png" width="64"/>
     </div>
     <div>
       <ul class="nav">
-        <li><router-link to="/">صفحه‌ی اصلی</router-link></li>
-        <li><router-link to="/builder">ستاره‌ساز</router-link></li>
+        <li><router-link to="/">خانه</router-link></li>
+        <li><router-link to="/builder">ستاره ساز</router-link></li>
       </ul>
     </div>
   </header>
@@ -27,8 +27,8 @@ ul.nav{
       text-decoration: none;
       color: #fefefe;
       padding: 10px;
-      font-family: IRANSansX;
-      font-size: 14px;
+      font-size: .8rem;
+      font-family: auto;
     }
   }
 }

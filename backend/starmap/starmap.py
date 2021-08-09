@@ -7,7 +7,7 @@ import argparse
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 MODE = "DEV"
-HOST = "https://sky.respina.store/api"
+HOST = "http://localhost:8000"
 ############ DEFAULT VALUES AND CONSTS ####################################
 
 fontFamily1 = "Anton"
@@ -580,7 +580,7 @@ if __name__ == '__main__':
     image.add(image.text(str(northern)+" N "+str(eastern)+" E ",
               insert=("20mm", str(height-14)+'mm'), fill=line_color, style=font_style))
     image.add(image.text(date + " " + time + " UTC " + str(utc),
-              insert=("20mm", str(height-10)+'mm'), fill=line_color, style=font_style))
+              insert=("20mm", str(height-10)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
 
     image.save()
     # print(output_file, " generated")

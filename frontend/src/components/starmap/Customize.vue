@@ -2,25 +2,18 @@
   <div>
     <p style="font-size:1.3rem">شخصی سازی کنید:</p>
     <v-form ref="form" v-model="valid">
-      <p>اندازه‌ی قاب:</p>
-      <v-radio-group row @change="updateStar" v-model="radioGroup">
-        <v-radio key="A2" label="A2" value="A2" />
-        <v-radio key="A3" label="A3" value="A3" />
-        <v-radio key="A4" label="A4" value="A4" />
-        <v-radio key="A5" label="A5" value="A5" />
-      </v-radio-group>
-
       <v-divider class="my-5"></v-divider>
+      <p style="font-size:1.3rem">انتخاب بکگراند کلی</p>
       <v-row>
         <v-col cols="6" lg="6" xl="6" md="6" sm="6">
-          <v-radio-group row @change="updateStar" v-model="showWallpaper">
-            <v-radio key="wallpaper" label="عکسی" :value="true" selected />
+          <v-radio-group @change="updateStar" v-model="showWallpaper">
             <v-radio
               @click="removeWallpaper"
               key="color"
               label="رنگی"
               :value="false"
             />
+            <v-radio key="wallpaper" label="عکسی" :value="true" selected />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -86,7 +79,7 @@
               <img
                 class="wallpaper"
                 :src="
-                  'http://localhost:5000/assets/get/wallpapers/' + wallpaper
+                  `http://localhost:8000/assets/get/wallpapers/` + wallpaper
                 "
                 alt="bg"
                 width="100%"
@@ -96,42 +89,6 @@
           </v-row>
         </v-container>
       </div>
-
-      <p>رنگ قاب</p>
-      <v-menu
-        v-model="frameMenu"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        min-width="290px"
-        max-width="290px"
-      >
-        <template v-slot:activator="{ on }">
-          <v-text-field
-            label="رنگ"
-            prepend-inner-icon="mdi-palette"
-            readonly
-            hide-details
-            :value="frameValue"
-            v-on="on"
-            outlined
-            dense
-            class="mb-7"
-          ></v-text-field>
-        </template>
-
-        <v-color-picker
-          show-swatches
-          hide-canvas
-          hide-sliders
-          hide-inputs
-          :swatches="swatches"
-          v-model="frameValue"
-          @input="updateStar"
-          no-title
-        ></v-color-picker>
-      </v-menu>
 
       <v-divider class="my-5"></v-divider>
 
@@ -145,6 +102,7 @@
             v-model="showDot"
             inset
             label="نقطه‌ها"
+            hide-details
           ></v-switch>
         </v-col>
         <v-col cols="12" xl="6" lg="6" md="12" sm="12">
@@ -153,6 +111,7 @@
             v-model="showStar"
             inset
             label="ستاره‌ها"
+            hide-details
           ></v-switch>
         </v-col>
         <v-col cols="12" xl="6" lg="6" md="12" sm="12">
@@ -166,6 +125,7 @@
             v-model="showConstellation"
             inset
             label="صور فلکی"
+            hide-details
           ></v-switch>
         </v-col>
         <v-col cols="12" xl="6" lg="6" md="12" sm="12">
@@ -175,6 +135,7 @@
             v-model="showConstellationText"
             inset
             label="نام صور فلکی"
+            hide-details
           ></v-switch>
         </v-col>
       </v-row>
@@ -182,18 +143,18 @@
       <v-divider class="my-5"></v-divider>
 
       <v-row no-gutters>
-        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
           <v-btn
-            @click="$emit('update:stepper', 3)"
+            @click="$emit('update:stepper', 2)"
             color="error"
             outlined
-            block
+            style="width:120px"
           >
             مرحله‌ی قبلی
           </v-btn>
         </v-col>
-        <v-col cols="6" xl="6" lg="6" md="6" sm="6">
-          <v-btn @click="$emit('update:stepper', 5)" block color="primary">
+        <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
+          <v-btn @click="$emit('update:stepper', 4)" style="width:120px"  color="primary">
             مرحله‌ی بعدی
           </v-btn>
         </v-col>
@@ -226,10 +187,6 @@ export default {
       valid: true,
       bgValue: "#000000",
       bgMenu: false,
-      radioGroup: "A3",
-
-      frameMenu: false,
-      frameValue: "#212121",
       swatches: [
         ["#263238", "#212121", "#455A64", "#00ACC1"],
         ["#3949AB", "#004D40", "#C51162", "#4A148C"],
