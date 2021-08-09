@@ -39,7 +39,7 @@
               style="max-width:100%"
               @click="selectImage($event)"
               :src="
-                'http://localhost:8000/assets/get/backgrounds/' + background
+                'https://sky.respina.store/api/assets/get/backgrounds/' + background
               "
               alt="image"
             />
