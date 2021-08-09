@@ -1,7 +1,7 @@
 <template>
   <v-row id="builder" no-gutters class="py-sm-3">
-    <v-col v-if="windowWidth < 900" cols="12" class="order-4">
-      <img src="@/assets/logo.png" class="d-block mx-auto" width="95" height="65"/>
+    <v-col v-if="windowWidth < 900" cols="12" class="order-4" style="position:absolute;top:0;left:0;right:0;z-index:9999">
+      <img src="@/assets/logo.png" class="d-block mx-auto" width="85"/>
     </v-col>
     <v-col v-else cols="12" class="order-0">
       <img src="@/assets/logo.png" class="d-block mx-auto" width="100"/>
@@ -159,6 +159,7 @@ export default {
         -ms-flex-align: center;
             align-items: center;
     margin-bottom: 25px;
+    margin-top: 25px;
   }
 }
 
@@ -171,7 +172,7 @@ export default {
     -webkit-transform:scale(0.37); /*Webkit:Scale down image to 0.8x original size*/
     -moz-transform:scale(0.37); /*Mozilla scale version*/
     -o-transform:scale(0.37); /*Opera scale version*/
-    scale: 0.37 !important;
+    scale: 1 !important;
     left: 240px !important;
     top: -328px !important;
   }
@@ -197,6 +198,7 @@ export default {
         -ms-flex-align: center;
             align-items: center;
     margin-bottom: 25px;
+    margin-top: 40px;
   }
 }
 </style>
