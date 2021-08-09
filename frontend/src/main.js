@@ -26,6 +26,7 @@ const store = new Vuex.Store({
     loading: false,
     path: "",
     starmap: {
+      roban: false,
       paint: true,
       shape: false,
       geo: {
@@ -109,7 +110,10 @@ const store = new Vuex.Store({
     },
     setProduct(state, product){
       state.starmap = product
-    }
+    },
+    setRoban(state, roban){
+      state.starmap.roban = roban
+    },
   },
   actions: {
     async getStarMap(context) {

@@ -95,9 +95,9 @@
             <span v-if="parseInt(item.is_paid) === 0">پرداخت نشده</span>
             <span v-else>پرداخت شده</span>
           </template>
-          <template v-slot:[`item.is_deliverd`]="{ item }">
-            <span v-if="parseInt(item.is_deliverd) === 0">تحویل نشده</span>
-            <span v-else>تحویل مشتری</span>
+          <template v-slot:[`item.roban`]="{ item }">
+            <span v-if="item.product.roban">دارد</span>
+            <span v-else>ندارد</span>
           </template>
           <template v-slot:[`item.starmap`]="{ item }">
             <v-tooltip top>
@@ -239,7 +239,7 @@ export default {
         { text: "کدپستی", value: "post" },
         { text: "آدرس کامل", value: "address" },
         { text: "وضعیت پرداخت", value: "is_paid" },
-        { text: "وضعیت تحویل", value: "is_deliverd" },
+        { text: "ربان", value: "roban" },
         { text: "", value: "editItem", sortable: false, width: 1 },
         { text: "", value: "starmap", sortable: false, width: 1 },
         { text: "", value: "data", sortable: false, width: 1 },

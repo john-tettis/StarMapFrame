@@ -1,7 +1,10 @@
 <template>
   <v-row id="builder" no-gutters class="py-sm-3">
-    <v-col cols="12" class="order-4">
+    <v-col v-if="windowWidth < 900" cols="12" class="order-4">
       <img src="@/assets/logo.png" class="d-block mx-auto" width="95" height="65"/>
+    </v-col>
+    <v-col v-else cols="12" class="order-0">
+      <img src="@/assets/logo.png" class="d-block mx-auto" width="100"/>
     </v-col>
     <v-col cols="12" xl="7" lg="7" md="12" sm="12" class="px-10">
       <v-stepper alt-labels v-model="step" class="mb-5">
@@ -89,6 +92,7 @@ export default {
   data() {
     return {
       step: 1,
+      windowWidth: window.innerWidth,
       svgSource: this.$store.state.path,
     };
   },
@@ -97,6 +101,10 @@ export default {
     if (editMode) {
       this.step = 2;
     }
+    this.windowWidth = window.innerWidth;
+    window.onresize = () => {
+      this.windowWidth = window.innerWidth;
+    };
   },
 };
 </script>

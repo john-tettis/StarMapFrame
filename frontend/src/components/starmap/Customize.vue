@@ -1,8 +1,6 @@
 <template>
   <div>
-    <p style="font-size:1.3rem">شخصی سازی کنید:</p>
     <v-form ref="form" v-model="valid">
-      <v-divider class="my-5"></v-divider>
       <p style="font-size:1.3rem">انتخاب بکگراند کلی</p>
       <v-row>
         <v-col cols="6" lg="6" xl="6" md="6" sm="6">

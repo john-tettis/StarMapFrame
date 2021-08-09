@@ -103,7 +103,7 @@ export default {
             this.$store.dispatch("getStarMap");
         },
         updateRoban(){
-
+            this.$store.commit("setRoban", this.roban)
         }
     }
 }

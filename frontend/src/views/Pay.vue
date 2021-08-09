@@ -25,6 +25,10 @@
                 <span>{{ !!product.background.bg ? "۱۵,۰۰۰ ریال" : "ندارد" }}</span>
               </p>
               <p class="d-flex justify-space-between">
+                قیمت ربان:
+                <span>{{product.roban ? "۱۵,۰۰۰ ریال" : "ندارد"}}</span>
+              </p>
+              <p class="d-flex justify-space-between">
                 مبلغ کل:
                 <span>{{ amount.toLocaleString("fa") }} ریال</span>
               </p>
@@ -208,6 +212,7 @@ export default {
     if (this.product.customize.size === "A5") this.amount = 1600000;
     if (this.product.music.qr) this.amount += 150000;
     if (this.product.background.bg) this.amount += 150000;
+    if (this.product.roban) this.amount += 150000;
 
     this.provincesList = provinces;
     this.citiesList = cities;
