@@ -4,13 +4,7 @@
     <v-row>
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-radio-group v-model="haveBg">
-          <v-radio
-            key="نمی‌خوام"
-            label="نمی‌خوام"
-            :value="false"
-            @click="haveBg = false"
-            selected
-          />
+          <v-radio key="نمی‌خوام" label="نمی‌خوام" :value="false" @click="haveBg = false" selected />
           <v-radio key="می‌خوام" label="می‌خوام" :value="true" />
         </v-radio-group>
       </v-col>
@@ -111,20 +105,20 @@
 
     <v-col cols="12" xl="6" lg="6" md="12" sm="12">
       <p style="font-size:1.3rem">دور ستاره‌ها دایره‌ای باشد؟</p>
-        <v-radio-group @change="changeCircle" v-model="circle">
-          <v-radio key="بله" label="بله" :value="true" />
-          <v-radio
-            key="خیر"
-            label="خیر"
-            :value="false"
-            @click="circle = false"
-          />
-        </v-radio-group>
-      </v-col>
+      <v-radio-group @change="changeCircle" v-model="circle">
+        <v-radio key="بله" label="بله" :value="true" />
+        <v-radio key="خیر" label="خیر" :value="false" @click="circle = false" />
+      </v-radio-group>
+    </v-col>
 
     <v-row no-gutters justify="center">
       <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-        <v-btn @click="$emit('update:stepper', 3)" color="error" style="width:98%" outlined>مرحله‌ی قبلی</v-btn>
+        <v-btn
+          @click="$emit('update:stepper', 3)"
+          color="error"
+          style="width:98%"
+          outlined
+        >مرحله‌ی قبلی</v-btn>
       </v-col>
       <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
         <v-btn @click="$emit('update:stepper', 5)" color="primary" style="width:98%">مرحله‌ی بعدی</v-btn>
@@ -154,8 +148,8 @@ export default {
   },
   methods: {
     selectImage(event) {
-      const activeImages = document.getElementsByClassName("active-img");
-      activeImages.forEach((el) => el.classList.remove("active-img"));
+      const activeImages = document.querySelectorAll(".active-img");
+      if (activeImages.length > 0) activeImages.forEach((el) => el.classList.remove("active-img"));
 
       this.selectedImage = event.target.getAttribute("src");
       event.target.setAttribute("class", "active-img");
