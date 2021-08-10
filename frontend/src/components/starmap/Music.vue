@@ -113,7 +113,6 @@ export default {
           })
           .then((response) => {
             if (response.data.result) {
-              console.log(response.data);
               this.$store.commit("setMusic", { qr: response.data.details.qr });
               this.$store.dispatch("getStarMap");
               this.done = true;
