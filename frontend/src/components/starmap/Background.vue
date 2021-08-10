@@ -162,8 +162,8 @@ export default {
 
       this.$store.commit("setBg", {
         bg: this.selectedImage,
-        x: 10,
-        y: -50,
+        x: 0,
+        y: 0,
         opacity: this.opacity,
       });
       this.$store.dispatch("getStarMap");
@@ -184,7 +184,7 @@ export default {
             this.$store.commit("setBg", {
               bg: response.data.path,
               x: 0,
-              y: -50,
+              y: 0,
               opacity: this.opacity,
             });
             this.$store.dispatch("getStarMap");
@@ -212,8 +212,8 @@ export default {
     updateOpacity() {
       this.$store.commit("setBg", {
         bg: this.selectedImage,
-        x: 10,
-        y: -50,
+        x: 0,
+        y: 0,
         opacity: this.opacity,
       });
       this.$store.dispatch("getStarMap");
@@ -221,8 +221,8 @@ export default {
     updateUploadedBgOpacity() {
       this.$store.commit("setBg", {
         bg: this.uploadedBg,
-        x: 10,
-        y: -50,
+        x: 0,
+        y: 0,
         opacity: this.uploadedBgOpacity,
       });
       this.$store.dispatch("getStarMap");

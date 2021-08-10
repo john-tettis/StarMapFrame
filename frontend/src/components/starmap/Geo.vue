@@ -204,8 +204,8 @@ export default {
         },
         background: {
           bg: "",
-          x: "",
-          y: "",
+          x: 0,
+          y: 0,
           opacity: 40,
           wallpaper: "",
         },
