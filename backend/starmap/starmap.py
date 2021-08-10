@@ -538,7 +538,7 @@ if __name__ == '__main__':
     
     # Generate Wallpaper
     if wallpaper:
-        image.add(image.image(href=wallpaper, size=("100%", "100%"), insert=(0, 0), style="-webkit-transform:scale(2);-moz-transform:scale(2);-o-transform:scale(2);"))
+        image.add(image.image(href=wallpaper, size=("100%", "100%"), insert=(-100, 0), style="-webkit-transform:scale(2);-moz-transform:scale(2);-o-transform:scale(2);"))
     
     # Watermark
     if MODE != "PROD":
