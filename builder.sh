@@ -1,4 +1,6 @@
 #!/bin/sh
+killall gunicorn
+
 rm -rf /var/www/html/*
 rm -rf /backend/*
 
