@@ -202,7 +202,7 @@ export default {
   methods: {
     updateStar() {
       this.$store.commit("setCustomize", {
-        size: this.radioGroup,
+        size: this.$store.state.starmap.customize.size,
         background: this.bgValue,
         frame: this.$store.state.starmap.customize.frame,
         dot: this.showDot,
@@ -215,9 +215,9 @@ export default {
     },
     removeWallpaper() {
       this.$store.commit("setCustomize", {
-        size: this.radioGroup,
+        size: this.$store.state.starmap.customize.size,
         background: this.bgValue,
-        frame: this.frameValue,
+        frame: this.$store.state.starmap.customize.frame,
         dot: this.showDot,
         star: this.showStar,
         constellation: this.showConstellation,
@@ -239,9 +239,7 @@ export default {
   mounted() {
     const editMode = localStorage.getItem("editMode");
     if (editMode) {
-      this.radioGroup = this.$store.state.starmap.customize.size;
       this.bgValue = this.$store.state.starmap.customize.background;
-      this.frameValue = this.$store.state.starmap.customize.frame;
       this.showDot = this.$store.state.starmap.customize.dot;
       this.showStar = this.$store.state.starmap.customize.star;
       this.showConstellation = this.$store.state.starmap.customize.constellation;

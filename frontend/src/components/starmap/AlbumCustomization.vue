@@ -53,21 +53,21 @@
         </v-form>
 
         <v-row no-gutters>
-        <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-          <v-btn
-            @click="$emit('update:stepper', 4)"
-            color="error"
-            outlined
-            style="width:98%"
-          >
-            مرحله‌ی قبلی
-          </v-btn>
-        </v-col>
-        <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-          <v-btn @click="$emit('update:stepper', 6)" style="width:98%"  color="primary">
-            مرحله‌ی بعدی
-          </v-btn>
-        </v-col>
+            <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
+                <v-btn
+                    @click="$emit('update:stepper', 4)"
+                    color="error"
+                    outlined
+                    style="width:98%"
+                >مرحله‌ی قبلی</v-btn>
+            </v-col>
+            <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
+                <v-btn
+                    @click="$emit('update:stepper', 6)"
+                    style="width:98%"
+                    color="primary"
+                >مرحله‌ی بعدی</v-btn>
+            </v-col>
         </v-row>
     </div>
 </template>
@@ -102,8 +102,16 @@ export default {
             });
             this.$store.dispatch("getStarMap");
         },
-        updateRoban(){
+        updateRoban() {
             this.$store.commit("setRoban", this.roban)
+        }
+    },
+    mounted() {
+        const editMode = localStorage.getItem("editMode");
+        if (editMode) {
+            this.radioGroup = this.$store.state.starmap.customize.size;
+            this.frameValue = this.$store.state.starmap.customize.frame;
+            this.roban = this.$store.state.starmap.roban;
         }
     }
 }
