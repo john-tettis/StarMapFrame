@@ -47,8 +47,8 @@
 
             <p>آیا ربان داشته باشد؟</p>
             <v-radio-group v-model="roban" @change="updateRoban">
-                <v-radio key="خیر" label="خیر" :value="false" @click="roban = false" />
                 <v-radio key="بله" label="بله" :value="true" @click="roban = true" />
+                <v-radio key="خیر" label="خیر" :value="false" @click="roban = false" />
             </v-radio-group>
         </v-form>
 
@@ -78,7 +78,7 @@ export default {
     data() {
         return {
             radioGroup: "A3",
-            roban: false,
+            roban: true,
             swatches: [
                 ["#263238", "#212121", "#455A64", "#00ACC1"],
                 ["#3949AB", "#004D40", "#C51162", "#4A148C"],
