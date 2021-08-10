@@ -90,15 +90,6 @@
                 @input="$v.payment.mobile.$touch()"
                 @blur="$v.payment.mobile.$touch()"
               />
-              <v-text-field
-                v-model="payment.address"
-                required
-                outlined
-                dense
-                label="آدرس"
-                @input="$v.payment.address.$touch()"
-                @blur="$v.payment.address.$touch()"
-              />
               <v-select
                 :items="provincesList"
                 v-model="payment.province"
@@ -126,6 +117,15 @@
                 @blur="$v.payment.city.$touch()"
               />
               <v-text-field
+                v-model="payment.address"
+                required
+                outlined
+                dense
+                label="آدرس"
+                @input="$v.payment.address.$touch()"
+                @blur="$v.payment.address.$touch()"
+              />
+              <v-text-field
                 v-model="payment.post"
                 required
                 outlined
@@ -144,7 +144,7 @@
                 $v.payment.city.$invalid ||
                 $v.payment.post.$invalid"
                 block
-              >ارسال به درگاه پرداخت</v-btn>
+              >پرداخت سفارش</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -278,6 +278,7 @@ export default {
       return Math.round((num / 100) * per);
     },
     checkDiscount() {
+      this.code = this.code.toLowerCase();
       this.axios.post(`/api/discounts/${this.code}`).then((response) => {
         if (response.status === 200 && response.data.result) {
           if (response.data.discount === null) {
