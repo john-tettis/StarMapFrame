@@ -10,46 +10,23 @@
         label="موقعیت جغرافیایی"
         :items="locationGuess"
         item-text="display_name"
-        @keyup="updateGuess($event)"
+        @keyup.stop="updateGuess($event)"
         @input="$v.location.$touch()"
         @blur="$v.location.$touch()"
       ></v-autocomplete>
       <!--DatePicker-->
-      <v-menu
-        ref="DateMenu"
-        v-model="dateMenu"
-        :close-on-content-click="false"
-        transition="scale-transition"
-        offset-y
-        min-width="auto"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            outlined
-            dense
-            v-model="dateValue"
-            label="تاریخ"
-            prepend-inner-icon="mdi-calendar"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-            @input="$v.dateValue.$touch()"
-            @blur="$v.dateValue.$touch()"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-          :locale-first-day-of-year="1"
-          v-model="dateValue"
-          :active-picker.sync="activePicker"
-          :max="
-            new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-              .toISOString()
-              .substr(0, 10)
-          "
-          min="1950-01-01"
-          @change="$refs.DateMenu.save(dateValue)"
-        ></v-date-picker>
-      </v-menu>
+      <v-text-field
+        id="custom-date-input"
+        outlined
+        dense
+        v-model="dateValue"
+        label="تاریخ"
+        prepend-inner-icon="mdi-calendar"
+        @input="$v.dateValue.$touch()"
+        @blur="$v.dateValue.$touch()"
+      ></v-text-field>
+      <custom-date-picker element="custom-date-input" v-model="dateValue"></custom-date-picker>
+      <!-- </v-menu> -->
       <!--TimePicker-->
       <v-menu
         ref="TimeMenu"
@@ -82,14 +59,20 @@
           @click:minute="$refs.TimeMenu.save(timeValue)"
         ></v-time-picker>
       </v-menu>
-      <v-btn class="mt-8 mb-5" block color="primary" @click="submit($event)" :disabled="$v.location.$invalid || $v.timeValue.$invalid || $v.dateValue.$invalid">مرحله‌ی بعدی</v-btn>
+      <v-btn
+        class="mt-8 mb-5"
+        block
+        color="primary"
+        @click="submit($event)"
+        :disabled="$v.location.$invalid || $v.timeValue.$invalid || $v.dateValue.$invalid"
+      >مرحله‌ی بعدی</v-btn>
     </v-form>
   </div>
 </template>
 
 <script>
 import { Client } from "@googlemaps/google-maps-services-js";
-import moment from "moment";
+import moment from "moment-jalaali";
 import { v4 as uuidv4 } from "uuid";
 import { validationMixin } from 'vuelidate';
 import { required } from "vuelidate/lib/validators"
@@ -160,7 +143,7 @@ export default {
           await this.$store.commit("setGeo", {
             coordinate: this.coordinate,
             time: moment(this.timeValue, "hh:mm").format("hh.mm.ss"),
-            date: moment(this.dateValue).format("DD.MM.YYYY"),
+            date: moment(this.dateValue, "jYYYY-jMM-jDD").format("DD.MM.YYYY"),
           });
           await this.$store.dispatch("getStarMap");
           this.$emit("update:stepper", 2);

@@ -10,6 +10,7 @@ import {
 } from "uuid";
 import VueCookies from 'vue-cookies'
 import Vuelidate from 'vuelidate'
+import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
 
 Vue.config.productionTip = false;
 
@@ -18,6 +19,19 @@ Vue.use(VueAxios, axios);
 Vue.use(Vuex);
 Vue.use(Vuelidate);
 
+Vue.use(VuePersianDatetimePicker, {
+  name: 'custom-date-picker',
+  props: {
+    inputFormat: 'YYYY-MM-DD',
+    format: 'jYYYY-jMM-jDD',
+    editable: false,
+    inputClass: 'v-input v-input--dense',
+    placeholder: 'تاریخ',
+    altFormat: 'YYYY-MM-DD',
+    color: '#1976d2',
+    autoSubmit: false,
+  }
+});
 Vue.$cookies.config('7d')
 
 
