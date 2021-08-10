@@ -10,6 +10,7 @@
         label="موقعیت جغرافیایی"
         :items="locationGuess"
         item-text="display_name"
+        :item-value="getLatLon"
         @keyup.stop="updateGuess($event)"
         @input="$v.location.$touch()"
         @blur="$v.location.$touch()"
@@ -111,6 +112,12 @@ export default {
     };
   },
   methods: {
+    getLatLon(item){
+      this.coordinate = {
+        lat: item.lat,
+        lng: item.lon
+      }
+    },
     truncateString(str, num) {
       if (str.length > num) {
         return str.slice(0, num) + "...";
@@ -135,10 +142,6 @@ export default {
     async submit(event) {
       event.preventDefault();
       if (this.valid) {
-        this.coordinate = {
-          lat: this.location.lat,
-          lng: this.location.lon
-        }
         setTimeout(async () => {
           await this.$store.commit("setGeo", {
             coordinate: this.coordinate,
@@ -147,7 +150,7 @@ export default {
           });
           await this.$store.dispatch("getStarMap");
           this.$emit("update:stepper", 2);
-        }, 1500);
+        }, 800);
       }
     },
   },
