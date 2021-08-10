@@ -9,7 +9,7 @@ cp -r * /backend/
 
 cd /backend/
 pip3 install virtualenv && python3 -m virtualenv env
-source "$(pwd)/env/bin/activate"
+. "$(pwd)/env/bin/activate"
 pip install -r requirements.txt
 
 exec ./run.sh
