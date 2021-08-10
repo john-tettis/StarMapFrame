@@ -38,7 +38,7 @@
     </v-form>
     <v-row no-gutters>
       <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-        <v-btn @click="$emit('update:stepper', 2)" color="error" outlined style="width:98%"
+        <v-btn @click="$emit('update:stepper', 5)" color="error" outlined style="width:98%"
           >مرحله‌ی قبلی</v-btn
         >
       </v-col>
