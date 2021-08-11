@@ -67,15 +67,13 @@
       </div>
 
       <div v-if="customImg">
-        <h2>از این عکسا خوشت نمیاد؟</h2>
-        <h3>یکی از عکسای خودتو آپلود کن</h3>
         <v-form class="mb-15">
-          <v-file-input v-model="bg" accept="image/*" label="آپلود عکس" outlined dense></v-file-input>
+          <v-file-input v-model="bg" accept="image/*" label="آپلود عکس" @change="isUploadBg = false" outlined dense></v-file-input>
 
           <v-row no-gutters>
             <v-col cols="6" xl="6" lg="6" md="6" sm="6">
               <v-btn
-                block
+              style="width:98%"
                 color="secondary"
                 @click="
                 customImg = false;
@@ -84,9 +82,12 @@
               >عکس آماده</v-btn>
             </v-col>
             <v-col col="6" xl="6" lg="6" md="6" sm="6">
-              <v-btn color="primary" @click="uploadBg" block>ثبت عکس</v-btn>
+              <v-btn :color="isUploadBg ? 'green' : 'primary'" @click="uploadBg" :disabled="isUploadBg"  style="width:98%">
+                <span v-if="isUploadBg">ثبت شد</span>
+                <span v-else>ثبت عکس</span>
+              </v-btn>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" class="mt-5">
               <p>شفافیت</p>
               <v-slider
                 hint="شفافیت تصویر"
@@ -140,6 +141,7 @@ export default {
       opacity: 40,
       bg: [],
       uploadedBg: "",
+      isUploadBg: false,
       uploadedBgOpacity: 40,
       sampleImg: true,
       customImg: false,
@@ -182,6 +184,7 @@ export default {
               opacity: this.opacity,
             });
             this.$store.dispatch("getStarMap");
+            this.isUploadBg = true;
           }
         })
         .catch((error) => {
