@@ -34,6 +34,7 @@
         :clearable="false"
         append-outer-icon="mdi-close-box-outline"
         @click:append-outer="cover=[]"
+        @change="done=false"
       ></v-file-input>
     </v-form>
     <v-row no-gutters>
@@ -53,7 +54,7 @@
         >
         <v-btn
           v-if="wantMusic"
-          :disabled="mp3.length===0 || cover.length===0"
+          :disabled="mp3.length===0 || cover.length===0 || done"
           :color="done ? 'green' : 'primary'"
           class="white--text"
           @click="uploadMusic"
