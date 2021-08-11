@@ -131,16 +131,15 @@ export default {
     },
     updateGuess(value) {
       setTimeout(async () => {
-        const response = await this.axios.get(`https://heavens-above.com/api2/geocoder/?q=${encodeURI(value.trim())}`);
+        const response = await this.axios.get(`https://heavens-above.com/api2/geocoder/?q=${value.trim()}`);
         if (response.status === 200) {
           const data = response.data
           data.forEach(item => {
             item.display_name = this.truncateString(item.display_name, 40) + '...'
           })
           this.locationGuess = data
-
         }
-      )
+      }, 1200)
     },
     async submit(event) {
       event.preventDefault();
