@@ -144,7 +144,7 @@ export default {
       if (this.valid) {
         setTimeout(async () => {
           await this.$store.commit("setGeo", {
-            coordinate: this.coordinate,
+            location: this.coordinate,
             time: moment(this.timeValue, "hh:mm").format("hh.mm.ss"),
             date: moment(this.dateValue, "jYYYY-jMM-jDD").format("DD.MM.YYYY"),
           });
@@ -161,7 +161,7 @@ export default {
         paint: true,
         shape: false,
         geo: {
-          coordinate: "",
+          location: "",
           date: "",
           time: "",
         },

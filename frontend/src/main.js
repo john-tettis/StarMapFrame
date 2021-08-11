@@ -44,7 +44,7 @@ const store = new Vuex.Store({
       paint: true,
       shape: false,
       geo: {
-        coordinate: "",
+        location: "",
         date: "",
         time: "",
       },
