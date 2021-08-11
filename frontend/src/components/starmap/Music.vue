@@ -50,7 +50,7 @@
           color="primary"
           @click="uploadMusic"
           style="width:98%"
-          >مرحله‌ی بعدی</v-btn
+          >نهایی سازی سفارش</v-btn
         >
         <v-btn
           v-if="wantMusic"

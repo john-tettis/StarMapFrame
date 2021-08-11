@@ -206,6 +206,11 @@ export default {
     };
   },
   mounted() {
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+
     this.product = JSON.parse(localStorage.getItem("product"));
     if (this.product.customize.size === "A2") this.amount = 3500000;
     if (this.product.customize.size === "A3") this.amount = 2800000;
