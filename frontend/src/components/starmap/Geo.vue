@@ -14,6 +14,7 @@
         :search-input.sync="search"
         @input="$v.location.$touch()"
         @blur="$v.location.$touch()"
+        :filter="filterLocations"
       ></v-autocomplete>
       <!--DatePicker-->
       <v-text-field
@@ -102,6 +103,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       search: null,
       activePicker: null,
       valid: true,
@@ -116,6 +118,9 @@ export default {
     };
   },
   methods: {
+    filterLocations(item){
+      return item
+    },
     getLatLon(item){
       this.coordinate = {
         lat: item.lat,
@@ -129,17 +134,15 @@ export default {
         return str;
       }
     },
-    updateGuess(value) {
-      setTimeout(async () => {
+    async updateGuess(value) {
+      if(!this.loading){
+        this.loading = true;
         const response = await this.axios.get(`https://heavens-above.com/api2/geocoder/?q=${value.trim()}`);
         if (response.status === 200) {
-          const data = response.data
-          data.forEach(item => {
-            item.display_name = this.truncateString(item.display_name, 40) + '...'
-          })
-          this.locationGuess = data
+          this.locationGuess = response.data
         }
-      }, 1200)
+        this.loading = false;
+      }
     },
     async submit(event) {
       event.preventDefault();
