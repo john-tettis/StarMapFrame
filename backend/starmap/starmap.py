@@ -575,8 +575,8 @@ if __name__ == '__main__':
     image.add(image.text(line3, insert=("100mm", str(height-45)+"mm"), fill=line_color, style=line3Style))
 
     # Text in bottom corner
-    image.add(image.text(info, insert=("20mm", str(height-25)+'mm'),
-              fill=line_color, style=font_style))
+    #image.add(image.text(info, insert=("20mm", str(height-25)+'mm'),
+    #          fill=line_color, style=font_style))
     image.add(image.text(str(northern)+" N "+str(eastern)+" E ",
               insert=("20mm", str(height-20)+'mm'), fill=line_color, style=font_style))
     image.add(image.text(date + " " + time + " UTC " + str(utc),
