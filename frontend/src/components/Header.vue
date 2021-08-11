@@ -22,13 +22,12 @@ export default {
 ul.nav{
   list-style: none;
   li{
-    display: inline;
+    display: inline-block;
     a{
       text-decoration: none;
       color: #fefefe;
       padding: 10px;
       font-size: .8rem;
-      font-family: auto;
     }
   }
 }
