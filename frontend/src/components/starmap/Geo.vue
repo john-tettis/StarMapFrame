@@ -5,13 +5,13 @@
       <v-autocomplete
         outlined
         dense
-        v-model="location"
+        v-model.lazy="location"
         prepend-inner-icon="mdi-map-marker"
         label="موقعیت جغرافیایی"
         :items="locationGuess"
         item-text="display_name"
         :item-value="getLatLon"
-        @keyup.stop="updateGuess($event)"
+        :search-input.sync="search"
         @input="$v.location.$touch()"
         @blur="$v.location.$touch()"
       ></v-autocomplete>
@@ -84,6 +84,9 @@ export default {
     dateMenu(val) {
       val && setTimeout(() => (this.activePicker = "YEAR"));
     },
+    search (val) {
+        val && val !== this.location && this.updateGuess(val)
+      },
   },
   mixins: [validationMixin],
   validations: {
@@ -99,6 +102,7 @@ export default {
   },
   data() {
     return {
+      search: null,
       activePicker: null,
       valid: true,
       client: new Client({}),
@@ -125,8 +129,8 @@ export default {
         return str;
       }
     },
-    updateGuess(event) {
-      this.axios.get(`https://heavens-above.com/api2/geocoder/?q=${encodeURI(event.target.value.trim())}`).then((response) => {
+    updateGuess(value) {
+      this.axios.get(`https://heavens-above.com/api2/geocoder/?q=${encodeURI(value.trim())}`).then((response) => {
         if (response.status === 200) {
           const data = response.data
           data.forEach(item => {
