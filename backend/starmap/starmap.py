@@ -75,7 +75,7 @@ width = 200
 height = 275
 
 # empty space in left and right of the starmap
-borders = 40
+borders = 50
 
 
 def mm_to_px(mm):
@@ -520,7 +520,7 @@ if __name__ == '__main__':
     read_constellation_file()
 
     half_x = mm_to_px(width/2)
-    half_y = mm_to_px(height-height+110)
+    half_y = mm_to_px(height-height+95)
 
     # Svgfile
     image = svgwrite.Drawing(output_file, size=(
@@ -552,12 +552,12 @@ if __name__ == '__main__':
 
     # circle around starmap
     if circle == "True":
-        image.add(image.circle(center=(half_x, half_y), r=335, opacity="1", stroke="white", fill_opacity="0"))
+        image.add(image.circle(center=(half_x, half_y), r=310, opacity="1", stroke="white", fill_opacity="0"))
 
     # Custom image
     if bg.strip():
         mask = image.defs.add(image.mask(id="bg_wrapper"))
-        mask.add(image.circle(center=(half_x, half_y), r=335, fill=line_color, opacity=str(bg_opacity/100)))
+        mask.add(image.circle(center=(half_x, half_y), r=310, fill=line_color, opacity=str(bg_opacity/100)))
         image.add(image.image(href=bg, size=("100%", "100%"), mask="url(#bg_wrapper)", insert=(bg_x, bg_y)))
 
     if is_heart == "True":
@@ -565,22 +565,22 @@ if __name__ == '__main__':
     
     if qrCode.strip():
         if MODE == "PROD":
-            image.add(image.image(href=qrCode, size=("64px", "64px"), insert=("170mm", str(height-25)+'mm')))
+            image.add(image.image(href=qrCode, size=("64px", "64px"), insert=("170mm", str(height-31)+'mm')))
         else:
-            image.add(image.image(href=f"{HOST}/starmap/assets/qr.jpeg", size=("64px", "64px"), insert=("170mm", str(height-25)+'mm')))
+            image.add(image.image(href=f"{HOST}/starmap/assets/qr.jpeg", size=("64px", "64px"), insert=("170mm", str(height-31)+'mm')))
 
     # Custom User Text
-    image.add(image.text(line1, insert=("100mm", str(height-60)+"mm"), fill=line_color, style=line1Style))
-    image.add(image.text(line2, insert=("100mm", str(height-45)+"mm"), fill=line_color, style=line2Style))
-    image.add(image.text(line3, insert=("100mm", str(height-30)+"mm"), fill=line_color, style=line3Style))
+    image.add(image.text(line1, insert=("100mm", str(height-75)+"mm"), fill=line_color, style=line1Style))
+    image.add(image.text(line2, insert=("100mm", str(height-60)+"mm"), fill=line_color, style=line2Style))
+    image.add(image.text(line3, insert=("100mm", str(height-45)+"mm"), fill=line_color, style=line3Style))
 
     # Text in bottom corner
-    image.add(image.text(info, insert=("20mm", str(height-18)+'mm'),
+    image.add(image.text(info, insert=("20mm", str(height-25)+'mm'),
               fill=line_color, style=font_style))
     image.add(image.text(str(northern)+" N "+str(eastern)+" E ",
-              insert=("20mm", str(height-14)+'mm'), fill=line_color, style=font_style))
+              insert=("20mm", str(height-20)+'mm'), fill=line_color, style=font_style))
     image.add(image.text(date + " " + time + " UTC " + str(utc),
-              insert=("20mm", str(height-10)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
+              insert=("20mm", str(height-15)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
 
     image.save()
     # print(output_file, " generated")
