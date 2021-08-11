@@ -7,6 +7,8 @@ import Admin from '@/views/Admin'
 import Login from '@/views/Login'
 import Verify from '@/views/Verify'
 
+import axios from 'axios';
+
 
 Vue.use(VueRouter)
 
@@ -55,7 +57,18 @@ const router = new VueRouter({
 router.beforeEach((to, from, next)=>{
   let token = Vue.$cookies.get('token');
   if(token === null && to.fullPath === '/admin'){
-    return next("/login")
+    return next(to="/login")
+  }
+  if(to.fullPath === '/admin'){
+    axios.get(process.env.VUE_APP_BACKEND + '/token/' + token).then(response=>{
+      if(response.status === 200 && response.data.result){
+        return next()
+      }
+      return next(to="/login")
+    }).catch((error)=>{
+      console.log(error);
+      return next(to="/login")
+    })
   }
   return next()
 })

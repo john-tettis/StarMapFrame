@@ -2,13 +2,14 @@ import secrets
 from sqlite3.dbapi2 import OperationalError
 
 from bcrypt import checkpw, gensalt, hashpw
-from flask import jsonify, request
+from flask import json, jsonify, request
+from flask.wrappers import Response
 
 from . import blueprint, get_db
 
 
 @blueprint.route("/login", methods=["POST"])
-def login():
+def login() -> Response:
     data = request.json
     username = data['username']
     password = data['password'].encode("utf-8")
@@ -29,7 +30,7 @@ def login():
 
 
 @blueprint.route("/register", methods=["POST"])
-def register():
+def register() -> Response:
     data = request.json
     name = data['name']
     username = data['username']
@@ -45,3 +46,18 @@ def register():
         return jsonify(result=True, message="Succefully signed up")
     except OperationalError as e:
         return jsonify(result=False, message="خطایی عجیبی پیش اومده! لطفا بعدا تلاش کنید...", error=str(e))
+
+@blueprint.route("/token/<token>", methods=["GET"])
+def check_token(token: str) -> Response:
+    db = get_db()
+    cursor = db.cursor()
+    try:
+        query = f"SELECT * FROM tokens WHERE token=\"{token}\""
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        if(len(rows) > 0):
+            return jsonify(result=True, message="valid")
+        else:
+            return jsonify(result=False, message="not valid")
+    except OperationalError as e:
+        return jsonify(result=False, message="not valid")
