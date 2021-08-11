@@ -4,7 +4,13 @@
     <v-row>
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-radio-group v-model="haveBg">
-          <v-radio key="نمی‌خوام" label="نمی‌خوام" :value="false" @click="haveBg = false" selected />
+          <v-radio
+            key="نمی‌خوام"
+            label="نمی‌خوام"
+            :value="false"
+            @click="disableBg()"
+            selected
+          />
           <v-radio key="می‌خوام" label="می‌خوام" :value="true" />
         </v-radio-group>
       </v-col>
@@ -68,12 +74,19 @@
 
       <div v-if="customImg">
         <v-form class="mb-15">
-          <v-file-input v-model="bg" accept="image/*" label="آپلود عکس" @change="isUploadBg = false" outlined dense></v-file-input>
+          <v-file-input
+            v-model="bg"
+            accept="image/*"
+            label="آپلود عکس"
+            @change="isUploadBg = false"
+            outlined
+            dense
+          ></v-file-input>
 
           <v-row no-gutters>
             <v-col cols="6" xl="6" lg="6" md="6" sm="6">
               <v-btn
-              style="width:98%"
+                style="width:98%"
                 color="secondary"
                 @click="
                 customImg = false;
@@ -82,7 +95,12 @@
               >عکس آماده</v-btn>
             </v-col>
             <v-col col="6" xl="6" lg="6" md="6" sm="6">
-              <v-btn :color="isUploadBg ? 'green' : 'primary'" @click="uploadBg" :disabled="isUploadBg"  style="width:98%">
+              <v-btn
+                :color="isUploadBg ? 'green' : 'primary'"
+                @click="uploadBg"
+                :disabled="isUploadBg"
+                style="width:98%"
+              >
                 <span v-if="isUploadBg">ثبت شد</span>
                 <span v-else>ثبت عکس</span>
               </v-btn>
@@ -125,7 +143,7 @@
         <v-btn @click="$emit('update:stepper', 5)" color="primary" style="width:98%">مرحله‌ی بعدی</v-btn>
       </v-col>
     </v-row>
-    <Loading :isLoading="loading"/>
+    <Loading :isLoading="loading" />
   </div>
 </template>
 
@@ -201,15 +219,13 @@ export default {
         });
     },
     disableBg() {
-      if (!this.haveBg) {
-        this.$store.commit("setBg", {
-          bg: "",
-          x: 0,
-          y: 0,
-          opacity: this.opacity,
-        });
-        this.$store.dispatch("getStarMap");
-      }
+      this.$store.commit("setBg", {
+        bg: "",
+        x: 0,
+        y: 0,
+        opacity: this.opacity,
+      });
+      this.$store.dispatch("getStarMap");
     },
     changeShape() {
       this.$store.commit("setShape", this.shape);
