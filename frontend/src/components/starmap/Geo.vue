@@ -143,7 +143,7 @@ export default {
       }).catch(error => {
         console.log(error)
       })
-      }, 500);
+      }, 2500);
     },
     async submit(event) {
       event.preventDefault();
