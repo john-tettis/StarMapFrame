@@ -125,14 +125,20 @@
         <v-btn @click="$emit('update:stepper', 5)" color="primary" style="width:98%">مرحله‌ی بعدی</v-btn>
       </v-col>
     </v-row>
+    <Loading :isLoading="loading"/>
   </div>
 </template>
 
 <script>
+import Loading from '@/components/Loading';
 export default {
   name: "star-background",
+  components: {
+    Loading
+  },
   data() {
     return {
+      loading: false,
       circle: true,
       valid: true,
       shape: false,
@@ -165,6 +171,7 @@ export default {
       this.$store.dispatch("getStarMap");
     },
     uploadBg() {
+      this.loading = true;
       const formData = new FormData();
       formData.append("bg", this.bg);
 
@@ -185,10 +192,12 @@ export default {
             });
             this.$store.dispatch("getStarMap");
             this.isUploadBg = true;
+            this.loading = false;
           }
         })
         .catch((error) => {
           console.log(error);
+          this.loading = false;
         });
     },
     disableBg() {
