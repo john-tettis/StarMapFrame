@@ -160,6 +160,10 @@ export default {
     },
   },
   mounted() {
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
     const editMode = localStorage.getItem("editMode");
     if (!editMode) {
       this.$store.commit("setProduct", {
