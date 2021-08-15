@@ -5,12 +5,7 @@
       <v-row>
         <v-col cols="6" lg="6" xl="6" md="6" sm="6">
           <v-radio-group @change="updateStar" v-model="showWallpaper">
-            <v-radio
-              @click="removeWallpaper"
-              key="color"
-              label="رنگی"
-              :value="false"
-            />
+            <v-radio @click="removeWallpaper" key="color" label="رنگی" :value="false" />
             <v-radio key="wallpaper" label="عکسی" :value="true" selected />
           </v-radio-group>
         </v-col>
@@ -65,24 +60,21 @@
         </v-row>
         <v-container>
           <v-row>
-            <v-col
-              v-for="wallpaper in wallpapers"
-              :key="wallpaper"
-              cols="6"
-              xl="4"
-              lg="4"
-              md="6"
-              sm="6"
-            >
-              <img
-                class="wallpaper"
-                :src="
-                  `https://sky.respina.store/api/assets/get/wallpapers/` + wallpaper
-                "
-                alt="bg"
-                width="100%"
-                height="150"
-              />
+            <v-col cols="12" xl="12" lg="12" md="12" sm="12">
+              <swiper ref="wallpapers" :options="wallpaperOptions">
+                <swiper-slide v-for="wallpaper in wallpapers" :key="wallpaper">
+                  <img
+                    class="wallpaper"
+                    :src="
+                      `http://localhost:8000/assets/get/wallpapers/` + wallpaper
+                    "
+                    alt="bg"
+                    width="100%"
+                    height="300"
+                  />
+                </swiper-slide>
+                <div class="swiper-pagination" slot="pagination"></div>
+              </swiper>
             </v-col>
           </v-row>
         </v-container>
@@ -95,30 +87,18 @@
           <p class="mb-0">شخصی سازی ستاره ها و صور فلکی</p>
         </v-col>
         <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-          <v-switch
-            @click="updateStar"
-            v-model="showDot"
-            inset
-            label="نقطه‌ها"
-            hide-details
-          ></v-switch>
+          <v-switch @click="updateStar" v-model="showDot" inset label="نقطه‌ها" hide-details></v-switch>
         </v-col>
         <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-          <v-switch
-            @click="updateStar"
-            v-model="showStar"
-            inset
-            label="ستاره‌ها"
-            hide-details
-          ></v-switch>
+          <v-switch @click="updateStar" v-model="showStar" inset label="ستاره‌ها" hide-details></v-switch>
         </v-col>
         <v-col cols="12" xl="6" lg="6" md="12" sm="12">
           <v-switch
             @click="
-              () => {
-                updateStar();
-                showConstellation ? '' : (showConstellationText = false);
-              }
+            () => {
+              updateStar();
+              showConstellation ? '' : (showConstellationText = false);
+            }
             "
             v-model="showConstellation"
             inset
@@ -147,14 +127,10 @@
             color="error"
             outlined
             style="width:98%"
-          >
-            مرحله‌ی قبلی
-          </v-btn>
+          >مرحله‌ی قبلی</v-btn>
         </v-col>
         <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-          <v-btn @click="$emit('update:stepper', 4)" style="width:98%"  color="primary">
-            مرحله‌ی بعدی
-          </v-btn>
+          <v-btn @click="$emit('update:stepper', 4)" style="width:98%" color="primary">مرحله‌ی بعدی</v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -162,10 +138,19 @@
 </template>
 
 <script>
+import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
+import 'swiper/css/swiper.css';
 export default {
   name: "star-customize",
+  components: {
+    Swiper,
+    SwiperSlide
+  },
+  directives: {
+    swiper: directive
+  },
   watch: {
-    showWallpaper: function() {
+    showWallpaper: function () {
       if (this.showWallpaper) {
         const wallpapers = document.querySelectorAll(".wallpaper");
         wallpapers.forEach((wallpaper) => {
@@ -179,8 +164,37 @@ export default {
       }
     },
   },
+  computed: {
+    swiper() {
+      return this.$refs.wallpapers.$swiper
+    }
+  },
   data() {
     return {
+      wallpaperOptions: {
+        pagination: {
+          el: '.swiper-pagination'
+        },
+        slidesPerView: 2,
+        spaceBetween: 10,
+        breakpoints: {
+          // when window width is >= 320px
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 10
+          },
+          // when window width is >= 480px
+          480: {
+            slidesPerView: 1,
+            spaceBetween: 10
+          },
+          // when window width is >= 640px
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 10
+          }
+        }
+      },
       showWallpaper: false,
       valid: true,
       bgValue: "#000000",
@@ -237,6 +251,8 @@ export default {
     },
   },
   mounted() {
+    this.swiper.slideTo(3, 1000, false)
+
     const editMode = localStorage.getItem("editMode");
     if (editMode) {
       this.bgValue = this.$store.state.starmap.customize.background;
