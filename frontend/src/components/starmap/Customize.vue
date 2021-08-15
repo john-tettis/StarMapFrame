@@ -175,6 +175,9 @@ export default {
         pagination: {
           el: '.swiper-pagination'
         },
+        autoplay: {
+          delay: 5000,
+        },
         slidesPerView: 2,
         spaceBetween: 10,
         breakpoints: {
