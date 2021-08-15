@@ -66,7 +66,7 @@
                   <img
                     class="wallpaper"
                     :src="
-                      `http://localhost:8000/assets/get/wallpapers/` + wallpaper
+                      `https://sky.respina.store/api/assets/get/wallpapers/` + wallpaper
                     "
                     alt="bg"
                     width="100%"

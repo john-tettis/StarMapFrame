@@ -4,13 +4,7 @@
     <v-row>
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-radio-group v-model="haveBg">
-          <v-radio
-            key="نمی‌خوام"
-            label="نمی‌خوام"
-            :value="false"
-            @click="disableBg()"
-            selected
-          />
+          <v-radio key="نمی‌خوام" label="نمی‌خوام" :value="false" @click="disableBg()" selected />
           <v-radio key="می‌خوام" label="می‌خوام" :value="true" />
         </v-radio-group>
       </v-col>
@@ -26,25 +20,24 @@
     <div v-if="haveBg">
       <div v-if="sampleImg">
         <v-row>
-          <v-col
-            v-for="background in backgrounds"
-            :key="background"
-            cols="12"
-            xl="4"
-            lg="4"
-            md="6"
-            sm="12"
-          >
-            <img
-              style="max-width:100%"
-              @click="selectImage($event)"
-              :src="
-                'https://sky.respina.store/api/assets/get/backgrounds/' + background
-              "
-              alt="image"
-            />
+          <v-col cols="12" xl="12" lg="12" md="12" sm="12">
+            <swiper ref="backgrounds" :options="backgroundsOptions">
+              <swiper-slide v-for="background in backgrounds" :key="background">
+                <img
+                  style="max-width:100%"
+                  @click="selectImage($event)"
+                  :src="
+                    'https://sky.respina.store/api/assets/get/backgrounds/' + background
+                  "
+                  alt="image"
+                  width="100%"
+                  height="300"
+                />
+              </swiper-slide>
+              <div class="swiper-pagination" slot="pagination"></div>
+            </swiper>
           </v-col>
-          <v-col cols="12" xl="4" lg="4" md="6" sm="12">
+          <v-col cols="12" xl="12" lg="12" md="12" sm="12">
             <div
               @click="
               sampleImg = false;
@@ -149,13 +142,50 @@
 
 <script>
 import Loading from '@/components/Loading';
+import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
+import 'swiper/css/swiper.css';
+
 export default {
   name: "star-background",
   components: {
-    Loading
+    Loading,
+    Swiper,
+    SwiperSlide
+  },
+  directives: {
+    swiper: directive
+  },
+  computed: {
+    swiper() {
+      return this.$refs.backgrounds.$swiper
+    }
   },
   data() {
     return {
+      backgroundsOptions: {
+        pagination: {
+          el: '.swiper-pagination'
+        },
+        slidesPerView: 2,
+        spaceBetween: 10,
+        breakpoints: {
+          // when window width is >= 320px
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 10
+          },
+          // when window width is >= 480px
+          480: {
+            slidesPerView: 1,
+            spaceBetween: 10
+          },
+          // when window width is >= 640px
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 10
+          }
+        }
+      },
       loading: false,
       circle: true,
       valid: true,
@@ -265,6 +295,7 @@ export default {
   },
   mounted() {
     this.getBackgrounds();
+    this.swiper.slideTo(3, 1000, false)
   },
 };
 </script>
