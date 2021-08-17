@@ -57,7 +57,6 @@ def orders_del(id: int) -> Response:
 
 @blueprint.route("/orders/<id>", methods=["PUT"])
 def orders_update_payment_status(id: int) -> Response:
-    data = request.json
     db = get_db()
     cursor = db.cursor()
     try:
