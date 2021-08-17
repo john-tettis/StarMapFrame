@@ -63,16 +63,16 @@ export default {
       this.code = localStorage.getItem("payment_code");
       this.amount = parseInt(localStorage.getItem("payment_amount"))
     },
-    updateOrder() {
-      this.axios
-        .put(`/api/orders/${localStorage.getItem("orderId")}`, {
-          updatePaymentStatus: true,
-        })
-        .then((response) => {
-          if (response.status === 200 && response.data.result) {
-            console.log("سفارش با موفقیت آپدیت شد")
-          }
-        });
+    async updateOrder() {
+      const orderId = localStorage.getItem("orderId")
+      if(orderId === null) return false
+
+      const response = await this.axiost.put(`/api/orders/${orderId}`);
+      if(response.status===200 && response.data.result){
+        console.log("سفارش با موفقیت آپدیت شد")
+        return true;
+      }
+      return false
     }
   },
   async created() {
@@ -86,10 +86,10 @@ export default {
         "Authorization": `Bearer 1bb94f23b92de83830e798e8a70087d2cccf45496ca92bf3e4d9b1f18f121d86`,
         'Content-Type': 'application/json'
       }
-    }).then(response => {
+    }).then(async (response) => {
       if (response.status === 200 && response.data.amount === 0) {
         console.log("پرداخت موفقیت آمیز بود!")
-        this.updateOrder()
+        await this.updateOrder()
       }
     }).catch(error => {
       alert("پرداخت تایید نشد!")
