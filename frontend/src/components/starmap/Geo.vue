@@ -203,6 +203,7 @@ export default {
           y: 0,
           opacity: 40,
           wallpaper: "",
+          circle: true
         },
         customize: {
           size: "A3",

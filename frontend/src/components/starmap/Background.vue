@@ -299,6 +299,11 @@ export default {
   mounted() {
     this.getBackgrounds();
     this.swiper.slideTo(3, 1000, false)
+
+    const editMode = localStorage.getItem("editMode");
+    if (editMode) {
+      this.circle = this.$store.state.starmap.background.circle
+    }
   },
 };
 </script>

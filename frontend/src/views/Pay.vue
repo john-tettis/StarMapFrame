@@ -5,8 +5,7 @@
         <v-card class="elevation-4">
           <v-card-text>
             <h3 class="mb-5" style="font-size:1.3rem">
-              <v-icon>mdi-basket</v-icon>
-              فاکتور سفارش
+              <v-icon>mdi-basket</v-icon>فاکتور سفارش
             </h3>
             <div class="remove-p-m">
               <p class="d-flex justify-space-between">
@@ -26,9 +25,9 @@
               </p>
               <p class="d-flex justify-space-between">
                 ربان:
-                <span>{{product.roban ? "۱۵۰,۰۰۰ ریال" : "ندارد"}}</span>
+                <span>{{ product.roban ? "۱۵۰,۰۰۰ ریال" : "ندارد" }}</span>
               </p>
-              <v-divider class="my-2"/>
+              <v-divider class="my-2" />
               <p class="d-flex justify-space-between">
                 مبلغ کل:
                 <span v-if="amount !== undefined">{{ amount.toLocaleString("fa") }} ریال</span>
@@ -66,8 +65,7 @@
         <v-card elevation="2">
           <v-card-text>
             <h2 class="mb-5" style="font-size:1.3rem">
-              <v-icon>mdi-post</v-icon>
-              مشخصات گیرنده
+              <v-icon>mdi-post</v-icon>مشخصات گیرنده
             </h2>
             <p>فیلد شماره موبایل و کد پستی را با اعداد انگلیسی پر کنید!</p>
             <v-divider class="mb-5"></v-divider>
@@ -137,8 +135,8 @@
               <v-btn
                 @click="addOrder"
                 color="primary"
-                :disabled="$v.payment.name.$invalid || 
-                $v.payment.mobile.$invalid || 
+                :disabled="$v.payment.name.$invalid ||
+                $v.payment.mobile.$invalid ||
                 $v.payment.address.$invalid ||
                 $v.payment.province.$invalid ||
                 $v.payment.city.$invalid ||
@@ -164,7 +162,7 @@ export default {
   name: "Pay",
   mixins: [validationMixin],
   validations: {
-    payment:{
+    payment: {
       name: {
         required
       },
@@ -175,7 +173,7 @@ export default {
       post: {
         numeric,
       },
-      address:{
+      address: {
         required
       },
       city: {
@@ -208,7 +206,7 @@ export default {
   mounted() {
     history.pushState(null, null, location.href);
     window.onpopstate = function () {
-        history.go(1);
+      history.go(1);
     };
 
     this.product = JSON.parse(localStorage.getItem("product"));
@@ -236,12 +234,13 @@ export default {
         (item) => this.payment.province === item.province_id
       );
     },
-    addOrder() {
-      let tracking = Math.random()
+    generateTrackingCode(){
+      return Math.random()
         .toString(36)
         .substring(7);
-      localStorage.setItem("tracking", tracking);
-      const data = {
+    },
+    setOrderData(tracking){
+      return {
         product: this.product,
         name: this.payment.name,
         mobile: this.payment.mobile,
@@ -255,29 +254,44 @@ export default {
         tracking: tracking,
         timestamp: Date.now(),
       };
+    },
+    addOrder() {
+      // Generate Tracking code and set it to localestorage
+      const tracking = this.generateTrackingCode()
+      localStorage.setItem("tracking", tracking);
+      
+      // Build order data schema as json and post it
+      const data = this.setOrderData(tracking);
       this.axios
         .post("/api/orders", data)
         .then(async (response) => {
           if (response.status === 200 && response.data.result) {
             localStorage.setItem("orderId", response.data.id);
-            const API = process.env.VUE_APP_PAYIR_API || "test";
-            const redirect = "http://sky.respina.store/verify";
-            const res = await this.axios.post("https://pay.ir/pg/send ", {
-              api: API,
-              amount: this.amount,
-              redirect: redirect,
-            });
-            if (res.data.status === 1) {
-              const token = res.data.token;
-              localStorage.setItem("payment_token", token);
-              window.location.replace(`https://pay.ir/pg/${token}`);
-            }
+            await this.goToPay()
           }
         })
         .catch((error) => {
           console.log(error);
           alert("خطایی پیش آمده است. لطفا مجددا تلاش کنید...");
         });
+    },
+    async goToPay() {
+      const redirect = "https://sky.respina.store/verify";
+      const response = await this.axios.post("https://api.payping.ir/v2/pay", {
+        amount: this.amount,
+        returnUrl: redirect,
+      }, {
+        headers: {
+          "Authorization": `Bearer 1bb94f23b92de83830e798e8a70087d2cccf45496ca92bf3e4d9b1f18f121d86`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.status === 200 & !!response.data.code) {
+        const code = response.data.code;
+        localStorage.setItem("payment_code", code);
+        localStorage.setItem("payment_amount", this.amount);
+        window.location.replace(`https://api.payping.ir/v2/pay/gotoipg/${code}`);
+      }
     },
     percentage(num, per) {
       return Math.round((num / 100) * per);
@@ -304,7 +318,7 @@ export default {
 </script>
 
 <style>
-.remove-p-m p{
+.remove-p-m p {
   margin: 0 !important;
 }
 </style>
