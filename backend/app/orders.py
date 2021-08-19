@@ -1,14 +1,13 @@
 
 from sqlite3.dbapi2 import OperationalError
 
-from flask import jsonify, request, redirect
+import requests
+from flask import jsonify, redirect, request
 from flask.wrappers import Response
 
 from app.middleware import login_required
 
 from . import HOST, blueprint, get_db, to_json
-
-import requests
 
 
 @blueprint.route("/orders", methods=['GET', 'POST'])
