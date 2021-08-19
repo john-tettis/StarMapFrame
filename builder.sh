@@ -10,8 +10,9 @@ cd ../backend && cp -r invoice/ /var/www/html/
 cp -r * /backend/
 
 cd /backend/
-pip3 install virtualenv && python3 -m virtualenv env
-. "$(pwd)/env/bin/activate"
+apt install python3.9 python3.9-dev python3.9-venv
+python3.9 -m venv sandbox
+. "$(pwd)/sandbox/bin/activate"
 pip install -r requirements.txt
 
 exec ./run.sh
