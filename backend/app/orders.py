@@ -88,18 +88,19 @@ def orders_update_print_status(id: int) -> Response:
 
 @blueprint.route("/orders/verify/<id>/<amount>", methods=["POST"])
 def order_payment_verify(id: int, amount: int) -> Response:
+    data = request.json
     headers = {
         "Authorization": "Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b",
         "Content-Type": "application/json"
     }
 
     response = requests.post(url="https://api.payping.ir/v2/pay/verify/", headers=headers, data={
-        "refId": request.form['refid'],
+        "refId": data['refid'],
         "amount": amount
     })
-    print(response)
+
     if response.status_code == 200:
-        if orders_update_payment_status():
+        if orders_update_payment_status(id=id):
             return redirect(location=FRONTEND + "/verify?status=true&updated=true", code=204)
         return redirect(location=FRONTEND + "/verify?status=true&updated=false", code=409)
     return redirect(location=FRONTEND + "/verify?status=false&updated=false", code=400)
