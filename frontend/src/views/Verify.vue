@@ -83,7 +83,7 @@ export default {
       refId: this.$route.query.refId
     }, {
       headers: {
-        "Authorization": `Bearer 1bb94f23b92de83830e798e8a70087d2cccf45496ca92bf3e4d9b1f18f121d86`,
+        "Authorization": `Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b`,
         'Content-Type': 'application/json'
       }
     }).then(async (response) => {
