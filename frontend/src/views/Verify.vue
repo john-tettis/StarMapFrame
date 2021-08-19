@@ -69,7 +69,7 @@ export default {
   async created() {
     this.getTrackingCode();
 
-    if (this.$route.query.status && this.$route.query.updated) {
+    if (!!this.$route.query.status && !!this.$route.query.updated) {
       alert("سفارش با موفقیت تایید شد....");
     } else {
       alert("پرداخت شما تایید نشد لطفا کد پیگیری بانک را نگهداری کنید...");

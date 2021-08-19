@@ -274,9 +274,9 @@ export default {
         });
     },
     async goToPay(id) {
-      const redirect = `https://sky.respina.store/api/orders/verify/${id}/${1000}`;
+      const redirect = `https://sky.respina.store/api/orders/verify/${id}/${this.amount}`;
       const response = await this.axios.post("https://api.payping.ir/v2/pay", {
-        amount: 1000,
+        amount: this.amount,
         returnUrl: redirect,
       }, {
         headers: {
