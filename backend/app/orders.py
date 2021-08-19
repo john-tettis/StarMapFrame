@@ -88,9 +88,11 @@ def orders_update_print_status(id: int) -> Response:
 
 @blueprint.route("/orders/verify/<id>/<amount>", methods=["POST"])
 def order_payment_verify(id: int, amount: int) -> Response:
-    data = request.form
+    data = request.data
+    print(request.data)
+    
     if 'refid' not in data:
-        return redirect(location=FRONTEND + "/verify?status=false&updated=false", code=400)
+        return jsonify(result=False, message="refid is not available")
 
     # Sending payment verify request
     headers = {
