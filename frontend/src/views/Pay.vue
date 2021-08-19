@@ -258,7 +258,6 @@ export default {
     addOrder() {
       // Generate Tracking code and set it to localestorage
       const tracking = this.generateTrackingCode()
-      localStorage.setItem("tracking", tracking);
       
       // Build order data schema as json and post it
       const data = this.setOrderData(tracking);
@@ -266,8 +265,7 @@ export default {
         .post("/api/orders", data)
         .then(async (response) => {
           if (response.status === 200 && response.data.result) {
-            localStorage.setItem("orderId", response.data.id);
-            await this.goToPay()
+            await this.goToPay(response.data.id)
           }
         })
         .catch((error) => {
@@ -275,8 +273,8 @@ export default {
           alert("خطایی پیش آمده است. لطفا مجددا تلاش کنید...");
         });
     },
-    async goToPay() {
-      const redirect = "https://sky.respina.store/verify";
+    async goToPay(id) {
+      const redirect = `https://sky.respina.store/api/orders/verify/${id}/${1000}`;
       const response = await this.axios.post("https://api.payping.ir/v2/pay", {
         amount: 1000,
         returnUrl: redirect,

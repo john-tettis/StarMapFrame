@@ -1,12 +1,14 @@
 
 from sqlite3.dbapi2 import OperationalError
 
-from flask import jsonify, request
+from flask import jsonify, request, redirect
 from flask.wrappers import Response
 
 from app.middleware import login_required
 
-from . import blueprint, get_db, to_json
+from . import HOST, blueprint, get_db, to_json
+
+import requests
 
 
 @blueprint.route("/orders", methods=['GET', 'POST'])
@@ -55,22 +57,6 @@ def orders_del(id: int) -> Response:
     else:
         return jsonify(result=False, message="there is no order with that id")
 
-@blueprint.route("/orders/<id>", methods=["PUT"])
-def orders_update_payment_status(id: int) -> Response:
-    db = get_db()
-    cursor = db.cursor()
-    try:
-        cursor.execute(f"SELECT * from orders WHERE id={id}")
-        row = cursor.fetchone()
-        if row:
-            cursor.execute(f"UPDATE orders SET is_paid=1 WHERE id={id}")
-            db.commit()
-            return jsonify(result=True, message="updated!")
-        else:
-            return jsonify(result=False, message="there is no order")
-    except OperationalError as e:
-        return jsonify(result=False, message="update status failed")
-
 
 @blueprint.route("/orders/edit/<id>", methods=["POST"])
 def orders_update_product(id: int) -> Response:
@@ -99,3 +85,40 @@ def orders_update_print_status(id: int) -> Response:
         return jsonify(result=True, message="OK!")
     except OperationalError as e:
         return jsonify(result=False, message="NOT OK!", error=str(e))
+
+
+@blueprint.route("/orders/verify/<id>/<amount>", methods=["POST"])
+def order_payment_verify(id: int, amount: int) -> Response:
+    data = request.get_json(force=True)
+    headers = {
+        "Authorization": "Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post(url="https://api.payping.ir/v2/pay/verify/", headers=headers, data={
+        "refId": data['refid'],
+        "amount": amount
+    })
+    
+    if response.status_code == 200:
+        if orders_update_payment_status():
+            return redirect(location=HOST+"/verify?status=true&updated=true", code=204)
+        return redirect(location=HOST+"/verify?status=true&updated=false", code=409)
+    return redirect(location=HOST+"/verify?status=false&updated=false", code=400)
+    
+
+
+def orders_update_payment_status(id: int) -> bool:
+    db = get_db()
+    cursor = db.cursor()
+    try:
+        cursor.execute(f"SELECT * from orders WHERE id={id}")
+        row = cursor.fetchone()
+        if row:
+            cursor.execute(f"UPDATE orders SET is_paid=1 WHERE id={id}")
+            db.commit()
+            return True
+        else:
+            return False
+    except OperationalError as e:
+        return False

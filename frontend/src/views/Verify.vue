@@ -5,19 +5,19 @@
         <v-card elevation="2">
           <v-card-title>
             وضعیت:
-            <span v-show="parseInt(status) === 1">
+            <span v-if="$route.query.status">
               پرداخت موفقیت آمیز بود.
               <v-icon color="green">mdi-check-decagram</v-icon>
             </span>
-            <span v-show="parseInt(status) === null">نمی‌دونم چه اتفاقی افتاده</span>
+            <span v-else>نمی‌دونم چه اتفاقی افتاده</span>
           </v-card-title>
           <v-card-text>
-            <div v-if="parseInt(status) === 1">
+            <div v-if="$route.query.status">
               <b>
                 <span>کد پیگیری {{ tracking }}</span>
               </b>
               <br />
-پرداخت شما ثبت و تایید شد. لطفا منتظر بسته‌ی پستی درب منزل خود
+              پرداخت شما ثبت و تایید شد. لطفا منتظر بسته‌ی پستی درب منزل خود
               باشید :)
               <v-divider class="my-5"></v-divider>
               <p>
@@ -26,7 +26,9 @@
                 شما تحویل پست می‌شود و کد رهگیری مرسوله‌ی پستی شما به شماره تماس
                 شما ارسال می گردد.
               </p>
-              <v-btn @click="$router.push('/')" color="primary" block>بازگشت به صفحه‌ی اصلی</v-btn>
+              <v-btn @click="$router.push('/')" color="primary" block
+                >بازگشت به صفحه‌ی اصلی</v-btn
+              >
             </div>
             <div v-else>
               در این بین خطایی رخ داده است. مبلغ در ۷۲ ساعت آینده به حساب شما
@@ -47,7 +49,7 @@ export default {
     return {
       tracking: "",
       amount: 0,
-      code: ""
+      code: "",
     };
   },
   methods: {
@@ -61,40 +63,17 @@ export default {
     getTrackingCode() {
       this.tracking = localStorage.getItem("tracking");
       this.code = localStorage.getItem("payment_code");
-      this.amount = parseInt(localStorage.getItem("payment_amount"))
+      this.amount = parseInt(localStorage.getItem("payment_amount"));
     },
-    async updateOrder() {
-      const orderId = localStorage.getItem("orderId")
-      if(orderId === null) return false
-
-      const response = await this.axiost.put(`/api/orders/${orderId}`);
-      if(response.status===200 && response.data.result){
-        console.log("سفارش با موفقیت آپدیت شد")
-        return true;
-      }
-      return false
-    }
   },
   async created() {
     this.getTrackingCode();
 
-    this.axios.post("https://api.payping.ir/v2/pay/verify", {
-      amount: this.amount,
-      refId: this.$route.query.refId
-    }, {
-      headers: {
-        "Authorization": `Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b`,
-        'Content-Type': 'application/json'
-      }
-    }).then(async (response) => {
-      if (response.status === 200 && response.data.amount === 0) {
-        console.log("پرداخت موفقیت آمیز بود!")
-        await this.updateOrder()
-      }
-    }).catch(error => {
-      alert("پرداخت تایید نشد!")
-      console.log(error)
-    })
+    if (this.$route.query.status && this.$route.query.updated) {
+      alert("سفارش با موفقیت تایید شد....");
+    } else {
+      alert("پرداخت شما تایید نشد لطفا کد پیگیری بانک را نگهداری کنید...");
+    }
   },
 };
 </script>
