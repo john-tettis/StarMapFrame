@@ -1,6 +1,7 @@
 
 from sqlite3.dbapi2 import OperationalError
 
+import json
 import requests
 from flask import jsonify, redirect, request
 from flask.wrappers import Response
@@ -88,28 +89,25 @@ def orders_update_print_status(id: int) -> Response:
 
 @blueprint.route("/orders/verify/<id>/<amount>", methods=["POST"])
 def order_payment_verify(id: int, amount: int) -> Response:
-    data = request.data
-    print(request.data)
-    
+    data = request.form
     if 'refid' not in data:
-        return jsonify(result=False, message="refid is not available")
-
-    # Sending payment verify request
+        return jsonify(result=False, error="refid is not in request")
+    
+    #Sending payment verify request
     headers = {
         "Authorization": "Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b",
         "Content-Type": "application/json"
     }
-    response = requests.post(url="https://api.payping.ir/v2/pay/verify/", headers=headers, data={
-        "refId": data['refid'],
-        "amount": amount
+    response = requests.post(url="https://api.payping.ir/v2/pay/verify/", headers=headers, json={
+        "refId": str(data['refid']),
+        "amount": int(amount)
     })
-
+    
     if response.status_code == 200:
         if orders_update_payment_status(id=id):
-            return redirect(location=FRONTEND + "/verify?status=true&updated=true", code=204)
-        return redirect(location=FRONTEND + "/verify?status=true&updated=false", code=409)
-    return redirect(location=FRONTEND + "/verify?status=false&updated=false", code=400)
-
+            return redirect(location=FRONTEND + "/verify?status=true&updated=true", code=200)
+        return redirect(location=FRONTEND + "/verify?status=true&updated=false", code=500)
+    return jsonify(result=False, error=json.loads(response.content))
 
 def orders_update_payment_status(id: int) -> bool:
     db = get_db()
