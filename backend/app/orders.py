@@ -7,7 +7,7 @@ from flask.wrappers import Response
 
 from app.middleware import login_required
 
-from . import HOST, blueprint, get_db, to_json
+from . import HOST, FRONTEND, blueprint, get_db, to_json
 
 
 @blueprint.route("/orders", methods=['GET', 'POST'])
@@ -97,13 +97,12 @@ def order_payment_verify(id: int, amount: int) -> Response:
         "refId": request.form['refid'],
         "amount": amount
     })
-    
+    print(response)
     if response.status_code == 200:
         if orders_update_payment_status():
-            return redirect(location=HOST+"/verify?status=true&updated=true", code=204)
-        return redirect(location=HOST+"/verify?status=true&updated=false", code=409)
-    return redirect(location=HOST+"/verify?status=false&updated=false", code=400)
-    
+            return redirect(location=FRONTEND + "/verify?status=true&updated=true", code=204)
+        return redirect(location=FRONTEND + "/verify?status=true&updated=false", code=409)
+    return redirect(location=FRONTEND + "/verify?status=false&updated=false", code=400)
 
 
 def orders_update_payment_status(id: int) -> bool:
