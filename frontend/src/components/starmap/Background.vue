@@ -1,10 +1,16 @@
 <template>
   <div>
-    <p style="font-size:1.3rem">انتخاب بکگراند ستاره‌ها</p>
+    <p style="font-size: 1.3rem">انتخاب بکگراند ستاره‌ها</p>
     <v-row>
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-radio-group v-model="haveBg">
-          <v-radio key="نمی‌خوام" label="نمی‌خوام" :value="false" @click="disableBg()" selected />
+          <v-radio
+            key="نمی‌خوام"
+            label="نمی‌خوام"
+            :value="false"
+            @click="disableBg()"
+            selected
+          />
           <v-radio key="می‌خوام" label="می‌خوام" :value="true" />
         </v-radio-group>
       </v-col>
@@ -24,10 +30,11 @@
             <swiper ref="backgrounds" :options="backgroundsOptions">
               <swiper-slide v-for="background in backgrounds" :key="background">
                 <img
-                  style="max-width:100%"
+                  style="max-width: 100%"
                   @click="selectImage($event)"
                   :src="
-                    'https://sky.respina.store/api/assets/get/backgrounds/' + background
+                    'https://sky.respina.store/api/assets/get/backgrounds/' +
+                    background
                   "
                   alt="image"
                   width="100%"
@@ -40,10 +47,15 @@
           <v-col cols="12" xl="12" lg="12" md="12" sm="12">
             <div
               @click="
-              sampleImg = false;
-              customImg = true;
+                sampleImg = false;
+                customImg = true;
               "
-              style="max-width:100%;height:115px;cursor:pointer;background:#212121"
+              style="
+                max-width: 100%;
+                height: 115px;
+                cursor: pointer;
+                background: #212121;
+              "
               class="d-flex justify-center align-center"
             >
               <span class="white--text">افزودن عکس دلخواه</span>
@@ -79,20 +91,21 @@
           <v-row no-gutters>
             <v-col cols="6" xl="6" lg="6" md="6" sm="6">
               <v-btn
-                style="width:98%"
+                style="width: 98%"
                 color="secondary"
                 @click="
-                customImg = false;
-                sampleImg = true;
+                  customImg = false;
+                  sampleImg = true;
                 "
-              >عکس آماده</v-btn>
+                >عکس آماده</v-btn
+              >
             </v-col>
             <v-col col="6" xl="6" lg="6" md="6" sm="6">
               <v-btn
                 :color="isUploadBg ? 'green' : 'primary'"
                 @click="uploadBg"
                 :disabled="isUploadBg"
-                style="width:98%"
+                style="width: 98%"
               >
                 <span v-if="isUploadBg">ثبت شد</span>
                 <span v-else>ثبت عکس</span>
@@ -116,7 +129,7 @@
     <v-divider class="my-5"></v-divider>
 
     <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-      <p style="font-size:1.3rem">دور ستاره‌ها دایره‌ای باشد؟</p>
+      <p style="font-size: 1.3rem">دور ستاره‌ها دایره‌ای باشد؟</p>
       <v-radio-group @change="changeCircle" v-model="circle">
         <v-radio key="بله" label="بله" :value="true" />
         <v-radio key="خیر" label="خیر" :value="false" @click="circle = false" />
@@ -128,12 +141,18 @@
         <v-btn
           @click="$emit('update:stepper', 3)"
           color="error"
-          style="width:98%"
+          style="width: 98%"
           outlined
-        >مرحله‌ی قبلی</v-btn>
+          >مرحله‌ی قبلی</v-btn
+        >
       </v-col>
       <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-        <v-btn @click="$emit('update:stepper', 5)" color="primary" style="width:98%">مرحله‌ی بعدی</v-btn>
+        <v-btn
+          @click="$emit('update:stepper', 5)"
+          color="primary"
+          style="width: 98%"
+          >مرحله‌ی بعدی</v-btn
+        >
       </v-col>
     </v-row>
     <Loading :isLoading="loading" />
@@ -141,30 +160,35 @@
 </template>
 
 <script>
-import Loading from '@/components/Loading';
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
-import 'swiper/css/swiper.css';
+import Loading from "@/components/Loading";
+import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
+import "swiper/css/swiper.css";
 
 export default {
   name: "star-background",
+  props: {
+    stepper: {
+      type: Number,
+    },
+  },
   components: {
     Loading,
     Swiper,
-    SwiperSlide
+    SwiperSlide,
   },
   directives: {
-    swiper: directive
+    swiper: directive,
   },
   computed: {
     swiper() {
-      return this.$refs.backgrounds.$swiper
-    }
+      return this.$refs.backgrounds.$swiper;
+    },
   },
   data() {
     return {
       backgroundsOptions: {
         pagination: {
-          el: '.swiper-pagination'
+          el: ".swiper-pagination",
         },
         autoplay: {
           delay: 5000,
@@ -175,19 +199,19 @@ export default {
           // when window width is >= 320px
           320: {
             slidesPerView: 1,
-            spaceBetween: 10
+            spaceBetween: 10,
           },
           // when window width is >= 480px
           480: {
             slidesPerView: 1,
-            spaceBetween: 10
+            spaceBetween: 10,
           },
           // when window width is >= 640px
           640: {
             slidesPerView: 2,
-            spaceBetween: 10
-          }
-        }
+            spaceBetween: 10,
+          },
+        },
       },
       loading: false,
       circle: true,
@@ -208,7 +232,8 @@ export default {
   methods: {
     selectImage(event) {
       const activeImages = document.querySelectorAll(".active-img");
-      if (activeImages.length > 0) activeImages.forEach((el) => el.classList.remove("active-img"));
+      if (activeImages.length > 0)
+        activeImages.forEach((el) => el.classList.remove("active-img"));
 
       this.selectedImage = event.target.getAttribute("src");
       event.target.setAttribute("class", "active-img");
@@ -294,15 +319,16 @@ export default {
     changeCircle() {
       this.$store.commit("setCircle", this.circle);
       this.$store.dispatch("getStarMap");
-    }
+    },
   },
   mounted() {
-    this.getBackgrounds();
-    this.swiper.slideTo(3, 1000, false)
-
+    if (this.stepper === 4) {
+      this.getBackgrounds();
+      this.swiper.slideTo(3, 1000, false);
+    }
     const editMode = localStorage.getItem("editMode");
     if (editMode) {
-      this.circle = this.$store.state.starmap.background.circle
+      this.circle = this.$store.state.starmap.background.circle;
     }
   },
 };
