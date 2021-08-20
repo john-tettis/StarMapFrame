@@ -4,7 +4,7 @@
       <v-col cols="11" xl="5" lg="5" md="5" sm="11">
         <v-card class="elevation-4">
           <v-card-text>
-            <h3 class="mb-5" style="font-size:1.3rem">
+            <h3 class="mb-5" style="font-size: 1.3rem">
               <v-icon>mdi-basket</v-icon>فاکتور سفارش
             </h3>
             <div class="remove-p-m">
@@ -17,11 +17,15 @@
               </p>
               <p class="d-flex justify-space-between">
                 بارکد موسیقی:
-                <span>{{ !!product.music.qr ? " ۱۵۰,۰۰۰ ریال" : "ندارد" }}</span>
+                <span>{{
+                  !!product.music.qr ? " ۱۵۰,۰۰۰ ریال" : "ندارد"
+                }}</span>
               </p>
               <p class="d-flex justify-space-between">
                 بکگراند ستاره:
-                <span>{{ !!product.background.bg ? "۱۵۰,۰۰۰ ریال" : "ندارد" }}</span>
+                <span>{{
+                  !!product.background.bg ? "۱۵۰,۰۰۰ ریال" : "ندارد"
+                }}</span>
               </p>
               <p class="d-flex justify-space-between">
                 ربان:
@@ -30,7 +34,9 @@
               <v-divider class="my-2" />
               <p class="d-flex justify-space-between">
                 مبلغ کل:
-                <span v-if="amount !== undefined">{{ amount.toLocaleString("fa") }} ریال</span>
+                <span v-if="amount !== undefined"
+                  >{{ amount.toLocaleString("fa") }} ریال</span
+                >
               </p>
               <div class="d-flex justify-space-between align-baseline">
                 <div>
@@ -45,15 +51,19 @@
                     color="secondary"
                     outlined
                     :disabled="discount"
-                  >ثبت</v-btn>
+                    >ثبت</v-btn
+                  >
                 </div>
               </div>
               <h3
                 class="text-center"
                 v-show="discount"
-                style="font-size:1rem"
+                style="font-size: 1rem"
                 v-if="discountAmount !== undefined"
-              >مبلغ {{ discountAmount.toLocaleString("fa") }} ریال تخفیف اعمال شد.</h3>
+              >
+                مبلغ {{ discountAmount.toLocaleString("fa") }} ریال تخفیف اعمال
+                شد.
+              </h3>
             </div>
           </v-card-text>
         </v-card>
@@ -64,7 +74,7 @@
       <v-col cols="11" xl="5" lg="5" md="5" sm="11">
         <v-card elevation="2">
           <v-card-text>
-            <h2 class="mb-5" style="font-size:1.3rem">
+            <h2 class="mb-5" style="font-size: 1.3rem">
               <v-icon>mdi-post</v-icon>مشخصات گیرنده
             </h2>
             <p>فیلد شماره موبایل و کد پستی را با اعداد انگلیسی پر کنید!</p>
@@ -135,14 +145,17 @@
               <v-btn
                 @click="addOrder"
                 color="primary"
-                :disabled="$v.payment.name.$invalid ||
-                $v.payment.mobile.$invalid ||
-                $v.payment.address.$invalid ||
-                $v.payment.province.$invalid ||
-                $v.payment.city.$invalid ||
-                $v.payment.post.$invalid"
+                :disabled="
+                  $v.payment.name.$invalid ||
+                  $v.payment.mobile.$invalid ||
+                  $v.payment.address.$invalid ||
+                  $v.payment.province.$invalid ||
+                  $v.payment.city.$invalid ||
+                  $v.payment.post.$invalid
+                "
                 block
-              >پرداخت سفارش</v-btn>
+                >پرداخت سفارش</v-btn
+              >
             </v-form>
           </v-card-text>
         </v-card>
@@ -155,8 +168,8 @@
 import provinces from "@/assets/provinces.json";
 import cities from "@/assets/city.json";
 
-import { validationMixin } from 'vuelidate';
-import { required, numeric } from "vuelidate/lib/validators"
+import { validationMixin } from "vuelidate";
+import { required, numeric } from "vuelidate/lib/validators";
 
 export default {
   name: "Pay",
@@ -164,25 +177,25 @@ export default {
   validations: {
     payment: {
       name: {
-        required
+        required,
       },
       mobile: {
         required,
-        numeric
+        numeric,
       },
       post: {
         numeric,
       },
       address: {
-        required
+        required,
       },
       city: {
-        required
+        required,
       },
       province: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   data() {
     return {
@@ -201,6 +214,9 @@ export default {
       provincesList: [],
       citiesList: [],
       code: "",
+
+      is_submited: false,
+      orderId: null,
     };
   },
   mounted() {
@@ -234,12 +250,10 @@ export default {
         (item) => this.payment.province === item.province_id
       );
     },
-    generateTrackingCode(){
-      return Math.random()
-        .toString(36)
-        .substring(7);
+    generateTrackingCode() {
+      return Math.random().toString(36).substring(7);
     },
-    setOrderData(tracking){
+    setOrderData(tracking) {
       return {
         product: this.product,
         name: this.payment.name,
@@ -256,16 +270,21 @@ export default {
       };
     },
     addOrder() {
+      if (this.is_submited) {
+        await this.goToPay(this.orderId);
+        return;
+      }
       // Generate Tracking code and set it to localestorage
-      const tracking = this.generateTrackingCode()
-      
+      const tracking = this.generateTrackingCode();
+
       // Build order data schema as json and post it
       const data = this.setOrderData(tracking);
       this.axios
         .post("/api/orders", data)
         .then(async (response) => {
           if (response.status === 200 && response.data.result) {
-            await this.goToPay(response.data.id)
+            this.orderId = response.data.id;
+            await this.goToPay(this.orderId);
           }
         })
         .catch((error) => {
@@ -274,21 +293,28 @@ export default {
         });
     },
     async goToPay(id) {
-      const redirect = `https://sky.respina.store/api/orders/verify/${id}/${this.amount}`;
-      const response = await this.axios.post("https://api.payping.ir/v2/pay", {
-        amount: this.amount,
-        returnUrl: redirect,
-      }, {
-        headers: {
-          "Authorization": "Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b",
-          "Content-Type": "application/json"
+      const redirect = `https://sky.respina.store/api/orders/verify/${id}/${1000}`;
+      const response = await this.axios.post(
+        "https://api.payping.ir/v2/pay",
+        {
+          amount: 1000,
+          returnUrl: redirect,
+        },
+        {
+          headers: {
+            Authorization:
+              "Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b",
+            "Content-Type": "application/json",
+          },
         }
-      });
-      if (response.status === 200 & !!response.data.code) {
+      );
+      if ((response.status === 200) & !!response.data.code) {
         const code = response.data.code;
         localStorage.setItem("payment_code", code);
         localStorage.setItem("payment_amount", this.amount);
-        window.location.replace(`https://api.payping.ir/v2/pay/gotoipg/${code}`);
+        window.location.replace(
+          `https://api.payping.ir/v2/pay/gotoipg/${code}`
+        );
       }
     },
     percentage(num, per) {
