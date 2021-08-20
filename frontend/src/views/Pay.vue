@@ -269,7 +269,7 @@ export default {
         timestamp: Date.now(),
       };
     },
-    addOrder() {
+    async addOrder() {
       if (this.is_submited) {
         await this.goToPay(this.orderId);
         return;
@@ -283,7 +283,9 @@ export default {
         .post("/api/orders", data)
         .then(async (response) => {
           if (response.status === 200 && response.data.result) {
+            this.is_submited = true;
             this.orderId = response.data.id;
+            
             await this.goToPay(this.orderId);
           }
         })
