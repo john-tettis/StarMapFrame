@@ -276,6 +276,7 @@ export default {
       }
       // Generate Tracking code and set it to localestorage
       const tracking = this.generateTrackingCode();
+      localStorage.setItem("tracking", tracking)
 
       // Build order data schema as json and post it
       const data = this.setOrderData(tracking);
