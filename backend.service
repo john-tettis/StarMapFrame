@@ -1,0 +1,15 @@
+[Unit]
+Description=Run flask app in /backend
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Restart=always
+WorkingDirectory=/backend
+Environment="FLASK_ENV=production"
+ExecStart=/backend/run.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
