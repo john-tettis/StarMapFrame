@@ -324,8 +324,8 @@ export default {
     },
   },
   mounted() {
+    this.getBackgrounds();
     if (this.stepper === 4) {
-      this.getBackgrounds();
       this.swiper.slideTo(3, 1000, false);
     }
     const editMode = localStorage.getItem("editMode");
