@@ -77,6 +77,8 @@ height = 275
 # empty space in left and right of the starmap
 borders = 50
 
+tracking = ""
+
 
 def mm_to_px(mm):
     px = mm*96/25.4
@@ -220,6 +222,8 @@ parser.add_argument('-heart', '--heart', type=str, default=is_heart)
 parser.add_argument('-qrCode', '--qrCode', type=str, default="")
 
 parser.add_argument("-MODE", "--MODE", type=str, default=MODE)
+
+parser.add_argument("-tracking", "--tracking", type=str, default=tracking)
 
 
 args = parser.parse_args()
@@ -578,9 +582,11 @@ if __name__ == '__main__':
     #image.add(image.text(info, insert=("20mm", str(height-25)+'mm'),
     #          fill=line_color, style=font_style))
     image.add(image.text(str(northern)+" N "+str(eastern)+" E ",
-              insert=("20mm", str(height-20)+'mm'), fill=line_color, style=font_style))
+              insert=("20mm", str(height-25)+'mm'), fill=line_color, style=font_style))
     image.add(image.text(date + " " + time + " UTC " + str(utc),
-              insert=("20mm", str(height-15)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
+              insert=("20mm", str(height-20)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
+    image.add(image.text(tracking,
+                insert=("20mm", str(height-20)+'mm'), fill=line_color, style=font_style))
 
     image.save()
     # print(output_file, " generated")

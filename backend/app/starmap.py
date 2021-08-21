@@ -105,6 +105,9 @@ def CONFIG(data: list) -> str:
         conf += f" -MODE PROD"
     else:
         conf += f" -MODE DEV"
+    
+    if 'tracking' in data:
+        conf += f" -tracking \"{data['tracking']}\""
 
     return conf
 

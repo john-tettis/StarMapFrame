@@ -110,7 +110,7 @@
                   dark
                   x-small
                   outlined
-                  @click="downloadStarmap(item.product)"
+                  @click="downloadStarmap(item.product, item.tracking)"
                 >
                   <v-icon>mdi-map-plus</v-icon>
                 </v-btn>
@@ -302,7 +302,7 @@ export default {
           this.deleteDialog = false;
         });
     },
-    downloadStarmap(product) {
+    downloadStarmap(product, tracking) {
       this.$emit("update:loading", true);
       let star = product
         .replaceAll("True", "true")
@@ -312,6 +312,7 @@ export default {
       const data = {
         ...star,
         MODE: "PROD",
+        tracking: tracking
       };
       this.axios.post("/api/starmap", data).then((res) => {
         this.$emit("update:loading", false);
