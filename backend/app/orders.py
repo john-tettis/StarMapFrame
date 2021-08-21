@@ -126,7 +126,7 @@ def order_payment_verify(id: int, amount: int) -> Response:
 
     if response.status_code == 200:
         if orders_update_payment_status(id=id):
-            return redirect(location=FRONTEND + "/verify?status=true&updated=true", code=200)
+            return redirect(location=FRONTEND + "/verify?status=true&updated=true", code=301)
         return redirect(location=FRONTEND + "/verify?status=true&updated=false", code=500)
     return jsonify(result=False, error=json.loads(response.content))
 
