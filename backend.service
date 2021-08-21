@@ -9,7 +9,6 @@ Restart=always
 WorkingDirectory=/backend
 Environment="FLASK_ENV=production"
 ExecStart=/backend/run.sh
-Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
