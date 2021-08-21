@@ -53,17 +53,8 @@ export default {
     };
   },
   methods: {
-    getLocalToken() {
-      const token = localStorage.getItem("payment_code");
-      if (this.token === token) {
-        return true;
-      }
-      return false;
-    },
     getTrackingCode() {
       this.tracking = localStorage.getItem("tracking");
-      this.code = localStorage.getItem("payment_code");
-      this.amount = parseInt(localStorage.getItem("payment_amount"));
     },
   },
   async created() {

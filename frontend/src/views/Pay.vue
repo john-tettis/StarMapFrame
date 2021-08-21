@@ -295,29 +295,10 @@ export default {
         });
     },
     async goToPay(id) {
-      const redirect = `https://sky.respina.store/api/orders/verify/${id}/${1000}`;
-      const response = await this.axios.post(
-        "https://api.payping.ir/v2/pay",
-        {
-          amount: 1000,
-          returnUrl: redirect,
-        },
-        {
-          headers: {
-            Authorization:
-              "Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if ((response.status === 200) & !!response.data.code) {
-        const code = response.data.code;
-        localStorage.setItem("payment_code", code);
-        localStorage.setItem("payment_amount", this.amount);
-        window.location.replace(
-          `https://api.payping.ir/v2/pay/gotoipg/${code}`
-        );
-      }
+     const response = await this.axios.post(`/api/orders/pay/${id}/${1000}`);
+     if(response.status === 200 && response.data.result){
+       window.location.replace(response.data.url)
+     }
     },
     percentage(num, per) {
       return Math.round((num / 100) * per);

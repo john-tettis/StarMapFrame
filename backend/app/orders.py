@@ -87,13 +87,34 @@ def orders_update_print_status(id: int) -> Response:
         return jsonify(result=False, message="NOT OK!", error=str(e))
 
 
+@blueprint.route("/orders/pay/<id>/<amount>", methods=["POST"])
+def order_payment(id: int, amount: int) -> Response:
+    returnUrl = f"https://sky.respina.store/api/orders/verify/{id}/{amount}"
+    headers = {
+        "Authorization": "Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b",
+        "Content-Type": "application/json"
+    }
+    if id and amount:
+        response = requests.post(url="https://api.payping.ir/v2/pay",
+                                headers=headers, json={"amount": amount, "returnUrl": returnUrl})
+        if response.status_code == 200:
+            data = json.loads(response.text)
+            code: str = data['code']
+            if orders_set_payment_code(id=id, code=code):
+                payping_url = "https://api.payping.ir/v2/pay/gotoipg/" + code
+                return jsonify(result=True, url=payping_url)
+            
+            return jsonify(result=False, error="code is not set to database")
+        return jsonify(result=False, error="something wrong happend")
+    return jsonify(result=False, error="id or amount is not set...")
+
 @blueprint.route("/orders/verify/<id>/<amount>", methods=["POST"])
 def order_payment_verify(id: int, amount: int) -> Response:
     data = request.form
     if 'refid' not in data:
         return jsonify(result=False, error="refid is not in request")
-    
-    #Sending payment verify request
+
+    # Sending payment verify request
     headers = {
         "Authorization": "Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b",
         "Content-Type": "application/json"
@@ -102,12 +123,13 @@ def order_payment_verify(id: int, amount: int) -> Response:
         "refId": str(data['refid']),
         "amount": int(amount)
     })
-    
+
     if response.status_code == 200:
         if orders_update_payment_status(id=id):
             return redirect(location=FRONTEND + "/verify?status=true&updated=true", code=200)
         return redirect(location=FRONTEND + "/verify?status=true&updated=false", code=500)
     return jsonify(result=False, error=json.loads(response.content))
+
 
 def orders_update_payment_status(id: int) -> bool:
     db = get_db()
@@ -121,5 +143,15 @@ def orders_update_payment_status(id: int) -> bool:
             return True
         else:
             return False
+    except OperationalError as e:
+        return False
+
+def orders_set_payment_code(id: int, code: str) -> bool:
+    db = get_db()
+    cursor = db.cursor()
+    try:
+        cursor.execute(f"UPDATE orders SET payment_code=\"{code}\" WHERE id={id}")
+        db.commit()
+        return True
     except OperationalError as e:
         return False

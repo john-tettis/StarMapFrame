@@ -26,6 +26,7 @@ is_printed integer NOT NULL,
 product text NOT NULL,
 amount text NOT NULL,
 tracking text NOT NULL UNIQUE,
+payment_code text UNIQUE,
 timestamp text NOT NULL
 );
 """
