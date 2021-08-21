@@ -18,7 +18,7 @@
               <p class="d-flex justify-space-between">
                 بارکد موسیقی:
                 <span>{{
-                  !!product.music.qr ? " ۱۵۰,۰۰۰ ریال" : "ندارد"
+                  !!product.music.qr ? " ۲۰۰,۰۰۰ ریال" : "ندارد"
                 }}</span>
               </p>
               <p class="d-flex justify-space-between">
@@ -97,6 +97,7 @@
                 label="شماره موبایل"
                 @input="$v.payment.mobile.$touch()"
                 @blur="$v.payment.mobile.$touch()"
+                maxlength="11"
               />
               <v-select
                 :items="provincesList"
@@ -141,8 +142,10 @@
                 label="کدپستی (اختیاری)"
                 @input="$v.payment.post.$touch()"
                 @blur="$v.payment.post.$touch()"
+                maxlength="10"
               />
               <v-btn
+              id="submitOrder"
                 @click="addOrder"
                 color="primary"
                 :disabled="
@@ -169,7 +172,7 @@ import provinces from "@/assets/provinces.json";
 import cities from "@/assets/city.json";
 
 import { validationMixin } from "vuelidate";
-import { required, numeric } from "vuelidate/lib/validators";
+import { required, numeric, maxLength } from "vuelidate/lib/validators";
 
 export default {
   name: "Pay",
@@ -182,9 +185,11 @@ export default {
       mobile: {
         required,
         numeric,
+        maxLength: maxLength(11),
       },
       post: {
         numeric,
+        maxLength: maxLength(10),
       },
       address: {
         required,
@@ -226,11 +231,11 @@ export default {
     };
 
     this.product = JSON.parse(localStorage.getItem("product"));
-    if (this.product.customize.size === "A2") this.amount = 3500000;
-    if (this.product.customize.size === "A3") this.amount = 2800000;
-    if (this.product.customize.size === "A4") this.amount = 2000000;
-    if (this.product.customize.size === "A5") this.amount = 1600000;
-    if (this.product.music.qr) this.amount += 150000;
+    if (this.product.customize.size === "A2") this.amount = 4500000;
+    if (this.product.customize.size === "A3") this.amount = 3000000;
+    if (this.product.customize.size === "A4") this.amount = 2600000;
+    if (this.product.customize.size === "A5") this.amount = 1900000;
+    if (this.product.music.qr) this.amount += 200000;
     if (this.product.background.bg) this.amount += 150000;
     if (this.product.roban) this.amount += 150000;
 
@@ -270,6 +275,9 @@ export default {
       };
     },
     async addOrder() {
+      const orderButton = document.getElementById("submitOrder");
+      orderButton.disabled = true;
+      
       if (this.is_submited) {
         await this.goToPay(this.orderId);
         return;

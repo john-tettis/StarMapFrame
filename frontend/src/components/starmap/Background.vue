@@ -24,6 +24,32 @@
       </v-col>-->
     </v-row>
     <div v-if="haveBg">
+      <v-row class="mb-5">
+         <v-col cols="6" lg="6" md="6" sm="6">
+          <v-btn
+            style="width: 98%"
+            color="primary"
+            @click="
+              customImg = false;
+              sampleImg = true;
+            "
+            :disabled="sampleImg"
+            >عکس آماده</v-btn
+          >
+        </v-col>
+        <v-col cols="6" lg="6" md="6" sm="6">
+          <v-btn
+            @click="
+              customImg = true;
+              sampleImg = false;
+            "
+            style="width: 98%"
+            color="primary"
+            :disabled="customImg"
+            >عکس دلخواه</v-btn
+          >
+        </v-col>
+      </v-row>
       <div v-if="sampleImg">
         <v-row>
           <v-col cols="12" xl="12" lg="12" md="12" sm="12">
@@ -43,23 +69,12 @@
               </swiper-slide>
               <div class="swiper-pagination" slot="pagination"></div>
             </swiper>
-          </v-col>
-          <v-col cols="12" xl="12" lg="12" md="12" sm="12">
-            <div
-              @click="
-                sampleImg = false;
-                customImg = true;
-              "
-              style="
-                max-width: 100%;
-                height: 115px;
-                cursor: pointer;
-                background: #212121;
-              "
-              class="d-flex justify-center align-center"
+            <p
+              style="font-family: IRANSansX"
+              class="text-center text--disabled text-caption"
             >
-              <span class="white--text">افزودن عکس دلخواه</span>
-            </div>
+              برای دیدن باقی عکس‌ها به چپ و یا راست بکشید
+            </p>
           </v-col>
         </v-row>
         <v-row>
@@ -82,27 +97,19 @@
           <v-file-input
             v-model="bg"
             accept="image/*"
-            label="آپلود عکس"
+            label="برای آپلود عکس خودتان اینجا را کلیک کنید"
             @change="isUploadBg = false"
             outlined
             dense
+            hide-details
+            class="mb-3"
           ></v-file-input>
+          <p class="text--disabled text-center">عکس انتخابی باید مربع باشد!</p>
 
           <v-row no-gutters>
-            <v-col cols="6" xl="6" lg="6" md="6" sm="6">
+            <v-col col="12" xl="12" lg="12" md="12" sm="12">
               <v-btn
-                style="width: 98%"
-                color="secondary"
-                @click="
-                  customImg = false;
-                  sampleImg = true;
-                "
-                >عکس آماده</v-btn
-              >
-            </v-col>
-            <v-col col="6" xl="6" lg="6" md="6" sm="6">
-              <v-btn
-                :color="isUploadBg ? 'green' : 'primary'"
+                :color="isUploadBg ? 'green' : 'secondary'"
                 @click="uploadBg"
                 :disabled="isUploadBg"
                 style="width: 98%"
@@ -263,7 +270,7 @@ export default {
             this.$store.commit("setBg", {
               bg: response.data.path,
               x: 0,
-              y: 0,
+              y: -100,
               opacity: this.opacity,
             });
             this.$store.dispatch("getStarMap");
