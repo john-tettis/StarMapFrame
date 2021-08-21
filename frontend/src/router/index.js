@@ -33,7 +33,7 @@ const routes = [{
     component: Admin,
   },
   {
-    path: "/login",
+    path: "/vorood",
     name: "Login",
     component: Login
   },
@@ -57,17 +57,17 @@ const router = new VueRouter({
 router.beforeEach((to, from, next)=>{
   let token = Vue.$cookies.get('token');
   if(token === null && to.fullPath === '/admin'){
-    return next(to="/login")
+    return next(to="/vorood")
   }
   if(to.fullPath === '/admin'){
     axios.get(process.env.VUE_APP_BACKEND + '/token/' + token).then(response=>{
       if(response.status === 200 && response.data.result){
         return next()
       }
-      return next(to="/login")
+      return next(to="/vorood")
     }).catch((error)=>{
       console.log(error);
-      return next(to="/login")
+      return next(to="/vorood")
     })
   }
   return next()
