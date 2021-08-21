@@ -75,7 +75,7 @@
                 </swiper-slide>
                 <div class="swiper-pagination" slot="pagination"></div>
               </swiper>
-              <p style="font-family: IRANSansX;" class="text-center text--disabled text-caption">برای دیدن باقی عکس‌ها به چپ و یا راست بکشید</p>
+              <p style="IRANSansX !important" class="text-center text--disabled text-caption">برای دیدن باقی عکس‌ها به چپ و یا راست بکشید</p>
             </v-col>
           </v-row>
         </v-container>
