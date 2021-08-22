@@ -12,7 +12,7 @@ PATH = os.path.dirname(os.path.abspath(__file__))
 DATABASE = os.path.join(PATH, 'db.sqlite3')
 
 FONTS = [
-    'IranNastaliq-فارسی'
+    'IranNastaliq-فارسی',
     'Anton-انگلیسی',
     'Dancing Script-انگلیسی',
     'Fuggles-انگلیسی',
