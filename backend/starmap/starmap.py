@@ -531,10 +531,22 @@ if __name__ == '__main__':
         str(width)+'mm', str(height)+'mm'))
     
     # Fonts File
+    # ---------------------------------------------------------------------------
+    # English Fonts
     image.embed_stylesheet("@import url('https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script&family=Fuggles&family=Karla&family=Qahiri&family=Roboto&family=Roboto+Slab');")
+    image.embed_stylesheet("@import url('https://fonts.googleapis.com/css2?family=Allison&family=Alumni+Sans&family=Comfortaa&family=Cookie&family=Electrolize&family=Fredoka+One&family=Handlee&family=Indie+Flower&family=Josefin+Sans&family=Lobster&family=Lobster+Two&family=Monoton&family=Nanum+Gothic&family=Pacifico&family=Rajdhani&family=Rampart+One&family=Sacramento&family=Satisfy&family=Shadows+Into+Light+Two&family=Special+Elite&family=Staatliches&family=WindSong&display=swap');")
+    # Persian Fonts
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Kamran');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Mikhak');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Yekan');")
+    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Sahel');")
+    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Samim');")
+    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Gandom');")
+    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Lalezar');")
+    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Estedad');")
+    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/ArabicUIDisplay');")
+    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Badr');")
+    # ---------------------------------------------------------------------------
 
     # Background
     image.add(image.rect(insert=(0, 0), size=('100%', '100%'),

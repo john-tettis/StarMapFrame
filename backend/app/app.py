@@ -3,7 +3,7 @@ import os
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 
-from . import HOST, PATH, blueprint
+from . import HOST, PATH, blueprint, FONTS
 
 app = Flask(__name__)
 app.register_blueprint(blueprint)
@@ -35,7 +35,7 @@ def get_user_backgrounds(path):
 
 @app.route('/fonts')
 def fonts_list():
-    return jsonify(result=True, fonts=['Anton', 'Dancing Script', 'Fuggles', 'Karla', 'Qahiri', 'Roboto', 'Roboto', 'Robot Salb', 'Kamran', 'Mikhak', 'Yekan'])
+    return jsonify(result=True, fonts=FONTS)
 
 
 @app.route("/")
