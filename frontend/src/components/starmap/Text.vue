@@ -18,7 +18,7 @@
         <v-select
           label="فونت متن"
           :items="availableFonts"
-          v-model="line1.font"
+          v-model="font1"
           outlined
           dense
           @change="setFont(0)"
@@ -79,7 +79,7 @@
         <v-select
           label="فونت متن"
           :items="availableFonts"
-          v-model="line2.font"
+          v-model="font2"
           outlined
           dense
           @change="setFont(1)"
@@ -140,7 +140,7 @@
         <v-select
           label="فونت متن"
           :items="availableFonts"
-          v-model="line3.font"
+          v-model="font3"
           outlined
           dense
           @change="setFont(2)"
@@ -265,6 +265,9 @@ export default {
       },
       availableFonts: [],
       counter: 0,
+      font1: "",
+      font2: "",
+      font3: "",
     };
   },
   methods: {
@@ -305,13 +308,13 @@ export default {
     },
     setFont(line){
       if(line===0){
-        this.line1.font = (this.line1.font.split("-"))[0]
+        this.line1.font = (this.font1.split("-"))[0]
       }
       if(line===1){
-        this.line2.font = (this.line2.font.split("-"))[0]
+        this.line2.font = (this.font2.split("-"))[0]
       }
       if(line===2){
-        this.line3.font = (this.line3.font.split("-"))[0]
+        this.line3.font = (this.font3.split("-"))[0]
       }
       this.updateStars()
     }
