@@ -22,7 +22,7 @@ fontColor1 = "#ffffff"
 fontColor2 = "#ffffff"
 fontColor3 = "#ffffff"
 
-font_style = "font-size:12px; letter-spacing:0.7px; font-family:sans-serif; stroke-width:4;"
+font_style = "font-size:12px; letter-spacing:0.7px; font-family:Rajdhani; stroke-width:4;"
 font_style2 = "font-size:8px; letter-spacing:autopx; font-family:sans-serif; stroke-width:1;"
 
 line1Style = f"font-size:{fontSize1}px;letter-spacing:0;font-family:\"{fontFamily1}\";stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor1}"
