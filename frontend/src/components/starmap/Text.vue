@@ -265,9 +265,9 @@ export default {
       },
       availableFonts: [],
       counter: 0,
-      font1: "",
-      font2: "",
-      font3: "",
+      font1: "Roboto-انگلیسی",
+      font2: "Roboto-انگلیسی",
+      font3: "Roboto-انگلیسی",
     };
   },
   methods: {

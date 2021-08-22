@@ -19,7 +19,6 @@ FONTS = [
     'Karla-انگلیسی',
     'Qahiri-انگلیسی',
     'Roboto-انگلیسی',
-    'Roboto-انگلیسی',
     'Robot Salb-انگلیسی',
     'Kamran-فارسی',
     'Mikhak-فارسی',
