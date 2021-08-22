@@ -1,6 +1,4 @@
 #!/bin/sh
-killall gunicorn
-
 rm -rf /var/www/html/*
 rm -rf /backend/*
 
@@ -15,4 +13,4 @@ python3.9 -m venv sandbox
 . "$(pwd)/sandbox/bin/activate"
 pip install -r requirements.txt
 
-exec ./run.sh
+exec systemctl stop backend.service && systemctl start backend.service
