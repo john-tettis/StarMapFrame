@@ -2,11 +2,11 @@
     <div>
         <v-form ref="form">
             <p>اندازه‌ی قاب:</p>
-            <v-radio-group row @change="updateStar" v-model="radioGroup">
-                <v-radio key="A2" label="A2" value="A2" />
-                <v-radio key="A3" label="A3" value="A3" />
-                <v-radio key="A4" label="A4" value="A4" />
-                <v-radio key="A5" label="A5" value="A5" />
+            <v-radio-group @change="updateStar" v-model="radioGroup">
+                <v-radio key="A2" label="A2 (40*60 CM)" value="A2" />
+                <v-radio key="A3" label="A3 (30*40 CM)" value="A3" />
+                <v-radio key="A4" label="A4 (20*30 CM)" value="A4" />
+                <v-radio key="A5" label="A5 (15*21 CM)" value="A5" />
             </v-radio-group>
 
             <p>رنگ قاب</p>

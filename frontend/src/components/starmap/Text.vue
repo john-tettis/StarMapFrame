@@ -8,7 +8,7 @@
     <v-form ref="form" v-model="valid">
       <div v-show="counter >= 0" id="line1">
         <v-text-field
-          label="متن اول"
+          label="متن"
           outlined
           dense
           prepend-inner-icon="mdi-pencil"
@@ -21,7 +21,7 @@
           v-model="line1.font"
           outlined
           dense
-          @change="updateStars"
+          @change="setFont(0)"
         />
         <v-row>
           <v-col cols="6">
@@ -69,7 +69,7 @@
 
       <div v-show="counter >= 1" id="line2">
         <v-text-field
-          label="متن اول"
+          label="متن"
           outlined
           dense
           prepend-inner-icon="mdi-pencil"
@@ -82,7 +82,7 @@
           v-model="line2.font"
           outlined
           dense
-          @change="updateStars"
+          @change="setFont(1)"
         />
         <v-row>
           <v-col cols="6">
@@ -130,7 +130,7 @@
 
       <div v-show="counter >= 2" id="line3">
         <v-text-field
-          label="متن اول"
+          label="متن"
           outlined
           dense
           prepend-inner-icon="mdi-pencil"
@@ -143,7 +143,7 @@
           v-model="line3.font"
           outlined
           dense
-          @change="updateStars"
+          @change="setFont(2)"
         />
         <v-row>
           <v-col cols="6">
@@ -303,6 +303,18 @@ export default {
         this.counter -= 1;
       }
     },
+    setFont(line){
+      if(line===0){
+        this.line1.font = (this.line1.font.split("-"))[0]
+      }
+      if(line===1){
+        this.line2.font = (this.line2.font.split("-"))[0]
+      }
+      if(line===2){
+        this.line3.font = (this.line3.font.split("-"))[0]
+      }
+      this.updateStars()
+    }
   },
   mounted() {
     this.axios.get("/api/fonts").then((response) => {
