@@ -542,6 +542,7 @@ if __name__ == '__main__':
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Gandom');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Lalezar');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Tabassom');")
+    image.embed_stylesheet("@import url('http://imitran.ir/cdn/fonts/fonts.css?family=IranNastaliq')")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Estedad');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/ArabicUIDisplay');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Badr');")
