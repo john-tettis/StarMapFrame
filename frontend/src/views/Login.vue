@@ -77,14 +77,14 @@
                 </v-col>
               </v-row>
             </v-form>
-            <span v-show="form === 'login'"
+            <!-- <span v-show="form === 'login'"
               >اکانت ندارید؟
               <a @click="form = 'signup'">همین حالا ثبت نام کنید...</a></span
             >
             <span v-show="form === 'signup'"
               >حساب کاربری دارید؟
               <a @click="form = 'login'">وارد حساب کاربری خود شوید...</a></span
-            >
+            > -->
           </v-card-text>
         </v-card>
       </v-col>
@@ -115,18 +115,18 @@ export default {
   },
   methods: {
     doRegister() {
-      this.axios.post("/api/register", this.register).then((response) => {
-        if (response.status === 200 && response.data.result) {
-          this.$router.push("/builder");
-        } else {
-          this.registerAlert = true;
-          this.registerAlertText = response.data.message;
-          setTimeout(() => {
-            this.registerAlert = false;
-          }, 5000);
-        }
-      });
-      // alert("ثبت نام غیر فعال است");
+      // this.axios.post("/api/register", this.register).then((response) => {
+      //   if (response.status === 200 && response.data.result) {
+      //     this.$router.push("/builder");
+      //   } else {
+      //     this.registerAlert = true;
+      //     this.registerAlertText = response.data.message;
+      //     setTimeout(() => {
+      //       this.registerAlert = false;
+      //     }, 5000);
+      //   }
+      // });
+      alert("ثبت نام غیر فعال است");
     },
     doLogin() {
       this.axios.post("/api/login", this.login).then((response) => {
