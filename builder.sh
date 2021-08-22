@@ -23,6 +23,7 @@ pip install -r requirements.txt
 
 # Restore database
 cp /tmp/db.sqlite3 /backend/app/
+rm /tmp/db.sqlite3
 
 # Restart services
 systemctl stop backend.service && systemctl start backend.service
