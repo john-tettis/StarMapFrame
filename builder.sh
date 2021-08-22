@@ -11,6 +11,8 @@ cd ../backend && cp -r invoice/ /var/www/html/
 
 # Move flask app to /backend
 cp -r * /backend/
+rm /backend/app/assets/backgrounds/.gitkeep
+rm /backend/app/assets/wallpapers/.gitkeep
 
 # Build and run backend
 cd /backend/
