@@ -14,3 +14,5 @@ python3.9 -m venv sandbox
 pip install -r requirements.txt
 
 exec systemctl stop backend.service && systemctl start backend.service
+echo "Server is running..."
+sleep 5s && systemctl status backend.service
