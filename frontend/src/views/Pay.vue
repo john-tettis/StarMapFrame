@@ -244,10 +244,10 @@ export default {
   },
   methods: {
     sizePriceCal() {
-      if (this.product.customize.size === "A2") return 3500000;
-      if (this.product.customize.size === "A3") return 2800000;
-      if (this.product.customize.size === "A4") return 2000000;
-      if (this.product.customize.size === "A5") return 1600000;
+      if (this.product.customize.size === "A2") return 4500000;
+      if (this.product.customize.size === "A3") return 3000000;
+      if (this.product.customize.size === "A4") return 2600000;
+      if (this.product.customize.size === "A5") return 1900000;
     },
     filterCity() {
       this.citiesList = cities;
