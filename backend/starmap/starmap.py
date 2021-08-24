@@ -282,6 +282,8 @@ bg_y = args.bgPosY
 height = args.height
 width = args.width
 
+tracking = args.tracking
+
 # print("coordinates:", coord)
 # print("date:", date)
 # print("time", time)
@@ -598,7 +600,7 @@ if __name__ == '__main__':
     image.add(image.text(date + " " + time + " UTC " + str(utc),
               insert=("20mm", str(height-20)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
     image.add(image.text(tracking,
-                insert=("20mm", str(height-20)+'mm'), fill=line_color, style=font_style))
+                insert=("20mm", str(height-15)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
 
     image.save()
     # print(output_file, " generated")

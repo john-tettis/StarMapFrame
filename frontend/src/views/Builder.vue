@@ -52,7 +52,7 @@
         </v-stepper-items>
       </v-stepper>
     </v-col>
-    <v-col cols="12" xl="5" lg="5" md="12" sm="12" id="frame_wrapper">
+    <v-col cols="12" xl="5" lg="5" md="12" sm="12" id="frame_wrapper" class="d-flex justify-center">
       <v-card height="425" width="400" class="elevation-0">
         <div
           id="frame"
