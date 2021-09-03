@@ -24,7 +24,7 @@ def CONFIG(data: list) -> str:
         if 'location' in data['geo']:
             lat = data['geo']['location']['lat']
             lng = data['geo']['location']['lng']
-            conf += f" -coord {lat},{lng}"
+            conf += f" -coord \"{lat},{lng}\""
 
         if 'date' in data['geo']:
             conf += f" -date {data['geo']['date']}"
