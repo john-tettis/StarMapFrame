@@ -207,7 +207,7 @@ export default {
         },
         customize: {
           size: "A3",
-          frame: "#212121",
+          frame: "#000000",
           background: "#000000",
           dot: true,
           star: true,

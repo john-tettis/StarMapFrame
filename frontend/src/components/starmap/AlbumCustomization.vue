@@ -80,12 +80,10 @@ export default {
             radioGroup: "A3",
             roban: true,
             swatches: [
-                ["#263238", "#212121", "#455A64", "#00ACC1"],
-                ["#3949AB", "#004D40", "#C51162", "#4A148C"],
-                ["#000000", "#81D4FA", "#FF6E40", "#2979FF"],
+                ["#000000", "#eeeeee"],
             ],
             frameMenu: false,
-            frameValue: "#212121",
+            frameValue: "#000000",
         }
     },
     methods: {
