@@ -18,24 +18,24 @@
               <p class="d-flex justify-space-between">
                 بارکد موسیقی:
                 <span>{{
-                  !!product.music.qr ? " ۲۰۰,۰۰۰ ریال" : "ندارد"
+                  !!product.music.qr ? " ۲۰,۰۰۰ تومان" : "ندارد"
                 }}</span>
               </p>
               <p class="d-flex justify-space-between">
                 بکگراند ستاره:
                 <span>{{
-                  !!product.background.bg ? "۱۵۰,۰۰۰ ریال" : "ندارد"
+                  !!product.background.bg ? "۱۵,۰۰۰ تومان" : "ندارد"
                 }}</span>
               </p>
               <p class="d-flex justify-space-between">
                 ربان:
-                <span>{{ product.roban ? "۱۵۰,۰۰۰ ریال" : "ندارد" }}</span>
+                <span>{{ product.roban ? "۱۵,۰۰۰ تومان" : "ندارد" }}</span>
               </p>
               <v-divider class="my-2" />
               <p class="d-flex justify-space-between">
                 مبلغ کل:
                 <span v-if="amount !== undefined"
-                  >{{ amount.toLocaleString("fa") }} ریال</span
+                  >{{ amount.toLocaleString("fa") }} تومان</span
                 >
               </p>
               <div class="d-flex justify-space-between align-baseline">
@@ -61,7 +61,7 @@
                 style="font-size: 1rem"
                 v-if="discountAmount !== undefined"
               >
-                مبلغ {{ discountAmount.toLocaleString("fa") }} ریال تخفیف اعمال
+                مبلغ {{ discountAmount.toLocaleString("fa") }} تومان تخفیف اعمال
                 شد.
               </h3>
             </div>
@@ -231,23 +231,23 @@ export default {
     };
 
     this.product = JSON.parse(localStorage.getItem("product"));
-    if (this.product.customize.size === "A2") this.amount = 4500000;
-    if (this.product.customize.size === "A3") this.amount = 3000000;
-    if (this.product.customize.size === "A4") this.amount = 2600000;
-    if (this.product.customize.size === "A5") this.amount = 1900000;
-    if (this.product.music.qr) this.amount += 200000;
-    if (this.product.background.bg) this.amount += 150000;
-    if (this.product.roban) this.amount += 150000;
+    if (this.product.customize.size === "A2") this.amount = 450000;
+    if (this.product.customize.size === "A3") this.amount = 300000;
+    if (this.product.customize.size === "A4") this.amount = 260000;
+    if (this.product.customize.size === "A5") this.amount = 190000;
+    if (this.product.music.qr) this.amount += 20000;
+    if (this.product.background.bg) this.amount += 15000;
+    if (this.product.roban) this.amount += 15000;
 
     this.provincesList = provinces;
     this.citiesList = cities;
   },
   methods: {
     sizePriceCal() {
-      if (this.product.customize.size === "A2") return 4500000;
-      if (this.product.customize.size === "A3") return 3000000;
-      if (this.product.customize.size === "A4") return 2600000;
-      if (this.product.customize.size === "A5") return 1900000;
+      if (this.product.customize.size === "A2") return 450000;
+      if (this.product.customize.size === "A3") return 300000;
+      if (this.product.customize.size === "A4") return 260000;
+      if (this.product.customize.size === "A5") return 190000;
     },
     filterCity() {
       this.citiesList = cities;
