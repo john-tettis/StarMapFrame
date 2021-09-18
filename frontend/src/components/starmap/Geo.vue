@@ -38,6 +38,7 @@
         prepend-inner-icon="mdi-calendar"
         @input="$v.dateValue.$touch()"
         @blur="$v.dateValue.$touch()"
+        readonly
       ></v-text-field>
       <custom-date-picker
         element="custom-date-input"
