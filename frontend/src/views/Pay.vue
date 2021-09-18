@@ -102,7 +102,7 @@
               <v-select
                 :items="provincesList"
                 v-model="payment.province"
-                item-text="name"
+                item-text="title"
                 item-value="id"
                 required
                 outlined
@@ -116,7 +116,7 @@
                 :disabled="payment.province === null || payment.province === ''"
                 :items="citiesList"
                 v-model="payment.city"
-                item-text="name"
+                item-text="title"
                 item-value="id"
                 required
                 outlined
@@ -168,8 +168,8 @@
 </template>
 
 <script>
-import provinces from "@/assets/provinces.json";
-import cities from "@/assets/city.json";
+import provinces from "@/assets/province.json";
+import cities from "@/assets/cities.json";
 
 import { validationMixin } from "vuelidate";
 import { required, numeric, maxLength } from "vuelidate/lib/validators";

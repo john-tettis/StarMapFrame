@@ -1,21 +1,33 @@
 <template>
   <div>
-    <p class="mb-5" style="font-size:1.3rem">انتخاب تاریخ و مکان آسمان</p>
+    <p class="mb-5" style="font-size: 1.3rem">انتخاب تاریخ و مکان آسمان</p>
     <v-form ref="form" v-model="valid">
-      <v-autocomplete
-        outlined
+      <v-select
+        v-model="province"
         dense
-        v-model.lazy="location"
-        prepend-inner-icon="mdi-map-marker"
-        label="موقعیت جغرافیایی"
-        :items="locationGuess"
-        item-text="display_name"
-        :item-value="getLatLon"
-        :search-input.sync="search"
-        @input="$v.location.$touch()"
-        @blur="$v.location.$touch()"
-        :filter="filterLocations"
-      ></v-autocomplete>
+        outlined
+        label="انتخاب استان"
+        prepend-inner-icon="mdi-pin"
+        :items="provinces"
+        item-text="title"
+        item-value="id"
+        @input="filterCities();$v.province.$touch()"
+        @blur="$v.province.$touch()"
+      />
+      <v-select
+        v-model="city"
+        dense
+        outlined
+        label="انتخاب شهر"
+        prepend-inner-icon="mdi-city"
+        :items="cities"
+        item-text="title"
+        :item-value="findLatLong"
+        :disabled="province === null"
+        @input="$v.city.$touch()"
+        @blur="$v.city.$touch()"
+      />
+
       <!--DatePicker-->
       <v-text-field
         id="custom-date-input"
@@ -27,122 +39,75 @@
         @input="$v.dateValue.$touch()"
         @blur="$v.dateValue.$touch()"
       ></v-text-field>
-      <custom-date-picker element="custom-date-input" v-model="dateValue"></custom-date-picker>
+      <custom-date-picker
+        element="custom-date-input"
+        v-model="dateValue"
+      ></custom-date-picker>
       <!-- </v-menu> -->
       <!--TimePicker-->
-      <v-menu
-        ref="TimeMenu"
-        v-model="timeMenu"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        :return-value.sync="timeValue"
-        transition="scale-transition"
-        offset-y
-        max-width="290px"
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            outlined
-            dense
-            v-model="timeValue"
-            label="زمان"
-            prepend-inner-icon="mdi-clock-time-four-outline"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-            @input="$v.timeValue.$touch()"
-            @blur="$v.timeValue.$touch()"
-          ></v-text-field>
-        </template>
-        <v-time-picker
-          v-model="timeValue"
-          full-width
-          @click:minute="$refs.TimeMenu.save(timeValue)"
-        ></v-time-picker>
-      </v-menu>
       <v-btn
         class="mt-8 mb-5"
         block
         color="primary"
         @click="submit($event)"
-        :disabled="$v.location.$invalid || $v.timeValue.$invalid || $v.dateValue.$invalid"
-      >مرحله‌ی بعدی</v-btn>
+        :disabled="$v.timeValue.$invalid || $v.dateValue.$invalid || $v.city.$invalid"
+        >مرحله‌ی بعدی</v-btn
+      >
     </v-form>
   </div>
 </template>
 
 <script>
-import { Client } from "@googlemaps/google-maps-services-js";
+import provinces from "@/assets/province.json";
+import cities from "@/assets/cities.json";
+
 import moment from "moment-jalaali";
 import { v4 as uuidv4 } from "uuid";
-import { validationMixin } from 'vuelidate';
-import { required } from "vuelidate/lib/validators"
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
 
 export default {
   name: "star-geo",
-  watch: {
-    dateMenu(val) {
-      val && setTimeout(() => (this.activePicker = "YEAR"));
-    },
-    search (val) {
-        val && val !== this.location && this.updateGuess(val)
-      },
-  },
   mixins: [validationMixin],
   validations: {
     timeValue: {
-      required
+      required,
     },
-    location: {
-      required
+    province: {
+      required,
+    },
+    city: {
+      required,
     },
     dateValue: {
       required,
-    }
+    },
   },
   data() {
     return {
       loading: false,
       search: null,
-      activePicker: null,
       valid: true,
-      client: new Client({}),
-      dateMenu: false,
       dateValue: null,
-      timeMenu: false,
       timeValue: "00:00",
-      locationGuess: [],
-      location: "",
+      provinces: provinces,
+      province: null,
+      city: null,
+      cities: cities,
       coordinate: {},
     };
   },
   methods: {
-    filterLocations(item){
-      return item
+    filterCities(){
+      this.cities = cities
+      this.cities = cities.filter(item=>item.province_id===this.province)
     },
-    getLatLon(item){
+    findLatLong(item) {
       this.coordinate = {
-        lat: item.lat,
-        lng: item.lon
-      }
-    },
-    truncateString(str, num) {
-      if (str.length > num) {
-        return str.slice(0, num) + "...";
-      } else {
-        return str;
-      }
-    },
-    async updateGuess(value) {
-      if(!this.loading){
-        this.loading = true;
-        const response = await this.axios.get(`https://heavens-above.com/api2/geocoder/?q=${value.trim()}`);
-        if (response.status === 200) {
-          this.locationGuess = response.data
-        }
-        this.loading = false;
-      }
+        lat: item.latitude,
+        lng: item.longitude,
+      };
+      return item.id
     },
     async submit(event) {
       event.preventDefault();
@@ -162,7 +127,7 @@ export default {
   mounted() {
     history.pushState(null, null, location.href);
     window.onpopstate = function () {
-        history.go(1);
+      history.go(1);
     };
     const editMode = localStorage.getItem("editMode");
     if (!editMode) {
@@ -203,7 +168,7 @@ export default {
           y: 0,
           opacity: 40,
           wallpaper: "",
-          circle: true
+          circle: true,
         },
         customize: {
           size: "A3",

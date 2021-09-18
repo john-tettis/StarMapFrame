@@ -81,7 +81,8 @@
             <span>{{ toFarsiNumber(item.mobile) }}</span>
           </template>
           <template v-slot:[`item.post`]="{ item }">
-            <span>{{ toFarsiNumber(item.post) }}</span>
+            <span v-if="item.post">{{ toFarsiNumber(item.post) }}</span>
+            <span v-else>-</span>
           </template>
           <template v-slot:[`item.timestamp`]="{ item }">
             {{ convertUnixTimeIntoDate(item.timestamp) }}
@@ -215,8 +216,8 @@
 <script>
 import moment from "moment-jalaali";
 
-import cities from "@/assets/city.json";
-import provinces from "@/assets/provinces.json";
+import cities from "@/assets/cities.json";
+import provinces from "@/assets/province.json";
 
 export default {
   name: "AdminOrders",
@@ -231,7 +232,7 @@ export default {
       headers: [
         { text: "کد پیگیری", value: "tracking" },
         { text: "تاریخ", value: "timestamp" },
-        { text: "مبلغ (ریال)", value: "amount" },
+        { text: "مبلغ (تومان)", value: "amount" },
         { text: "نام و نام خانوادگی", value: "name" },
         { text: "موبایل", value: "mobile" },
         { text: "استان", value: "province" },
@@ -264,10 +265,10 @@ export default {
             this.orders.forEach(async (elm) => {
               elm.city = cities.filter(
                 (item) => item.id === parseInt(elm.city)
-              )[0].name;
+              )[0].title;
               elm.province = provinces.filter(
                 (item) => item.id === parseInt(elm.province)
-              )[0].name;
+              )[0].title;
             });
           } else {
             alert("شما وارد حساب کاربری خود نشدید");
