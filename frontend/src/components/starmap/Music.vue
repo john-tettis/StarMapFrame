@@ -14,7 +14,7 @@
         ref="mp3"
         v-model="mp3"
         :show-size="1000"
-        accept="audio/mp3, audio/mpeg"
+        accept="audio/*"
         label="فایل موزیک"
         outlined
         dense
