@@ -4,7 +4,7 @@
     <v-main
       :style="$route.path === '/login' ? 'position:relative;top:-64px;' : ''"
     >
-      <router-view />
+      <router-view></router-view>
     </v-main>
     <!-- <Footer/> -->
   </v-app>

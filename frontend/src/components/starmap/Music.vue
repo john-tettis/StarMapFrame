@@ -9,7 +9,7 @@
       <v-radio key="نمی‌خوام" label="نمی‌خوام" :value="false" @click="wantMusic=false" selected/>
       <v-radio key="می‌خوام" label="می‌خوام" :value="true" />
     </v-radio-group>
-    <v-form v-if="wantMusic" ref="form" v-model="valid">
+    <div v-if="wantMusic">
       <v-file-input
         ref="mp3"
         v-model="mp3"
@@ -20,7 +20,7 @@
         dense
         :clearable="false"
         append-outer-icon="mdi-close-box-outline"
-        @click:append-outer="mp3=[]"
+        @click:append-outer.stop="mp3=[]"
         @change="done=false"
       ></v-file-input>
       <v-file-input
@@ -33,10 +33,10 @@
         dense
         :clearable="false"
         append-outer-icon="mdi-close-box-outline"
-        @click:append-outer="cover=[]"
+        @click:append-outer.stop="cover=[]"
         @change="done=false"
       ></v-file-input>
-    </v-form>
+    </div>
     <v-row no-gutters>
       <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
         <v-btn @click="$emit('update:stepper', 5)" color="error" outlined style="width:98%"
@@ -91,7 +91,6 @@ export default {
     return {
       loading: false,
       wantMusic: false,
-      valid: false,
       mp3: [],
       cover: [],
       done: false,
