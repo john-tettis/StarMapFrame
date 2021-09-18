@@ -84,7 +84,6 @@
 
 <script>
 import Loading from "@/components/Loading";
-import { required, ob } from "vuelidate/lib/validators";
 
 export default {
   name: "star-music",

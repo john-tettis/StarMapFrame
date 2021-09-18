@@ -6,10 +6,10 @@
       class="order-4"
       style="position: absolute; top: 0; left: 0; right: 0; z-index: 9999"
     >
-      <img src="@/assets/logo.png" class="d-block mx-auto" width="85" />
+      <img src="@/assets/logo.png" alt="logo" class="d-block mx-auto" width="85" />
     </v-col>
     <v-col v-else cols="12" class="order-0">
-      <img src="@/assets/logo.png" class="d-block mx-auto" width="100" />
+      <img src="@/assets/logo.png" alt="logo" class="d-block mx-auto" width="100" />
     </v-col>
     <v-col cols="12" xl="7" lg="7" md="12" sm="12" class="px-10">
       <v-stepper v-model="step" class="mb-5">

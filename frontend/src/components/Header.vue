@@ -1,7 +1,7 @@
 <template>
   <header class="d-flex align-center justify-space-between" style="background: #121212;height:50px">
     <div>
-      <img src="@/assets/logo.png" width="64"/>
+      <img src="@/assets/logo.png" alt="logo" width="64"/>
     </div>
     <div>
       <ul class="nav">
