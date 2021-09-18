@@ -14,7 +14,7 @@
         ref="mp3"
         v-model="mp3"
         :show-size="1000"
-        accept="audio/mp3"
+        accept="audio/mp3, audio/mpeg"
         label="فایل موزیک"
         outlined
         dense
@@ -27,7 +27,7 @@
         ref="cover"
         v-model="cover"
         :show-size="1000"
-        accept="image/jpeg"
+        accept="image/jpeg, image/jpg"
         label="فایل کاور"
         outlined
         dense
