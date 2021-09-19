@@ -22,6 +22,7 @@ def login() -> Response:
             token = secrets.token_hex(16)
             cursor.execute(
                 "INSERT INTO tokens (userID, token) VALUES (?, ?)", (row[0], token))
+            db.commit()
             return jsonify(result=True, message="logged in successfully", token=token)
         else:
             return jsonify(result=False, message="نام کاربری یا رمز عبور صحیح نیست...")
@@ -52,12 +53,11 @@ def check_token(token: str) -> Response:
     db = get_db()
     cursor = db.cursor()
     try:
-        query = f"SELECT * FROM tokens WHERE token=\"{token}\""
-        cursor.execute(query)
+        cursor.execute(f"SELECT * FROM tokens WHERE token=\"{token}\"")
         rows = cursor.fetchall()
         if(len(rows) > 0):
             return jsonify(result=True, message="valid")
         else:
-            return jsonify(result=False, message="not valid")
+            return jsonify(result=False, message="not valid token", rows=rows)
     except OperationalError as e:
-        return jsonify(result=False, message="not valid")
+        return jsonify(result=False, message="operational error", error=str(e))
