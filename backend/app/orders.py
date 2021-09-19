@@ -90,8 +90,8 @@ def orders_update_print_status(id: int) -> Response:
         return jsonify(result=False, message="NOT OK!", error=str(e))
 
 
-@blueprint.route("/orders/pay/<id>/<amount>", methods=["POST"])
-def order_payment(id: int, amount: int) -> Response:
+@blueprint.route("/orders/pay/<id>/<amount>/<phone>/<name>", methods=["POST"])
+def order_payment(id: int, amount: int, phone: str, name: str) -> Response:
     returnUrl = f"https://sky.respina.store/api/orders/verify/{id}/{amount}"
     headers = {
         "Authorization": "Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b",
@@ -99,7 +99,7 @@ def order_payment(id: int, amount: int) -> Response:
     }
     if id and amount:
         response = requests.post(url="https://api.payping.ir/v2/pay",
-                                headers=headers, json={"amount": amount, "returnUrl": returnUrl})
+                                headers=headers, json={"amount": amount, "returnUrl": returnUrl, "payerIdentity": phone, "payerName": name})
         if response.status_code == 200:
             data = json.loads(response.text)
             code: str = data['code']

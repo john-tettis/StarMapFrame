@@ -303,7 +303,7 @@ export default {
         });
     },
     async goToPay(id) {
-     const response = await this.axios.post(`/api/orders/pay/${id}/${this.amount}`);
+     const response = await this.axios.post(`/api/orders/pay/${id}/${this.amount}/${this.payment.mobile}/${this.payment.name}`);
      if(response.status === 200 && response.data.result){
        window.location.replace(response.data.url)
      }
