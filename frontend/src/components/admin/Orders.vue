@@ -278,12 +278,7 @@ export default {
     },
     isRoban(object) {
       try {
-        const jsonData = object
-          .replaceAll("True", "true")
-          .replaceAll("False", "false")
-          .replaceAll("'", '"');
-        const value = JSON.parse(jsonData);
-        console.log(value);
+        const value = JSON.parse(object);
         if (value.roban === undefined) {
           return false;
         } else {
@@ -291,7 +286,7 @@ export default {
         }
       } catch {
         console.log(object);
-        console.log("cant set is roban");
+        console.log("can not set is roban to above object");
       }
     },
     openDeleteOrderDialog(id) {
@@ -320,11 +315,7 @@ export default {
     },
     downloadStarmap(product, tracking) {
       this.$emit("update:loading", true);
-      let star = product
-        .replaceAll("True", "true")
-        .replaceAll("False", "false")
-        .replaceAll("'", '"');
-      star = JSON.parse(star);
+      let star = JSON.parse(product);
       const data = {
         ...star,
         MODE: "PROD",
@@ -358,11 +349,7 @@ export default {
       }
     },
     editOrder(order) {
-      let product = order.product
-        .replaceAll("True", "true")
-        .replaceAll("False", "false")
-        .replaceAll("'", '"');
-      product = JSON.parse(product);
+      let product = JSON.parse(order.product);
       localStorage.setItem("orderID", order.id);
       localStorage.setItem("editMode", true);
       this.$store.commit("setProduct", product);

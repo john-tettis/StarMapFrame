@@ -2,6 +2,7 @@
 from sqlite3.dbapi2 import OperationalError
 
 import json
+import re
 import requests
 from flask import jsonify, redirect, request
 from flask.wrappers import Response
@@ -23,7 +24,7 @@ def orders_list() -> Response:
     if request.method == 'POST':
         data = request.json
         cursor.execute(
-            "INSERT INTO orders (name, mobile, address, province, city, post, is_paid, is_deliverd, is_printed, product, amount, tracking, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (data['name'], data['mobile'], data['address'], data['province'], data['city'], data['post'], data['is_paid'], data['is_deliverd'], 0, str(data['product']), data['amount'], data['tracking'], data['timestamp']))
+            "INSERT INTO orders (name, mobile, address, province, city, post, is_paid, is_deliverd, is_printed, product, amount, tracking, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (data['name'], data['mobile'], data['address'], data['province'], data['city'], data['post'], data['is_paid'], data['is_deliverd'], 0, json.dumps(data['product']), data['amount'], data['tracking'], data['timestamp']))
         db.commit()
         return jsonify(result=True, message="inserted", id=cursor.lastrowid)
     elif request.method == 'GET':
@@ -31,6 +32,8 @@ def orders_list() -> Response:
         rows = cursor.fetchall()
         fields = cursor.description
         orders = to_json(rows, fields)
+        for order in orders:
+            order = json.loads(order['product'])
         return jsonify(result=True, data=orders)
     return jsonify(result=False, message="Request method is not allowed!")
 
@@ -64,8 +67,8 @@ def orders_update_product(id: int) -> Response:
     db = get_db()
     cursor = db.cursor()
     try:
-        cursor.execute(
-            f"UPDATE orders SET product=\"{data['product']}\" WHERE id={id}")
+        print(json.dumps(data['product']))
+        cursor.execute("UPDATE orders SET product=? WHERE id=?", (json.dumps(data['product']), id))
         db.commit()
         return jsonify(result=True, message="OK!")
     except OperationalError as e:
