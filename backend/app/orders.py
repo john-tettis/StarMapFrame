@@ -2,7 +2,7 @@
 from sqlite3.dbapi2 import OperationalError
 
 import json
-import re
+import base64
 import requests
 from flask import jsonify, redirect, request
 from flask.wrappers import Response
@@ -97,9 +97,20 @@ def order_payment(id: int, amount: int, phone: str, name: str) -> Response:
         "Authorization": "Bearer a6a01a56fb0505ee3e808f597958ba488ef93ffc2743b60c80dc55a3f348f43b",
         "Content-Type": "application/json"
     }
+    try:
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute(f"select * from orders where id={id}")
+        rows = cursor.fetchall()
+        fields = cursor.description
+        order = to_json(rows, fields)
+        product = base64.b64encode(json.dumps(order[0]['product']).encode('utf-8'))
+        print(product)
+    except OperationalError as e:
+        return jsonify(result=False, message="Can not find the order", error=str(e))
     if id and amount:
         response = requests.post(url="https://api.payping.ir/v2/pay",
-                                headers=headers, json={"amount": amount, "returnUrl": returnUrl, "payerIdentity": phone, "payerName": name})
+                                headers=headers, json={"amount": amount, "returnUrl": returnUrl, "payerIdentity": phone, "payerName": name, "description": str(product)})
         if response.status_code == 200:
             data = json.loads(response.text)
             code: str = data['code']
