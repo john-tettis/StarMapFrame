@@ -105,6 +105,7 @@ export default {
         }
     },
     mounted() {
+        this.updateRoban();
         const editMode = localStorage.getItem("editMode");
         if (editMode) {
             this.radioGroup = this.$store.state.starmap.customize.size;
