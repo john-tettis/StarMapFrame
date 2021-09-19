@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p style="font-size: 1.3rem">انتخاب بکگراند ستاره‌ها</p>
+    <p class="p-title">انتخاب بکگراند ستاره‌ها</p>
     <v-row>
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
         <v-radio-group v-model="haveBg">
@@ -14,28 +14,19 @@
           <v-radio key="می‌خوام" label="می‌خوام" :value="true" />
         </v-radio-group>
       </v-col>
-      <!-- <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <v-switch
-          v-model="shape"
-          @change="changeShape"
-          inset
-          :label="shape ? `قلبی` : `دایره‌ای`"
-        ></v-switch>
-      </v-col>-->
     </v-row>
     <div v-if="haveBg">
       <v-row class="mb-5">
          <v-col cols="6" lg="6" md="6" sm="6">
           <v-btn
-            style="width: 98%"
+            class="w-98"
             color="primary"
             @click="
               customImg = false;
               sampleImg = true;
             "
             :disabled="sampleImg"
-            >عکس آماده</v-btn
-          >
+            >عکس آماده</v-btn>
         </v-col>
         <v-col cols="6" lg="6" md="6" sm="6">
           <v-btn
@@ -43,11 +34,10 @@
               customImg = true;
               sampleImg = false;
             "
-            style="width: 98%"
+            class="w-98"
             color="primary"
             :disabled="customImg"
-            >عکس دلخواه</v-btn
-          >
+            >عکس دلخواه</v-btn>
         </v-col>
       </v-row>
       <div v-if="sampleImg">
@@ -56,7 +46,7 @@
             <swiper ref="backgrounds" :options="backgroundsOptions">
               <swiper-slide v-for="background in backgrounds" :key="background">
                 <img
-                  style="max-width: 100%"
+                  class="w-max-100"
                   @click="selectImage($event)"
                   :src="
                     'https://sky.respina.store/api/assets/get/backgrounds/' +
@@ -107,7 +97,7 @@
                 :color="isUploadBg ? 'green' : 'secondary'"
                 @click="uploadBg"
                 :disabled="isUploadBg"
-                style="width: 98%"
+                 class="w-98"
               >
                 <span v-if="isUploadBg">ثبت شد</span>
                 <span v-else>ثبت عکس</span>
@@ -131,7 +121,7 @@
     <v-divider class="my-5"></v-divider>
 
     <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-      <p style="font-size: 1.3rem">دور ستاره‌ها دایره‌ای باشد؟</p>
+      <p class="p-title">دور ستاره‌ها دایره‌ای باشد؟</p>
       <v-radio-group @change="changeCircle" v-model="circle">
         <v-radio key="بله" label="بله" :value="true" />
         <v-radio key="خیر" label="خیر" :value="false" @click="circle = false" />
@@ -143,7 +133,7 @@
         <v-btn
           @click="$emit('update:stepper', 3)"
           color="error"
-          style="width: 98%"
+           class="w-98"
           outlined
           >مرحله‌ی قبلی</v-btn
         >
@@ -152,17 +142,17 @@
         <v-btn
           @click="$emit('update:stepper', 5)"
           color="primary"
-          style="width: 98%"
+           class="w-98"
           >مرحله‌ی بعدی</v-btn
         >
       </v-col>
     </v-row>
-    <Loading :isLoading="loading" />
+    <loading-overlay :is-loading="loading" />
   </div>
 </template>
 
 <script>
-import Loading from "@/components/Loading";
+import LoadingOverlay from "@/components/Loading";
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 
@@ -174,7 +164,7 @@ export default {
     },
   },
   components: {
-    Loading,
+    LoadingOverlay,
     Swiper,
     SwiperSlide,
   },

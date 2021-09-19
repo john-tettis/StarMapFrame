@@ -4,7 +4,7 @@
       <v-col cols="11" xl="5" lg="5" md="5" sm="11">
         <v-card class="elevation-4">
           <v-card-text>
-            <h3 class="mb-5" style="font-size: 1.3rem">
+            <h3 class="mb-5 p-title">
               <v-icon>mdi-basket</v-icon>فاکتور سفارش
             </h3>
             <div class="remove-p-m">
@@ -56,9 +56,8 @@
                 </div>
               </div>
               <h3
-                class="text-center"
+                class="text-center text-lg"
                 v-show="discount"
-                style="font-size: 1rem"
                 v-if="discountAmount !== undefined"
               >
                 مبلغ {{ discountAmount.toLocaleString("fa") }} تومان تخفیف اعمال
@@ -74,7 +73,7 @@
       <v-col cols="11" xl="5" lg="5" md="5" sm="11">
         <v-card elevation="2">
           <v-card-text>
-            <h2 class="mb-5" style="font-size: 1.3rem">
+            <h2 class="mb-5 p-title">
               <v-icon>mdi-post</v-icon>مشخصات گیرنده
             </h2>
             <p>فیلد شماره موبایل و کد پستی را با اعداد انگلیسی پر کنید!</p>

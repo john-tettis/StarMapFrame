@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-form ref="form" v-model="valid">
-      <p style="font-size:1.3rem">انتخاب بکگراند کلی</p>
+      <p class="p-title">انتخاب بکگراند کلی</p>
       <v-row>
         <v-col cols="6" lg="6" xl="6" md="6" sm="6">
           <v-radio-group @change="updateStar" v-model="showWallpaper">
@@ -127,11 +127,11 @@
             @click="$emit('update:stepper', 2)"
             color="error"
             outlined
-            style="width:98%"
+              class="w-98"
           >مرحله‌ی قبلی</v-btn>
         </v-col>
         <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-          <v-btn @click="$emit('update:stepper', 4)" style="width:98%" color="primary">مرحله‌ی بعدی</v-btn>
+        <v-btn @click="$emit('update:stepper', 4)"  class="w-98" color="primary">مرحله‌ی بعدی</v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -141,6 +141,7 @@
 <script>
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css';
+
 export default {
   name: "star-customize",
   components: {

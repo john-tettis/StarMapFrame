@@ -1,34 +1,34 @@
 <template>
   <div class="pa-5">
-    <orders :loading.sync="loading"/>
+    <orders-list :loading.sync="loading"/>
 
     <v-divider class="mt-5 mb-1"></v-divider>
     <v-divider class="mb-5 mt-1"></v-divider>
 
-    <uploads :loading.sync="loading" />
+    <uploads-images :loading.sync="loading" />
 
     <v-divider class="mt-5 mb-1"></v-divider>
     <v-divider class="mb-5 mt-1"></v-divider>
 
-    <discounts :loading.sync="loading" />
+    <discounts-list :loading.sync="loading" />
 
-    <Loading :isLoading="loading" />
+    <loading-overlay :is-loading="loading" />
   </div>
 </template>
 
 <script>
-import Orders from "@/components/admin/Orders";
-import Uploads from "@/components/admin/Uploads";
-import Discounts from "@/components/admin/Discounts";
-import Loading from "@/components/Loading";
+import OrdersList from "@/components/admin/Orders";
+import UploadsImages from "@/components/admin/Uploads";
+import DiscountsList from "@/components/admin/Discounts";
+import LoadingOverlay from "@/components/Loading";
 
 export default {
   name: "AdminPanel",
   components: {
-    Orders,
-    Uploads,
-    Discounts,
-    Loading,
+    OrdersList,
+    UploadsImages,
+    DiscountsList,
+    LoadingOverlay,
   },
   data() {
     return {

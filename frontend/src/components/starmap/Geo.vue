@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="mb-5" style="font-size: 1.3rem">انتخاب تاریخ و مکان آسمان</p>
+    <p class="mb-5 p-title">انتخاب تاریخ و مکان آسمان</p>
     <v-form ref="form" v-model="valid">
       <v-select
         v-model="province"

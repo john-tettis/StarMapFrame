@@ -276,8 +276,23 @@ export default {
           this.$emit("update:loading", false);
         });
     },
-    isRoban(object){
-      return JSON.parse(object.replaceAll("True", "true").replaceAll("False", "false").replaceAll("'", '"')).roban
+    isRoban(object) {
+      try {
+        const jsonData = object
+          .replaceAll("True", "true")
+          .replaceAll("False", "false")
+          .replaceAll("'", '"');
+        const value = JSON.parse(jsonData);
+        console.log(value);
+        if (value.roban === undefined) {
+          return false;
+        } else {
+          return value.roban;
+        }
+      } catch {
+        console.log(object);
+        console.log("cant set is roban");
+      }
     },
     openDeleteOrderDialog(id) {
       this.orderID = id;
@@ -313,7 +328,7 @@ export default {
       const data = {
         ...star,
         MODE: "PROD",
-        tracking: tracking
+        tracking: tracking,
       };
       this.axios.post("/api/starmap", data).then((res) => {
         this.$emit("update:loading", false);

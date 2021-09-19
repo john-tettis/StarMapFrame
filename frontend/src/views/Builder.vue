@@ -13,41 +13,29 @@
     </v-col>
     <v-col cols="12" xl="7" lg="7" md="12" sm="12" class="px-10">
       <v-stepper v-model="step" class="mb-5">
-        <!-- <v-stepper-header>
-          <v-stepper-step step="1"> لوکیشن </v-stepper-step>
-          <v-divider></v-divider>
-          <v-stepper-step step="2"> متن </v-stepper-step>
-          <v-divider></v-divider>
-          <v-stepper-step step="3"> موسیقی </v-stepper-step>
-          <v-divider></v-divider>
-          <v-stepper-step step="4"> شخصی سازی </v-stepper-step>
-          <v-divider></v-divider>
-          <v-stepper-step step="5"> بکگراند </v-stepper-step>
-        </v-stepper-header> -->
-
         <v-stepper-items>
           <v-stepper-content step="1">
-            <StarGeo :stepper.sync="step" />
+            <star-geo :stepper.sync="step"></star-geo>
           </v-stepper-content>
 
           <v-stepper-content step="2">
-            <StarText :stepper.sync="step" />
+            <star-text :stepper.sync="step"></star-text>
           </v-stepper-content>
 
           <v-stepper-content step="3">
-            <StarCustomize :stepper.sync="step" />
+            <star-customize :stepper.sync="step"></star-customize>
           </v-stepper-content>
 
           <v-stepper-content step="4">
-            <StarBackground :stepper.sync="step" />
+            <star-background :stepper.sync="step"></star-background>
           </v-stepper-content>
 
           <v-stepper-content step="5">
-            <AlbumCustomization :stepper.sync="step" />
+            <album-customization :stepper.sync="step"></album-customization>
           </v-stepper-content>
 
           <v-stepper-content step="6">
-            <StarMusic :stepper.sync="step" />
+            <star-music :stepper.sync="step"></star-music>
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
@@ -76,7 +64,7 @@
               z-index: 0;
             "
             :src="$store.state.path"
-          />
+          ></inline-svg>
         </div>
       </v-card>
     </v-col>

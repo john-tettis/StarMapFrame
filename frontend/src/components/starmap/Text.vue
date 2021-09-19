@@ -2,7 +2,7 @@
   <div>
     <v-row align="baseline" class="mb-4">
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <p class="mb-0" style="font-size:1.3rem">اضافه کردن متن روی تابلو</p>
+        <p class="mb-0 p-title">اضافه کردن متن روی تابلو</p>
       </v-col>
     </v-row>
     <v-form ref="form" v-model="valid">
@@ -219,13 +219,13 @@
             @click="$emit('update:stepper', 1)"
             color="error"
             outlined
-            style="width:98%"
+            class="w-98"
           >
             مرحله‌ی قبلی
           </v-btn>
         </v-col>
         <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
-          <v-btn @click="$emit('update:stepper', 3)" color="primary" style="width:98%">
+          <v-btn @click="$emit('update:stepper', 3)" color="primary" class="w-98">
             مرحله‌ی بعدی
           </v-btn>
         </v-col>
@@ -235,7 +235,6 @@
 </template>
 
 <script>
-
 export default {
   name: "star-text",
   data() {

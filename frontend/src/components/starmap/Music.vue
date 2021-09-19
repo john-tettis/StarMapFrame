@@ -2,7 +2,7 @@
   <div>
     <v-row align="baseline">
       <v-col cols="12" xl="6" lg="6" md="12" sm="12">
-        <p style="font-size: 1.3rem">اضافه کردن بارکد موسیقی</p>
+        <p class="p-title ">اضافه کردن بارکد موسیقی</p>
       </v-col>
     </v-row>
     <v-radio-group v-model="wantMusic">
@@ -43,7 +43,7 @@
           @click="$emit('update:stepper', 5)"
           color="error"
           outlined
-          style="width: 98%"
+           class="w-98"
           >مرحله‌ی قبلی</v-btn
         >
       </v-col>
@@ -53,7 +53,7 @@
           :disabled="wantMusic"
           color="primary"
           @click="uploadMusic"
-          style="width: 98%"
+          class="w-98"
           >نهایی سازی سفارش</v-btn
         >
         <v-btn
@@ -64,9 +64,8 @@
             done
           "
           :color="done ? 'green' : 'primary'"
-          class="white--text"
+          class="white--text w-98"
           @click="uploadMusic"
-          style="width: 98%"
         >
           <span v-if="done">ثبت شد</span>
           <span v-else>آپلود موسیقی</span>
@@ -78,17 +77,17 @@
         >
       </v-col>
     </v-row>
-    <Loading :isLoading="loading" />
+    <loading-overlay :is-loading="loading" />
   </div>
 </template>
 
 <script>
-import Loading from "@/components/Loading";
+import LoadingOverlay from "@/components/Loading";
 
 export default {
   name: "star-music",
   components: {
-    Loading,
+    LoadingOverlay,
   },
   data() {
     return {

@@ -4,7 +4,7 @@
       <v-col cols="11" xl="4" lg="4" md="4" sm="11">
         <v-card elevation="2">
           <v-card-text>
-            <img src="@/assets/logo.png" width="120" class="d-block mx-auto" />
+            <img src="@/assets/logo.png" width="120" class="d-block mx-auto" alt="logo" />
             <v-form v-show="form === 'login'">
               <v-alert
                 v-show="loginAlert"
