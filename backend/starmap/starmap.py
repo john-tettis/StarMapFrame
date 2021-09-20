@@ -4,6 +4,9 @@ import random
 import math
 import argparse
 
+import base64
+import requests
+
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 MODE = "DEV"
@@ -305,6 +308,9 @@ tracking = args.tracking
 #latitude and longitude
 northern, eastern = map(float, coord.split(','))
 
+def get_as_base64(url):
+    return base64.b64encode(requests.get(url).content).decode("utf-8")
+
 ########## DRAWING FUNCTIONS  ###########################################
 
 # Generates random star shape to given coordinate and magnitude and color
@@ -571,6 +577,9 @@ if __name__ == '__main__':
     
     # Generate Wallpaper
     if wallpaper:
+        if MODE == "PROD":
+            wallpaper_img_base64 = 'data:image/png;base64,{}'.format(get_as_base64(wallpaper))
+            wallpaper = wallpaper_img_base64
         image.add(image.image(href=wallpaper, size=("100%", "100%"), insert=(0, 0), style="-webkit-transform:scale(1);-moz-transform:scale(1);-o-transform:scale(1);"))
     
     # Watermark
@@ -591,6 +600,9 @@ if __name__ == '__main__':
     if bg.strip():
         mask = image.defs.add(image.mask(id="bg_wrapper"))
         mask.add(image.circle(center=(half_x, half_y), r=310, fill=line_color, opacity=str(bg_opacity/100)))
+        if MODE == "PROD":  # Convert image to base64
+            bg_img_base64 = 'data:image/png;base64,{}'.format(get_as_base64(bg))
+            bg = bg_img_base64 
         image.add(image.image(href=bg, size=("100%", "100%"), mask="url(#bg_wrapper)", insert=(bg_x, bg_y)))
 
     if is_heart == "True":
@@ -598,9 +610,10 @@ if __name__ == '__main__':
     
     if qrCode.strip():
         if MODE == "PROD":
-            image.add(image.image(href=qrCode, size=("64px", "64px"), insert=("170mm", str(height-31)+'mm')))
+            qrCode_img_base64 = 'data:image/png;base64,{}'.format(get_as_base64(qrCode))
+            image.add(image.image(href=qrCode_img_base64, size=("64px", "64px"), insert=("170mm", str(height-31)+'mm')))
         else:
-            image.add(image.image(href=f"{HOST}/starmap/assets/qr.jpeg", size=("64px", "64px"), insert=("170mm", str(height-31)+'mm')))
+            image.add(image.image(href=qrCode, size=("64px", "64px"), insert=("170mm", str(height-31)+'mm')))
 
     # Custom User Text
     image.add(image.text(line1, insert=("100mm", str(height-75)+"mm"), fill=line_color, style=line1Style))
