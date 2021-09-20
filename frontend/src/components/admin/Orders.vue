@@ -12,7 +12,7 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                      @click="getOrders"
+                      @click="filter_isPaid=false;getOrders()"
                       color="green"
                       class="white--text float-left"
                       fab
@@ -194,6 +194,11 @@
               <span v-else>پرینت نشده</span>
             </v-tooltip>
           </template>
+          <template v-slot:[`item.size`]="{item}">
+            <span>
+              {{JSON.parse(item.product).customize.size}}
+            </span>
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
@@ -241,6 +246,7 @@ export default {
         { text: "آدرس کامل", value: "address" },
         { text: "وضعیت پرداخت", value: "is_paid" },
         { text: "ربان", value: "roban" },
+        { text: "سایز قاب", "value": "size", sortable: false, width: 1},
         { text: "", value: "editItem", sortable: false, width: 1 },
         { text: "", value: "starmap", sortable: false, width: 1 },
         { text: "", value: "data", sortable: false, width: 1 },
@@ -248,6 +254,7 @@ export default {
         { text: "", value: "is_printed", sortable: false, width: 1 },
       ],
       orders: [],
+      filter_isPaid: true,
     };
   },
   methods: {
@@ -262,6 +269,9 @@ export default {
         .then((res) => {
           if (res.data.result) {
             this.orders = res.data.data;
+            if(this.filter_isPaid){
+              this.orders = this.orders.filter(item=>item.is_paid === 1)
+            }
             this.orders.forEach(async (elm) => {
               elm.city = cities.filter(
                 (item) => item.id === parseInt(elm.city)
@@ -410,3 +420,10 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td, .v-data-table > .v-data-table__wrapper > table > thead > tr > th{
+  height: 40px !important;
+}
+
+</style>

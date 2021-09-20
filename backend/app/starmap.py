@@ -25,6 +25,10 @@ def CONFIG(data: list) -> str:
             lat = data['geo']['location']['lat']
             lng = data['geo']['location']['lng']
             conf += f" -coord \"{lat},{lng}\""
+        if 'province' in data['geo']:
+            conf += f" -province \"{data['geo']['province']}\""
+        if 'city' in data['geo']:
+            conf += f" -city \"{data['geo']['city']}\""
 
         if 'date' in data['geo']:
             conf += f" -date {data['geo']['date']}"
@@ -108,6 +112,10 @@ def CONFIG(data: list) -> str:
     
     if 'tracking' in data:
         conf += f" -tracking \"{data['tracking']}\""
+        if 'size' in data['customize']:
+            conf += f" -size \"{data['customize']['size']}\""
+    else:
+        conf += f" -tracking \"\""
 
     return conf
 

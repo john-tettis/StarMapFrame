@@ -2894,5 +2894,13 @@
     "province_id": 18,
     "latitude": 36.645556,
     "longitude": 59.121111
+  },
+  {
+    "id": 501,
+    "title": "یزد",
+    "slug": "Yazd",
+    "province_id": 22,
+    "latitude": 31.8974,
+    "longitude": 54.3569
   }
 ]

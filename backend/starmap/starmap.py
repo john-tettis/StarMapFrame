@@ -22,7 +22,7 @@ fontColor1 = "#ffffff"
 fontColor2 = "#ffffff"
 fontColor3 = "#ffffff"
 
-font_style = "font-size:12px; letter-spacing:0.7px; font-family:Rajdhani; stroke-width:4;"
+font_style = "font-size:12px; letter-spacing:0.7px; font-family:'Nunito', sans-serif; stroke-width:4"
 font_style2 = "font-size:8px; letter-spacing:autopx; font-family:sans-serif; stroke-width:1;"
 
 line1Style = f"font-size:{fontSize1}px;letter-spacing:0;font-family:\"{fontFamily1}\";stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor1}"
@@ -77,7 +77,11 @@ height = 275
 # empty space in left and right of the starmap
 borders = 50
 
+province = ""
+city = ""
 tracking = ""
+
+size = ""
 
 
 def mm_to_px(mm):
@@ -224,11 +228,21 @@ parser.add_argument('-qrCode', '--qrCode', type=str, default="")
 parser.add_argument("-MODE", "--MODE", type=str, default=MODE)
 
 parser.add_argument("-tracking", "--tracking", type=str, default=tracking)
+parser.add_argument("-province", "--province", type=str, default=province)
+parser.add_argument("-city", "--city", type=str, default=city)
+
+parser.add_argument("-size", "--size", type=str, default=size)
+
 
 
 args = parser.parse_args()
 
+city = args.city
+province = args.province
+
 MODE = args.MODE
+
+size = args.size
 
 circle = args.setCircle
 
@@ -537,6 +551,7 @@ if __name__ == '__main__':
     # English Fonts
     image.embed_stylesheet("@import url('https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script&family=Fuggles&family=Karla&family=Qahiri&family=Roboto&family=Roboto+Slab');")
     image.embed_stylesheet("@import url('https://fonts.googleapis.com/css2?family=Allison&family=Alumni+Sans&family=Comfortaa&family=Cookie&family=Electrolize&family=Fredoka+One&family=Handlee&family=Indie+Flower&family=Josefin+Sans&family=Lobster&family=Lobster+Two&family=Monoton&family=Nanum+Gothic&family=Pacifico&family=Rajdhani&family=Rampart+One&family=Sacramento&family=Satisfy&family=Shadows+Into+Light+Two&family=Special+Elite&family=Staatliches&family=WindSong&display=swap');")
+    image.embed_stylesheet("@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');")
     # Persian Fonts
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Kamran');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Mikhak');")
@@ -595,13 +610,18 @@ if __name__ == '__main__':
     # Text in bottom corner
     #image.add(image.text(info, insert=("20mm", str(height-25)+'mm'),
     #          fill=line_color, style=font_style))
-    image.add(image.text(str(northern)+" N "+str(eastern)+" E ",
-              insert=("20mm", str(height-25)+'mm'), fill=line_color, style=font_style))
+    if len(city) and len(province):
+        image.add(image.text("Sky Above:",
+            insert=("20mm", str(height-25)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
+        image.add(image.text(province + " - " + city,
+            insert=("20mm", str(height-20)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
+
     date = "/".join(date.split(".")[::-1]) # convert date in another format to display on the bottom
     image.add(image.text(date,
-              insert=("20mm", str(height-20)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
-    image.add(image.text(tracking,
-                insert=("20mm", str(height-15)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
+              insert=("20mm", str(height-15)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
+
+    image.add(image.text(size[1] + "." + tracking.upper(),
+                insert=("20mm", str(height-10)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
 
     image.save()
     # print(output_file, " generated")

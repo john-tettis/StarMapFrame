@@ -47,6 +47,8 @@ const store = new Vuex.Store({
         location: "",
         date: "",
         time: "",
+        province: "",
+        city: "",
       },
       text: {
         line1: {

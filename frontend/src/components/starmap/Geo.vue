@@ -118,6 +118,8 @@ export default {
             location: this.coordinate,
             time: moment(this.timeValue, "hh:mm").format("hh.mm.ss"),
             date: moment(this.dateValue, "jYYYY-jMM-jDD").format("DD.MM.YYYY"),
+            province: provinces.find(item=>item.id === this.province).slug,
+            city: cities.find(item=> item.id === this.city).slug
           });
           await this.$store.dispatch("getStarMap");
           this.$emit("update:stepper", 2);
@@ -139,6 +141,8 @@ export default {
           location: "",
           date: "",
           time: "",
+          province: "",
+          city: "",
         },
         text: {
           line1: {
