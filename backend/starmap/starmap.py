@@ -620,8 +620,9 @@ if __name__ == '__main__':
     image.add(image.text(date,
               insert=("20mm", str(height-15)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
 
-    image.add(image.text(size[1] + "." + tracking.upper(),
-                insert=("20mm", str(height-10)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
+    if tracking:
+        image.add(image.text(size[1] + "." + tracking.upper(),
+                    insert=("20mm", str(height-10)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
 
     image.save()
     # print(output_file, " generated")
