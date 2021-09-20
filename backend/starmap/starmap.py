@@ -597,7 +597,8 @@ if __name__ == '__main__':
     #          fill=line_color, style=font_style))
     image.add(image.text(str(northern)+" N "+str(eastern)+" E ",
               insert=("20mm", str(height-25)+'mm'), fill=line_color, style=font_style))
-    image.add(image.text(date + " " + time + " UTC " + str(utc),
+    date = "/".join(date.split(".")[::-1]) # convert date in another format to display on the bottom
+    image.add(image.text(date,
               insert=("20mm", str(height-20)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
     image.add(image.text(tracking,
                 insert=("20mm", str(height-15)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
