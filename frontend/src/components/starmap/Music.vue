@@ -17,6 +17,8 @@
     </v-radio-group>
     <div v-if="wantMusic">
       <v-file-input
+        :rules="rules"
+        class="mb-0"
         v-model="mp3"
         :show-size="1000"
         accept="audio/*"
@@ -25,17 +27,9 @@
         dense
         :clearable="true"
         @change="done = false"
+        hide-details
       ></v-file-input>
-      <v-file-input
-        v-model="cover"
-        :show-size="1000"
-        accept="image/jpeg, image/jpg"
-        label="فایل کاور"
-        outlined
-        dense
-        :clearable="true"
-        @change="done = false"
-      ></v-file-input>
+      <span style="text-align: center; color: gray;display:block" class="mt-2 mb-4">حداکثر سایز موسیقی ۱۰ مگابایت است.</span>
     </div>
     <v-row no-gutters>
       <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
@@ -59,9 +53,7 @@
         <v-btn
           v-if="wantMusic"
           :disabled="
-            (mp3 === null) ||
-            (cover === null) ||
-            done
+            (mp3 === null) || done
           "
           :color="done ? 'green' : 'primary'"
           class="white--text w-98"
@@ -91,10 +83,12 @@ export default {
   },
   data() {
     return {
+      rules: [
+        value => !value || value.size < 10000000 || 'این فایل مجاز نیست!',
+      ],
       loading: false,
       wantMusic: false,
       mp3: null,
-      cover: null,
       done: false,
     };
   },
@@ -105,7 +99,6 @@ export default {
       if (this.wantMusic) {
         const formData = new FormData();
         formData.append("music", this.mp3);
-        formData.append("cover", this.cover);
         formData.append("password", "respina1234");
         this.axios
           .post(
@@ -127,6 +120,9 @@ export default {
               alert("خطایی پیش آمده است...");
             }
             this.loading = false;
+          }).catch(error=>{
+            this.loading = false;
+            console.log(error)
           });
       } else {
         this.loading = false;
