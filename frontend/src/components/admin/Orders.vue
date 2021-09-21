@@ -12,7 +12,10 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                      @click="filter_isPaid=false;getOrders()"
+                      @click="
+                        filter_isPaid = false;
+                        getOrders();
+                      "
                       color="green"
                       class="white--text float-left"
                       fab
@@ -194,9 +197,9 @@
               <span v-else>پرینت نشده</span>
             </v-tooltip>
           </template>
-          <template v-slot:[`item.size`]="{item}">
+          <template v-slot:[`item.size`]="{ item }">
             <span>
-              {{JSON.parse(item.product).customize.size}}
+              {{ JSON.parse(item.product).customize.size }}
             </span>
           </template>
         </v-data-table>
@@ -246,7 +249,7 @@ export default {
         { text: "آدرس کامل", value: "address" },
         { text: "وضعیت پرداخت", value: "is_paid" },
         { text: "ربان", value: "roban" },
-        { text: "سایز قاب", "value": "size", sortable: false, width: 1},
+        { text: "سایز قاب", value: "size", sortable: false, width: 1 },
         { text: "", value: "editItem", sortable: false, width: 1 },
         { text: "", value: "starmap", sortable: false, width: 1 },
         { text: "", value: "data", sortable: false, width: 1 },
@@ -269,8 +272,8 @@ export default {
         .then((res) => {
           if (res.data.result) {
             this.orders = res.data.data;
-            if(this.filter_isPaid){
-              this.orders = this.orders.filter(item=>item.is_paid === 1)
+            if (this.filter_isPaid) {
+              this.orders = this.orders.filter((item) => item.is_paid === 1);
             }
             this.orders.forEach(async (elm) => {
               elm.city = cities.filter(
@@ -326,16 +329,23 @@ export default {
     downloadStarmap(product, tracking) {
       this.$emit("update:loading", true);
       let star = JSON.parse(product);
+      star.paint = false;
       const data = {
         ...star,
         MODE: "PROD",
         tracking: tracking,
       };
-      this.axios.post("/api/starmap", data).then((res) => {
-        this.$emit("update:loading", false);
-
-        window.open(res.data.path);
-      });
+      this.axios
+        .post("/api/starmap", data)
+        .then((res) => {
+          //console.log(res.data);
+          window.open(res.data.path);
+          this.$emit("update:loading", false);
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$emit("update:loading", false);
+        });
     },
     downloadInvoice(item) {
       window.open(
@@ -422,8 +432,8 @@ export default {
 </script>
 
 <style>
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > td, .v-data-table > .v-data-table__wrapper > table > thead > tr > th{
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
   height: 40px !important;
 }
-
 </style>

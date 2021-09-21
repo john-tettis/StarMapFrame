@@ -7,6 +7,9 @@ from PIL import ImageColor
 from app import HOST, PATH
 
 from . import blueprint
+from shutil import which
+from random import randint
+import subprocess
 
 
 def CONFIG(data: list) -> str:
@@ -109,7 +112,7 @@ def CONFIG(data: list) -> str:
         conf += f" -MODE PROD"
     else:
         conf += f" -MODE DEV"
-    
+
     if 'tracking' in data:
         conf += f" -tracking \"{data['tracking']}\""
         if 'size' in data['customize']:
@@ -118,7 +121,16 @@ def CONFIG(data: list) -> str:
         conf += f" -tracking \"\""
 
     return conf
+def random_file_name():
+    return str(randint(10000, 999999)) + "-export.png"
 
+def do_export_to_png(image: str) -> str:
+    image_path = os.path.join(PATH, "images/" + image)
+    file_name = random_file_name()
+    file_name_path = os.path.join(PATH, "images/"+file_name)
+    os.system(f"svgexport {image_path} {file_name_path} 6x")
+    return jsonify(result=True, message="file created!", path=f"{HOST}/download/{file_name}")
+    
 
 @blueprint.route("/starmap", methods=['POST'])
 def starmap() -> Response:
@@ -129,7 +141,7 @@ def starmap() -> Response:
         `Response`: return result True if the file creation is succesfull otherwise it raise an exception
     """
     content = request.json
-    if 'paint' in content:
+    if 'paint' in content and content['paint']:
         try:
             os.system(CONFIG(content))
             if os.path.exists(os.path.join(PATH, "images/"+content['filename'])):
@@ -139,7 +151,17 @@ def starmap() -> Response:
         except Exception as e:
             return jsonify(result=False, message="something wrong happend here...", error=str(e))
     else:
-        return jsonify(result=True, message="i did not paint anything")
+        if which("svgexport") is not None:
+            try:
+                os.system(CONFIG(content))
+                if os.path.isfile(os.path.join(PATH, "images/" + content['filename'])):
+                    return do_export_to_png(content['filename'])
+                else:
+                    return jsonify(result=False, message="file creation error...", path=os.getcwd())
+            except Exception as e:
+                return jsonify(result=False, message="something wrong happend here...", error=str(e))
+        else:
+            return jsonify(result=False, message="svgexport is not installed...")
 
 
 @blueprint.route('/starmap/assets/<path>')
