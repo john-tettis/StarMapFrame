@@ -10,7 +10,7 @@ import requests
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 MODE = "DEV"
-HOST = "https://sky.respina.store/api"
+HOST = "http://localhost:8000"
 ############ DEFAULT VALUES AND CONSTS ####################################
 
 fontFamily1 = "Anton"

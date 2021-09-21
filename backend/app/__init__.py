@@ -6,8 +6,8 @@ from sqlite3.dbapi2 import Error
 
 blueprint = Blueprint('respina', __name__)
 
-HOST = "https://sky.respina.store/api"
-FRONTEND = "https://sky.respina.store"
+HOST = "http://localhost:8000"
+FRONTEND = "http://localhost:8080"
 PATH = os.path.dirname(os.path.abspath(__file__))
 DATABASE = os.path.join(PATH, 'db.sqlite3')
 
