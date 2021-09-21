@@ -128,7 +128,7 @@ def do_export_to_png(image: str) -> str:
     image_path = os.path.join(PATH, "images/" + image)
     file_name = random_file_name()
     file_name_path = os.path.join(PATH, "images/"+file_name)
-    os.system(f"svgexport {image_path} {file_name_path} 5x 100%")
+    os.system(f"svgexport {image_path} {file_name_path} 4x 100%")
     return jsonify(result=True, message="file created!", path=f"{HOST}/download/{file_name}")
     
 
