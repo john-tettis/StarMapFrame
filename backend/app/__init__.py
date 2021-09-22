@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS discounts (
 def get_db():
     db = getattr(blueprint, '_database', None)
     if db is None:
-        db = blueprint._database = sqlite3.connect(DATABASE)
+        db = blueprint._database = sqlite3.connect(DATABASE, check_same_thread=False)
         try:
             c = db.cursor()
             c.execute(ORDERS_TBL)
