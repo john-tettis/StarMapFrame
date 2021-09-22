@@ -26,7 +26,7 @@ def discounts_get() -> Response:
         return jsonify(result=False, message="Something went wrong...", error=str(e))
 
 
-@blueprint.route('/discounts/', methods=['POST'])
+@blueprint.route('/discounts', methods=['POST'])
 @login_required
 def discounts_add() -> Response:
     """Create a discount by giving a discount `code` and `amount`!
