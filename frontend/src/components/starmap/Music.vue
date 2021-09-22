@@ -66,7 +66,7 @@
         </v-btn>
       </v-col>
       <v-col cols="12" xl="12" lg="12" md="12" sm="12" class="my-3">
-        <v-btn v-if="done || !musicForm" color="primary" @click="checkout" block
+        <v-btn v-if="(done || !musicForm) && wantMusic" color="primary" @click="checkout" block
           >نهایی سازی سفارش</v-btn
         >
       </v-col>
