@@ -6,7 +6,7 @@ from . import blueprint, get_db, to_json
 from flask import request, jsonify
 
 
-@blueprint.route('/discounts/', methods=['GET'])
+@blueprint.route('/discounts', methods=['GET'])
 @login_required
 def discounts_get() -> Response:
     """List of all discounts available in database
