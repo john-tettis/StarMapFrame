@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="//fdn.fontcdn.ir">
     <link rel="preconnect" href="//v1.fontapi.ir">
-    <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">
+    <link href="https://v1.fontapi.ir/css/Sahel" rel="stylesheet">
     <title>Invoice</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Vazir', sans-serif;
+            font-family: 'Sahel', sans-serif;
         }
 
         p {
@@ -49,11 +49,13 @@
         }
 
         div.info>div>p {
-            font-weight: bold
+            font-weight: bold;
+            margin-left: 40px;
         }
 
         div.info>div>p>span {
             font-weight: normal;
+            white-space: normal;
         }
 
         div.sender {
@@ -71,6 +73,9 @@
             padding: 5px 10px;
             border-right: 1px solid gray;
             font-size: 14px;
+        }
+        div.customer > p{
+            display: block;
         }
     </style>
 </head>
@@ -106,7 +111,7 @@
             <div class="container" style="margin-bottom: 10px;">
                 <div class="header">
                     <div>
-                        <img src="http://localhost:5000/download/logo.png" alt="logo" width="100" />
+                        <img src="https://sky.respina.store/api/starmap/assets/logo.png" alt="logo" width="100" />
                     </div>
                     <div>
                         <h1>رسپینا گالری</h1>
