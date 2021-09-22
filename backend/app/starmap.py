@@ -114,7 +114,12 @@ def CONFIG(data: list) -> str:
         conf += f" -MODE DEV"
 
     if 'tracking' in data:
-        conf += f" -tracking \"{data['tracking']}\""
+        if data['customize']['frame'] == "#000000":
+            conf += f" -tracking \"{data['tracking']}.B\""
+        else:
+            conf += f" -tracking \"{data['tracking']}.W\""
+        if 'roban' in data and data['roban']:
+            conf += ".R"
         if 'size' in data['customize']:
             conf += f" -size \"{data['customize']['size']}\""
     else:

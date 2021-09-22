@@ -16,7 +16,8 @@
       <v-radio key="می‌خوام" label="می‌خوام" :value="true" />
     </v-radio-group>
     <div v-if="wantMusic">
-      <v-file-input
+      <v-form v-model="musicForm">
+        <v-file-input
         :rules="rules"
         class="mb-0"
         v-model="mp3"
@@ -29,6 +30,7 @@
         @change="done = false"
         hide-details
       ></v-file-input>
+      </v-form>
       <span style="text-align: center; color: gray;display:block" class="mt-2 mb-4">حداکثر سایز موسیقی ۱۰ مگابایت است.</span>
     </div>
     <v-row no-gutters>
@@ -53,7 +55,7 @@
         <v-btn
           v-if="wantMusic"
           :disabled="
-            (mp3 === null) || done
+            mp3 === null || !musicForm || done
           "
           :color="done ? 'green' : 'primary'"
           class="white--text w-98"
@@ -64,7 +66,7 @@
         </v-btn>
       </v-col>
       <v-col cols="12" xl="12" lg="12" md="12" sm="12" class="my-3">
-        <v-btn v-if="done" color="primary" @click="checkout" block
+        <v-btn v-if="done || !musicForm" color="primary" @click="checkout" block
           >نهایی سازی سفارش</v-btn
         >
       </v-col>
@@ -83,8 +85,9 @@ export default {
   },
   data() {
     return {
+      musicForm: false,
       rules: [
-        value => !value || value.size < 10000000 || 'این فایل مجاز نیست!',
+        value => !value || value.size < 15000000 || 'این فایل مجاز نیست!',
       ],
       loading: false,
       wantMusic: false,
