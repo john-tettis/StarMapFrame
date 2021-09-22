@@ -103,6 +103,9 @@
             <span v-if="isRoban(item.product)">دارد</span>
             <span v-else>ندارد</span>
           </template>
+          <template v-slot:[`item.frameColor`]="{ item }">
+            <span>{{ checkFrameColor(item.product) }}</span>
+          </template>
           <template v-slot:[`item.starmap`]="{ item }">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -188,7 +191,7 @@
                   text
                   v-on="on"
                   v-bind="attrs"
-                  color="green"
+                  :color="item.is_printed === 1 ? 'green' : 'gray'"
                 >
                   <v-icon>mdi-file-find</v-icon>
                 </v-btn>
@@ -250,6 +253,7 @@ export default {
         { text: "وضعیت پرداخت", value: "is_paid" },
         { text: "ربان", value: "roban" },
         { text: "سایز قاب", value: "size", sortable: false, width: 1 },
+        { text: "رنگ قاب", value: "frameColor", sortable: false, width: 1 },
         { text: "", value: "editItem", sortable: false, width: 1 },
         { text: "", value: "starmap", sortable: false, width: 1 },
         { text: "", value: "data", sortable: false, width: 1 },
@@ -300,6 +304,19 @@ export default {
       } catch {
         console.log(object);
         console.log("can not set is roban to above object");
+      }
+    },
+    checkFrameColor(product) {
+      try {
+        const value = JSON.parse(product);
+        if (value.customize.frame === "#000000") {
+          return "مشکی";
+        } else {
+          return "سفید";
+        }
+      } catch {
+        console.log("خطایی در هنگام تشخیص رنگ قاب پیش آمده است");
+        return "error";
       }
     },
     openDeleteOrderDialog(id) {
