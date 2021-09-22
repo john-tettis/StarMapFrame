@@ -4,4 +4,4 @@
 # . /backend/sandbox/bin/activate 
 
 # RUN
-gunicorn wsgi:app --reload --timeout 600
+gunicorn wsgi:app --reload --timeout 600 --workers=3
