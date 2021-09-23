@@ -123,7 +123,7 @@ def CONFIG(data: list) -> str:
         if 'size' in data['customize']:
             conf += f" -size \"{data['customize']['size']}\""
     else:
-        conf += f" -tracking \"\""
+        conf += " -tracking \"\""
 
     return conf
 def random_file_name():
