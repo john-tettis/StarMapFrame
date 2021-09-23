@@ -1,4 +1,4 @@
-# Starmap
+# Starmap [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f2527f7e9d324be9a77b1c4592aa8d06)](https://www.codacy.com/gh/hasanparasteh/StarMapFrame/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hasanparasteh/StarMapFrame&amp;utm_campaign=Badge_Grade)
 
 This will generate starmap as `svg` image for you. You can customize date, time or coordinate of the stars as your wish... It uses [starmap-svg](https://github.com/skeletor-git/starmap-svg) to generate below image! In fact this repo is a web interface for working with `starmap-svg`!
 
