@@ -31,7 +31,7 @@
         hide-details
       ></v-file-input>
       </v-form>
-      <span style="text-align: center; color: gray;display:block" class="mt-2 mb-4">حداکثر سایز موسیقی ۱۰ مگابایت است.</span>
+      <span style="text-align: center; color: gray;display:block" class="mt-2 mb-4">حداکثر سایز موسیقی ۱۵ مگابایت است.</span>
     </div>
     <v-row no-gutters>
       <v-col cols="6" xl="6" lg="6" md="6" sm="6" class="d-flex justify-center">
