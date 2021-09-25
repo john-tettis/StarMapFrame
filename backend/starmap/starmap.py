@@ -25,8 +25,8 @@ fontColor1 = "#ffffff"
 fontColor2 = "#ffffff"
 fontColor3 = "#ffffff"
 
-font_style = "font-size:12px; letter-spacing:0.7px; font-family:'Nunito', sans-serif; stroke-width:4"
-font_style2 = "font-size:8px; letter-spacing:autopx; font-family:sans-serif; stroke-width:1;"
+font_style = "font-size:10px; letter-spacing:0.7px; font-family:'Nunito', sans-serif; stroke-width:4"
+font_style2 = "font-size:8px; letter-spacing:autopx; font-family:sans-serif; stroke-width:2;font-weight: 800;"
 
 line1Style = f"font-size:{fontSize1}px;letter-spacing:0;font-family:\"{fontFamily1}\";stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor1}"
 line2Style = f"font-size:{fontSize2}px;letter-spacing:0;font-family:\"{fontFamily2}\";stroke-width:4;text-align:center;text-anchor:middle;fill:{fontColor2}"
@@ -78,7 +78,7 @@ width = 200
 height = 275
 
 # empty space in left and right of the starmap
-borders = 50
+borders = 60
 
 province = ""
 city = ""
@@ -337,12 +337,12 @@ def draw_star(x, y, mag, color):
 
 
 def draw_dot(x, y, mag, color):
-    image.add(image.circle((x, y), mag, id='dot', stroke="none", fill=color))
+    image.add(image.circle((x, y), mag+.2, id='dot', stroke="none", fill=color, opacity="1"))
 
 
 def draw_line(x0, y0, x1, y1, color):
     image.add(image.line((x0, y0), (x1, y1), id='line',
-              stroke=color, stroke_width="0.5"))
+              stroke=color, stroke_width="0.6", opacity="1"))
 
 
 ########## TIME CALCULATION  ###########################################
@@ -546,7 +546,7 @@ if __name__ == '__main__':
     read_constellation_file()
 
     half_x = mm_to_px(width/2)
-    half_y = mm_to_px(height-height+95)
+    half_y = mm_to_px(height-height+105)
 
     # Svgfile
     image = svgwrite.Drawing(output_file, size=(
@@ -594,12 +594,12 @@ if __name__ == '__main__':
 
     # circle around starmap
     if circle == "True":
-        image.add(image.circle(center=(half_x, half_y), r=310, opacity="1", stroke="white", fill_opacity="0"))
+        image.add(image.circle(center=(half_x, half_y), r=295, opacity="1", stroke="white", fill_opacity="0"))
 
     # Custom image
     if bg.strip():
         mask = image.defs.add(image.mask(id="bg_wrapper"))
-        mask.add(image.circle(center=(half_x, half_y), r=310, fill=line_color, opacity=str(bg_opacity/100)))
+        mask.add(image.circle(center=(half_x, half_y), r=295, fill=line_color, opacity=str(bg_opacity/100)))
         if MODE == "PROD":  # Convert image to base64
             bg_img_base64 = 'data:image/png;base64,{}'.format(get_as_base64(bg))
             bg = bg_img_base64 
@@ -611,9 +611,9 @@ if __name__ == '__main__':
     if qrCode.strip():
         if MODE == "PROD":
             qrCode_img_base64 = 'data:image/png;base64,{}'.format(get_as_base64(qrCode))
-            image.add(image.image(href=qrCode_img_base64, size=("64px", "64px"), insert=("170mm", str(height-31)+'mm')))
+            image.add(image.image(href=qrCode_img_base64, size=("60px", "60px"), insert=("155mm", str(height-33)+'mm')))
         else:
-            image.add(image.image(href=qrCode, size=("64px", "64px"), insert=("170mm", str(height-31)+'mm')))
+            image.add(image.image(href=qrCode, size=("60px", "60px"), insert=("155mm", str(height-33)+'mm')))
 
     # Custom User Text
     image.add(image.text(line1, insert=("100mm", str(height-75)+"mm"), fill=line_color, style=line1Style))
@@ -625,17 +625,17 @@ if __name__ == '__main__':
     #          fill=line_color, style=font_style))
     if len(city) and len(province):
         image.add(image.text("Sky Above:",
-            insert=("20mm", str(height-25)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
+            insert=("30mm", str(height-29)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
         image.add(image.text(province + " - " + city,
-            insert=("20mm", str(height-20)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
+            insert=("30mm", str(height-25)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
 
     date = "/".join(date.split(".")[::-1]) # convert date in another format to display on the bottom
     image.add(image.text(date,
-              insert=("20mm", str(height-15)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
+              insert=("30mm", str(height-21)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
 
     if tracking:
         image.add(image.text(size[1] + "." + tracking.upper(),
-                    insert=("20mm", str(height-10)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
+                    insert=("30mm", str(height-17)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
 
     image.save()
     # print(output_file, " generated")
