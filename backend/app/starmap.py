@@ -126,12 +126,12 @@ def CONFIG(data: list) -> str:
         conf += " -tracking \"\""
 
     return conf
-def random_file_name():
-    return str(randint(10000, 999999)) + "-export.png"
+def random_file_name(tracking):
+    return tracking + '-' + str(randint(10000, 999999)) + "-export.png"
 
-def do_export_to_png(image: str) -> str:
+def do_export_to_png(image: str, tracking: str) -> str:
     image_path = os.path.join(PATH, "images/" + image)
-    file_name = random_file_name()
+    file_name = random_file_name(tracking)
     file_name_path = os.path.join(PATH, "images/"+file_name)
     os.system(f"svgexport {image_path} {file_name_path} 4x 100%")
     return jsonify(result=True, message="file created!", path=f"{HOST}/download/{file_name}")
@@ -160,7 +160,7 @@ def starmap() -> Response:
             try:
                 os.system(CONFIG(content))
                 if os.path.isfile(os.path.join(PATH, "images/" + content['filename'])):
-                    return do_export_to_png(content['filename'])
+                    return do_export_to_png(content['filename'], content['tracking'])
                 else:
                     return jsonify(result=False, message="file creation error...", path=os.getcwd())
             except Exception as e:
