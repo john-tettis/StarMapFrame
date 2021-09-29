@@ -18,26 +18,11 @@
     <div v-if="wantMusic">
       <v-form v-model="musicForm">
         <v-file-input
-          v-if="getMobileOperatingSystem() === 'iOS'"
           :rules="rules"
           class="mb-0"
           v-model="mp3"
           :show-size="1000"
-          accept="audio/*"
-          label="فایل موزیک"
-          outlined
-          dense
-          :clearable="true"
-          @change="done = false"
-          hide-details
-        ></v-file-input>
-        <v-file-input
-          v-else
-          :rules="rules"
-          class="mb-0"
-          v-model="mp3"
-          :show-size="1000"
-          accept=".mp3"
+          accept="audio/*, .mp3"
           label="فایل موزیک"
           outlined
           dense
@@ -183,31 +168,6 @@ export default {
       } else {
         this.$router.push("/pay");
       }
-    },
-    /**
-     * Determine the mobile operating system.
-     * This function returns one of 'iOS', 'Android', 'Windows Phone', or 'unknown'.
-     *
-     * @returns {String}
-     */
-    getMobileOperatingSystem() {
-      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-      // Windows Phone must come first because its UA also contains "Android"
-      if (/windows phone/i.test(userAgent)) {
-        return "Windows Phone";
-      }
-
-      if (/android/i.test(userAgent)) {
-        return "Android";
-      }
-
-      // iOS detection from: http://stackoverflow.com/a/9039885/177710
-      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        return "iOS";
-      }
-
-      return "unknown";
     },
   },
 };
