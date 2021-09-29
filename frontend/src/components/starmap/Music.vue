@@ -18,7 +18,7 @@
     <div v-if="wantMusic">
       <v-form v-model="musicForm">
         <v-file-input
-          v-if="isIphone"
+          v-if="isIphone || isInstagramBrowser()"
           :rules="rules"
           class="mb-0"
           v-model="mp3"
@@ -185,12 +185,19 @@ export default {
         this.$router.push("/pay");
       }
     },
+    isInstagramBrowser() {
+      var ua = navigator.userAgent || navigator.vendor || window.opera;
+      return ua.indexOf("Instagram") > -1 ? true : false;
+    },
   },
-  mounted(){
-    if(window.navigator.userAgent.includes("iPhone") || window.navigator.userAgent.includes("iPad")){
+  mounted() {
+    if (
+      window.navigator.userAgent.includes("iPhone") ||
+      window.navigator.userAgent.includes("iPad")
+    ) {
       this.isIphone = true;
     }
-  }
+  },
 };
 </script>
 
