@@ -37,7 +37,7 @@
           class="mb-0"
           v-model="mp3"
           :show-size="1000"
-          accept="*.mp3"
+          accept=".mp3"
           label="فایل موزیک"
           outlined
           dense
