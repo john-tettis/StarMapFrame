@@ -18,11 +18,26 @@
     <div v-if="wantMusic">
       <v-form v-model="musicForm">
         <v-file-input
+          v-if="isIphone"
           :rules="rules"
           class="mb-0"
           v-model="mp3"
           :show-size="1000"
-          accept="audio/mp3, .mp3"
+          accept=".mp3"
+          label="فایل موزیک"
+          outlined
+          dense
+          :clearable="true"
+          @change="done = false"
+          hide-details
+        ></v-file-input>
+        <v-file-input
+          v-else
+          :rules="rules"
+          class="mb-0"
+          v-model="mp3"
+          :show-size="1000"
+          accept="audio/mpeg3"
           label="فایل موزیک"
           outlined
           dense
@@ -99,6 +114,7 @@ export default {
       wantMusic: false,
       mp3: null,
       done: false,
+      isIphone: false,
     };
   },
   methods: {
@@ -170,6 +186,11 @@ export default {
       }
     },
   },
+  mounted(){
+    if(window.navigator.userAgent.includes("iPhone") || window.navigator.userAgent.includes("iPad")){
+      this.isIphone = true;
+    }
+  }
 };
 </script>
 
