@@ -18,12 +18,26 @@
     <div v-if="wantMusic">
       <v-form v-model="musicForm">
         <v-file-input
-          v-if="isIphone || isInstagramBrowser()"
+          v-if="isIphone"
           :rules="rules"
           class="mb-0"
           v-model="mp3"
           :show-size="1000"
           accept=".mp3"
+          label="فایل موزیک"
+          outlined
+          dense
+          :clearable="true"
+          @change="done = false"
+          hide-details
+        ></v-file-input>
+        <v-file-input
+          v-else-if="!isIphone && isInstagramBrowser()"
+          :rules="rules"
+          class="mb-0"
+          v-model="mp3"
+          :show-size="1000"
+          accept="audio/*"
           label="فایل موزیک"
           outlined
           dense
