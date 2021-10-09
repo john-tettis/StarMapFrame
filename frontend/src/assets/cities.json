@@ -2902,5 +2902,13 @@
     "province_id": 22,
     "latitude": 31.8974,
     "longitude": 54.3569
+  },
+  {
+    "id": 502,
+    "title": "جزیره‌ کیش",
+    "slug": "Kish",
+    "province_id": 23,
+    "latitude": 26.5325,
+    "longitude": 53.9868
   }
 ]
