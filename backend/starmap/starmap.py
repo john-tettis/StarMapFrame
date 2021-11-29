@@ -10,7 +10,7 @@ import requests
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 MODE = "DEV"
-HOST = "https://sky.respina.store/api"
+HOST = "http://localhost:8000"
 ############ DEFAULT VALUES AND CONSTS ####################################
 
 fontFamily1 = "Anton"
@@ -579,7 +579,7 @@ if __name__ == '__main__':
     image.embed_stylesheet(
         "@import url('https://v1.fontapi.ir/css/Tabassom');")
     image.embed_stylesheet(
-        "@import url('http://imitran.ir/cdn/fonts/fonts.css?family=IranNastaliq')")
+        "@import url('https://unpkg.com/@raha.group/persian-fonts@1.0.3/style.css')")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Estedad');")
     image.embed_stylesheet(
         "@import url('https://v1.fontapi.ir/css/ArabicUIDisplay');")
