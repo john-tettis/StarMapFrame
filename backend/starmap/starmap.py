@@ -100,9 +100,10 @@ aperture = 0.4
 
 # Stars declination and hour data file "Yale Bright Star Catalog 5"
 file1 = os.path.join(PATH, "datafiles/ybsc5.txt")
-file2 = os.path.join(PATH,"datafiles/extradata.txt")  # extra star data for magnitude 6,5 and higher
-file3 = os.path.join(PATH,"datafiles/constellation_lines.txt")
-file4 = os.path.join(PATH,"datafiles/constellation.txt")
+# extra star data for magnitude 6,5 and higher
+file2 = os.path.join(PATH, "datafiles/extradata.txt")
+file3 = os.path.join(PATH, "datafiles/constellation_lines.txt")
+file4 = os.path.join(PATH, "datafiles/constellation.txt")
 
 data = []
 constellation_lines = []
@@ -193,9 +194,11 @@ parser.add_argument('-height', '--height', nargs='?',
 parser.add_argument('-info', '--info',
                     help='Info text example eame of the place', default=info)
 
-parser.add_argument("-background", "--background", type=str, default=background_color)
+parser.add_argument("-background", "--background",
+                    type=str, default=background_color)
 
-parser.add_argument("-constellationText", "--constellationText", type=bool, default=constellationText)
+parser.add_argument("-constellationText", "--constellationText",
+                    type=bool, default=constellationText)
 parser.add_argument("-showDot", "--showDot", type=bool, default=showDot)
 parser.add_argument("-showStar", "--showStar", type=bool, default=showStar)
 
@@ -203,17 +206,23 @@ parser.add_argument("-line1", "--line1", type=str, default=line1)
 parser.add_argument("-line2", "--line2", type=str, default=line2)
 parser.add_argument("-line3", "--line3", type=str, default=line3)
 
-parser.add_argument("-fontFamily1", "--fontFamily1", type=str, default=fontFamily1)
-parser.add_argument("-fontFamily2", "--fontFamily2", type=str, default=fontFamily2)
-parser.add_argument("-fontFamily3", "--fontFamily3", type=str, default=fontFamily3)
+parser.add_argument("-fontFamily1", "--fontFamily1",
+                    type=str, default=fontFamily1)
+parser.add_argument("-fontFamily2", "--fontFamily2",
+                    type=str, default=fontFamily2)
+parser.add_argument("-fontFamily3", "--fontFamily3",
+                    type=str, default=fontFamily3)
 
 parser.add_argument("-fontSize1", "--fontSize1", type=int, default=fontSize1)
 parser.add_argument("-fontSize2", "--fontSize2", type=int, default=fontSize2)
 parser.add_argument("-fontSize3", "--fontSize3", type=int, default=fontSize3)
 
-parser.add_argument("-fontColor1", "--fontColor1", type=str, default=fontColor1)
-parser.add_argument("-fontColor2", "--fontColor2", type=str, default=fontColor2)
-parser.add_argument("-fontColor3", "--fontColor3", type=str, default=fontColor3)
+parser.add_argument("-fontColor1", "--fontColor1",
+                    type=str, default=fontColor1)
+parser.add_argument("-fontColor2", "--fontColor2",
+                    type=str, default=fontColor2)
+parser.add_argument("-fontColor3", "--fontColor3",
+                    type=str, default=fontColor3)
 
 parser.add_argument('-bg', '--bg', type=str, default=bg)
 parser.add_argument('-bgPosX', '--bgPosX', type=str, default=bg_x)
@@ -235,7 +244,6 @@ parser.add_argument("-province", "--province", type=str, default=province)
 parser.add_argument("-city", "--city", type=str, default=city)
 
 parser.add_argument("-size", "--size", type=str, default=size)
-
 
 
 args = parser.parse_args()
@@ -308,6 +316,7 @@ tracking = args.tracking
 #latitude and longitude
 northern, eastern = map(float, coord.split(','))
 
+
 def get_as_base64(url):
     return base64.b64encode(requests.get(url).content).decode("utf-8")
 
@@ -337,7 +346,8 @@ def draw_star(x, y, mag, color):
 
 
 def draw_dot(x, y, mag, color):
-    image.add(image.circle((x, y), mag+.2, id='dot', stroke="none", fill=color, opacity="1"))
+    image.add(image.circle((x, y), mag+.2, id='dot',
+              stroke="none", fill=color, opacity="1"))
 
 
 def draw_line(x0, y0, x1, y1, color):
@@ -492,11 +502,11 @@ def generate_starmap(northern_N, eastern_E, date, time):
                 if (brightness < 2):
                     if showDot:
                         draw_dot(half_x-x, half_y-y,
-                             brightness*aperture, star_color)
+                                 brightness*aperture, star_color)
                 else:
                     if showStar:
                         draw_star(half_x-x, half_y-y,
-                              brightness*aperture, star_color)
+                                  brightness*aperture, star_color)
 
                 if(constellation is True):
                     if(line[4].isspace() is False and magn < 3):
@@ -551,91 +561,110 @@ if __name__ == '__main__':
     # Svgfile
     image = svgwrite.Drawing(output_file, size=(
         str(width)+'mm', str(height)+'mm'))
-    
+
     # Fonts File
     # ---------------------------------------------------------------------------
     # English Fonts
-    image.embed_stylesheet("@import url('https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script&family=Fuggles&family=Karla&family=Qahiri&family=Roboto&family=Roboto+Slab');")
+    image.embed_stylesheet(
+        "@import url('https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script&family=Fuggles&family=Karla&family=Qahiri&family=Roboto&family=Roboto+Slab');")
     image.embed_stylesheet("@import url('https://fonts.googleapis.com/css2?family=Allison&family=Alumni+Sans&family=Comfortaa&family=Cookie&family=Electrolize&family=Fredoka+One&family=Handlee&family=Indie+Flower&family=Josefin+Sans&family=Lobster&family=Lobster+Two&family=Monoton&family=Nanum+Gothic&family=Pacifico&family=Rajdhani&family=Rampart+One&family=Sacramento&family=Satisfy&family=Shadows+Into+Light+Two&family=Special+Elite&family=Staatliches&family=WindSong&display=swap');")
-    image.embed_stylesheet("@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');")
+    image.embed_stylesheet(
+        "@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');")
     # Persian Fonts
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Kamran');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Mikhak');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Yekan');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Gandom');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Lalezar');")
-    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Tabassom');")
-    image.embed_stylesheet("@import url('https://www.fontonline.ir/css/IranNastaliq.css')")
+    image.embed_stylesheet(
+        "@import url('https://v1.fontapi.ir/css/Tabassom');")
+    image.embed_stylesheet(
+        "@import url('http://imitran.ir/cdn/fonts/fonts.css?family=IranNastaliq')")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Estedad');")
-    image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/ArabicUIDisplay');")
+    image.embed_stylesheet(
+        "@import url('https://v1.fontapi.ir/css/ArabicUIDisplay');")
     image.embed_stylesheet("@import url('https://v1.fontapi.ir/css/Badr');")
     # ---------------------------------------------------------------------------
 
     # Background
     image.add(image.rect(insert=(0, 0), size=('100%', '100%'),
               rx=None, ry=None, fill=background_color))
-    
+
     # Generate Wallpaper
     if wallpaper:
         if MODE == "PROD":
-            wallpaper_img_base64 = 'data:image/png;base64,{}'.format(get_as_base64(wallpaper))
+            wallpaper_img_base64 = 'data:image/png;base64,{}'.format(
+                get_as_base64(wallpaper))
             wallpaper = wallpaper_img_base64
-        image.add(image.image(href=wallpaper, size=("100%", "100%"), insert=(0, 0), style="-webkit-transform:scale(1);-moz-transform:scale(1);-o-transform:scale(1);"))
-    
+        image.add(image.image(href=wallpaper, size=("100%", "100%"), insert=(
+            0, 0), style="-webkit-transform:scale(1);-moz-transform:scale(1);-o-transform:scale(1);"))
+
     # Watermark
     if MODE != "PROD":
-        image.add(image.image(href=f"{HOST}/starmap/assets/watermark.png", size=("100%", "100%"), opacity=".05"))
-    
+        image.add(image.image(
+            href=f"{HOST}/starmap/assets/watermark.png", size=("100%", "100%"), opacity=".05"))
+
     # Stars generation
     generate_starmap(northern, eastern, date, time)
     if constellation:
         generate_constellations(northern, eastern, date, time)
 
-
     # circle around starmap
     if circle == "True":
-        image.add(image.circle(center=(half_x, half_y), r=295, opacity="1", stroke="white", fill_opacity="0"))
+        image.add(image.circle(center=(half_x, half_y), r=295,
+                  opacity="1", stroke="white", fill_opacity="0"))
 
     # Custom image
     if bg.strip():
         mask = image.defs.add(image.mask(id="bg_wrapper"))
-        mask.add(image.circle(center=(half_x, half_y), r=295, fill=line_color, opacity=str(bg_opacity/100)))
+        mask.add(image.circle(center=(half_x, half_y), r=295,
+                 fill=line_color, opacity=str(bg_opacity/100)))
         if MODE == "PROD":  # Convert image to base64
-            bg_img_base64 = 'data:image/png;base64,{}'.format(get_as_base64(bg))
-            bg = bg_img_base64 
-        image.add(image.image(href=bg, size=("100%", "100%"), mask="url(#bg_wrapper)", insert=(bg_x, bg_y)))
+            bg_img_base64 = 'data:image/png;base64,{}'.format(
+                get_as_base64(bg))
+            bg = bg_img_base64
+        image.add(image.image(href=bg, size=("100%", "100%"),
+                  mask="url(#bg_wrapper)", insert=(bg_x, bg_y)))
 
     if is_heart == "True":
-        image.add(image.image(href=f"{HOST}/starmap/assets/heart.png", size=("100%", "100%"), insert=(0, -80)))
-    
+        image.add(image.image(
+            href=f"{HOST}/starmap/assets/heart.png", size=("100%", "100%"), insert=(0, -80)))
+
     if qrCode.strip():
         if MODE == "PROD":
-            qrCode_img_base64 = 'data:image/png;base64,{}'.format(get_as_base64(qrCode))
-            image.add(image.image(href=qrCode_img_base64, size=("60px", "60px"), insert=("155mm", str(height-33)+'mm')))
+            qrCode_img_base64 = 'data:image/png;base64,{}'.format(
+                get_as_base64(qrCode))
+            image.add(image.image(href=qrCode_img_base64, size=(
+                "60px", "60px"), insert=("155mm", str(height-33)+'mm')))
         else:
-            image.add(image.image(href=qrCode, size=("60px", "60px"), insert=("155mm", str(height-33)+'mm')))
+            image.add(image.image(href=qrCode, size=("60px", "60px"),
+                      insert=("155mm", str(height-33)+'mm')))
 
     # Custom User Text
-    image.add(image.text(line1, insert=("100mm", str(height-75)+"mm"), fill=line_color, style=line1Style))
-    image.add(image.text(line2, insert=("100mm", str(height-60)+"mm"), fill=line_color, style=line2Style))
-    image.add(image.text(line3, insert=("100mm", str(height-45)+"mm"), fill=line_color, style=line3Style))
+    image.add(image.text(line1, insert=("100mm", str(height-75)+"mm"),
+              fill=line_color, style=line1Style))
+    image.add(image.text(line2, insert=("100mm", str(height-60)+"mm"),
+              fill=line_color, style=line2Style))
+    image.add(image.text(line3, insert=("100mm", str(height-45)+"mm"),
+              fill=line_color, style=line3Style))
 
     # Text in bottom corner
-    #image.add(image.text(info, insert=("20mm", str(height-25)+'mm'),
+    # image.add(image.text(info, insert=("20mm", str(height-25)+'mm'),
     #          fill=line_color, style=font_style))
     if len(city) and len(province):
         image.add(image.text("Sky Above:",
-            insert=("30mm", str(height-29)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
+                             insert=("30mm", str(height-29)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
         image.add(image.text(province + " - " + city,
-            insert=("30mm", str(height-25)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
+                             insert=("30mm", str(height-25)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
 
-    date = "/".join(date.split(".")[::-1]) # convert date in another format to display on the bottom
+    # convert date in another format to display on the bottom
+    date = "/".join(date.split(".")[::-1])
     image.add(image.text(date,
               insert=("30mm", str(height-21)+'mm'), fill=line_color, style=font_style, id="starmap_datetime"))
 
     if tracking:
         image.add(image.text(size[1] + "." + tracking.upper(),
-                    insert=("30mm", str(height-17)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
+                             insert=("30mm", str(height-17)+'mm'), fill=line_color, style=font_style, id="starmap_tracking"))
 
     image.save()
     # print(output_file, " generated")
